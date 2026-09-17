@@ -131,6 +131,8 @@ class FireworksCart {
     const custCityEl = document.getElementById('cartCustomerCity');
     const custCity = (custCityEl && custCityEl.value.trim()) ? custCityEl.value.trim() : 'Dehradun';
 
+    const showPrices = settings.showPrices === true;
+
     if (this.items.length === 0) {
       const defaultMsg = encodeURIComponent(`Hello ${repName}, I am contacting you from the Ashish Traders Fireworks website regarding crackers wholesale & retail inquiry for ${custCity}.`);
       return `https://wa.me/${phone}?text=${defaultMsg}`;
@@ -145,16 +147,24 @@ class FireworksCart {
     text += `*SELECTED PRODUCTS LIST:*\n`;
 
     this.items.forEach((item, index) => {
-      const itemSubtotal = item.price * item.quantity;
-      text += `${index + 1}. *[${item.brand}]* ${item.name}\n`;
-      text += `   Qty: ${item.quantity} | Rate: ₹${item.price.toLocaleString('en-IN')} | Total: ₹${itemSubtotal.toLocaleString('en-IN')}\n`;
+      if (showPrices) {
+        const itemSubtotal = item.price * item.quantity;
+        text += `${index + 1}. *[${item.brand}]* ${item.name}\n`;
+        text += `   Qty: ${item.quantity} | Rate: ₹${item.price.toLocaleString('en-IN')} | Total: ₹${itemSubtotal.toLocaleString('en-IN')}\n`;
+      } else {
+        text += `${index + 1}. *[${item.brand}]* ${item.name} — *Qty: ${item.quantity}*\n`;
+      }
     });
 
     const total = this.getTotal();
     const totalItems = this.getTotalItems();
     text += `------------------------------------\n`;
     text += `*Total Units:* ${totalItems} Packets / Boxes\n`;
-    text += `*Grand Estimate Total: ₹${total.toLocaleString('en-IN')}*\n\n`;
+    if (showPrices) {
+      text += `*Grand Estimate Total: ₹${total.toLocaleString('en-IN')}*\n\n`;
+    } else {
+      text += `*Quotation Request:* Wholesale Factory Rates on WhatsApp\n\n`;
+    }
     text += `Please confirm stock availability, wholesale discount slab, and warehouse pickup / delivery schedule. Thank you!`;
 
     return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
@@ -168,6 +178,8 @@ class FireworksCart {
     const totalItemsEl = document.getElementById('cartTotalItemsCount');
     const emptyState = document.getElementById('cartEmptyState');
     const actionsEl = document.getElementById('cartActions');
+    const settings = window.getSiteSettings ? window.getSiteSettings() : {};
+    const showPrices = settings.showPrices === true;
 
     if (!container) return;
 
@@ -175,7 +187,7 @@ class FireworksCart {
       container.innerHTML = '';
       if (emptyState) emptyState.style.display = 'flex';
       if (actionsEl) actionsEl.style.display = 'none';
-      if (totalEl) totalEl.textContent = '₹0';
+      if (totalEl) totalEl.textContent = showPrices ? '₹0' : 'Inquiry List';
       if (totalItemsEl) totalItemsEl.textContent = '0 items';
       return;
     }
@@ -192,7 +204,11 @@ class FireworksCart {
           <h4 class="font-bold text-xs sm:text-sm text-slate-100 truncate">${item.name}</h4>
           <div class="flex items-center gap-2 mt-0.5">
             <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-semibold border border-amber-500/20">${item.brand}</span>
-            <span class="text-xs text-slate-300 font-medium">₹${item.price.toLocaleString('en-IN')}</span>
+            ${showPrices ? `
+              <span class="text-xs text-slate-300 font-medium">₹${item.price.toLocaleString('en-IN')}</span>
+            ` : `
+              <span class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">Wholesale Rate Inquiry</span>
+            `}
           </div>
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
@@ -210,7 +226,10 @@ class FireworksCart {
 
     const total = this.getTotal();
     const totalCount = this.getTotalItems();
-    if (totalEl) totalEl.textContent = `₹${total.toLocaleString('en-IN')}`;
+    if (totalEl) {
+      totalEl.textContent = showPrices ? `₹${total.toLocaleString('en-IN')}` : 'Direct WhatsApp Quote';
+      if (!showPrices) totalEl.className = 'text-base sm:text-lg font-black text-amber-400';
+    }
     if (totalItemsEl) totalItemsEl.textContent = `${totalCount} item${totalCount !== 1 ? 's' : ''}`;
 
     this.refreshWhatsAppLinks();

@@ -641,6 +641,159 @@ window.BRANDS_INFO = [
 // ADMIN STORAGE & PERSISTENCE HELPER METHODS
 // ============================================================================
 
+window.DEFAULT_BRANDS_INFO = JSON.parse(JSON.stringify(window.BRANDS_INFO));
+
+window.getStoredBrands = function () {
+  try {
+    const raw = localStorage.getItem('at_admin_brands');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        window.BRANDS_INFO = parsed;
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.error('Failed to load admin brands from storage:', e);
+  }
+  return window.DEFAULT_BRANDS_INFO;
+};
+
+window.saveStoredBrands = function (brandsList) {
+  try {
+    localStorage.setItem('at_admin_brands', JSON.stringify(brandsList));
+    window.BRANDS_INFO = brandsList;
+    window.dispatchEvent(new CustomEvent('brandsUpdated', { detail: { brands: brandsList } }));
+    window.applySiteSettings();
+  } catch (e) {
+    console.error('Failed to save admin brands:', e);
+  }
+};
+
+window.DEFAULT_REVIEWS = [
+  {
+    id: 'rev-1',
+    name: 'Ramesh Negi',
+    city: 'Rajpur Road, Dehradun',
+    rating: 5,
+    date: 'Diwali Season 2025',
+    verified: true,
+    review: 'Best fireworks dealer in Uttarakhand! Got full wholesale carton of Cock Brand 240 Sky Shots and Royal Koti Anaar for our family wedding. Zero misfires, 100% genuine Sivakasi quality. Ashish Bhai gave very genuine rates.'
+  },
+  {
+    id: 'rev-2',
+    name: 'Amit Chauhan',
+    city: 'Rishikesh',
+    rating: 5,
+    date: 'Festive Season 2025',
+    verified: true,
+    review: 'Direct factory rate milte hain yaha Mohabewala warehouse me. Ravindra and Sonny brand sparklers were so bright with no sulfur choking smoke. WhatsApp order process was fast and hassle-free.'
+  },
+  {
+    id: 'rev-3',
+    name: 'Priya Sharma',
+    city: 'Haridwar',
+    rating: 5,
+    date: 'Wedding Celebrations',
+    verified: true,
+    review: 'Ordered wholesale festival gift hampers for our residential society. The packaging and safety instructions were first class. Highly recommend Ashish Traders for authorized green crackers.'
+  },
+  {
+    id: 'rev-4',
+    name: 'Vikram Rawat',
+    city: 'Saharanpur Road, Dehradun',
+    rating: 5,
+    date: 'New Year Eve',
+    verified: true,
+    review: 'Over 10 years of buying crackers only from Ashish Traders. The sound of their Hydro Bomb and the height of Mercury rockets are unmatched. Trustworthy and genuine people.'
+  }
+];
+
+window.getStoredReviews = function () {
+  try {
+    const raw = localStorage.getItem('at_admin_reviews');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {}
+  return window.DEFAULT_REVIEWS;
+};
+
+window.saveStoredReviews = function (reviewsList) {
+  try {
+    localStorage.setItem('at_admin_reviews', JSON.stringify(reviewsList));
+    window.dispatchEvent(new CustomEvent('reviewsUpdated', { detail: { reviews: reviewsList } }));
+  } catch (e) {
+    console.error('Failed to save reviews:', e);
+  }
+};
+
+window.DEFAULT_GALLERY = [
+  {
+    id: 'gal-1',
+    title: 'Cock Brand 240 Sky Shots Stocking',
+    category: 'Warehouse & Stock',
+    image: 'assets/images/cock-skyshots-240.jpg',
+    caption: 'Fresh batch arrival of Cock Brand 240 Celestial Fiesta aerial barrages at our Mohabewala Dehradun warehouse.'
+  },
+  {
+    id: 'gal-2',
+    title: 'Sivakasi Master Packaging Display',
+    category: 'Showroom Displays',
+    image: 'assets/images/flower-pot-anaar.jpg',
+    caption: 'Traditional Royal Koti Anaar and flowerpots showcase at the main wholesale showroom counter.'
+  },
+  {
+    id: 'gal-3',
+    title: 'Traditional Sivakasi Bijili Sound Crackers',
+    category: 'Showroom Displays',
+    image: 'assets/images/cock-bijili-crackers.jpg',
+    caption: 'Authentic striped paper wrapped red & green bijili sound snaps inspected for zero-defect quality.'
+  },
+  {
+    id: 'gal-4',
+    title: 'Heavy 1000 & 5000 Festive Ladi Crates',
+    category: 'Warehouse & Stock',
+    image: 'assets/images/red-garland-ladi.jpg',
+    caption: 'Long-duration festive garland ladi crackers stored safely according to PESO green guidelines.'
+  },
+  {
+    id: 'gal-5',
+    title: '50cm Mega Electric Sparklers',
+    category: 'Celebrations & Lights',
+    image: 'assets/images/cock-sparklers-giant.jpg',
+    caption: 'Extra-long burning golden sparklers for safe family celebrations and marriage functions.'
+  },
+  {
+    id: 'gal-6',
+    title: 'Royal Family Gift Hampers',
+    category: 'Celebrations & Lights',
+    image: 'assets/images/diwali-gift-hamper.jpg',
+    caption: 'Customized wholesale festival hampers ready for corporate gifting and residential delivery across Dehradun.'
+  }
+];
+
+window.getStoredGallery = function () {
+  try {
+    const raw = localStorage.getItem('at_admin_gallery');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {}
+  return window.DEFAULT_GALLERY;
+};
+
+window.saveStoredGallery = function (galleryList) {
+  try {
+    localStorage.setItem('at_admin_gallery', JSON.stringify(galleryList));
+    window.dispatchEvent(new CustomEvent('galleryUpdated', { detail: { gallery: galleryList } }));
+  } catch (e) {
+    console.error('Failed to save gallery:', e);
+  }
+};
+
 window.getStoredProducts = function () {
   try {
     const raw = localStorage.getItem('at_admin_products');
@@ -654,7 +807,6 @@ window.getStoredProducts = function () {
   } catch (e) {
     console.error('Failed to load admin products from storage:', e);
   }
-  // Fallback to default products and persist
   window.saveStoredProducts(window.DEFAULT_FIREWORKS_PRODUCTS);
   return window.DEFAULT_FIREWORKS_PRODUCTS;
 };
@@ -681,8 +833,19 @@ window.getSiteSettings = function () {
     ashishPhone: '919837081321',
     yuvrajPhone: '918630615934',
     address: '23, Mohabewala, Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun - 248007, Uttarakhand',
-    bgVideoEnabled: true,
-    bgVideoUrl: 'assets/videos/fireworks-intro.mp4'
+    companyLogo: 'assets/images/ashish-traders-logo.jpg',
+    companyLogoSize: 48,
+    brandLogoSize: 56,
+    bgMediaType: 'video', // 'video' or 'image'
+    bgVideoUrl: 'assets/videos/fireworks-intro.mp4',
+    bgImageUrl: 'assets/images/hero-banner.jpg',
+    bgOpacity: 0.4,
+    showPrices: false, // Default hidden as requested; admin can toggle ON in settings
+    socialLinks: {
+      instagram: 'https://instagram.com',
+      facebook: 'https://facebook.com',
+      whatsapp: 'https://wa.me/919837081321'
+    }
   };
 
   try {
@@ -714,10 +877,38 @@ window.applySiteSettings = function () {
     banner.innerHTML = `<span>${settings.announcement}</span>`;
   }
 
-  // Update background video visibility
-  const bgVidContainer = document.querySelector('.bg-video-container');
-  if (bgVidContainer) {
-    bgVidContainer.style.display = settings.bgVideoEnabled ? 'block' : 'none';
+  // Update company logo src and size across all pages
+  document.querySelectorAll('.site-company-logo').forEach(img => {
+    if (settings.companyLogo) img.src = settings.companyLogo;
+    if (settings.companyLogoSize) {
+      img.style.width = `${settings.companyLogoSize}px`;
+      img.style.height = `${settings.companyLogoSize}px`;
+    }
+  });
+
+  // Update brand logo sizes if brand cards exist
+  document.querySelectorAll('.brand-logo-img').forEach(img => {
+    if (settings.brandLogoSize) {
+      img.style.width = `${settings.brandLogoSize}px`;
+      img.style.height = `${settings.brandLogoSize}px`;
+    }
+  });
+
+  // Update background media container dynamically
+  const bgContainer = document.getElementById('bgMediaContainer');
+  if (bgContainer) {
+    const opacity = settings.bgOpacity || 0.4;
+    if (settings.bgMediaType === 'image') {
+      bgContainer.innerHTML = `
+        <div style="position: absolute; inset: 0; background-image: url('${settings.bgImageUrl || 'assets/images/hero-banner.jpg'}'); background-size: cover; background-position: center; opacity: ${opacity}; filter: brightness(0.85);"></div>
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(7,8,13,0.5) 0%, rgba(7,8,13,0.92) 100%);"></div>
+      `;
+    } else {
+      bgContainer.innerHTML = `
+        <video src="${settings.bgVideoUrl || 'assets/videos/fireworks-intro.mp4'}" autoplay muted playsinline loop style="width: 100%; height: 100%; object-fit: cover; opacity: ${opacity}; filter: brightness(0.8);"></video>
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(7,8,13,0.5) 0%, rgba(7,8,13,0.92) 100%);"></div>
+      `;
+    }
   }
 };
 
@@ -725,6 +916,8 @@ window.applySiteSettings = function () {
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
     window.getStoredProducts();
+    window.getStoredBrands();
     window.applySiteSettings();
   });
 }
+

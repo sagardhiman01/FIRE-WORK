@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard & Catalog Manager | Ashish Traders Fireworks</title>
+  <title>Admin Command Center | Ashish Traders Fireworks (A&T)</title>
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#07080d">
 
@@ -18,14 +18,24 @@
   <meta http-equiv="Expires" content="0">
 
   <!-- Core Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=5.0">
 
   <style>
     .admin-card {
-      background: rgba(18, 21, 33, 0.85);
+      background: rgba(18, 21, 33, 0.9);
       border: 1px solid rgba(255, 179, 0, 0.15);
       border-radius: 1rem;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+    }
+    .admin-tab-btn {
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .admin-tab-btn.active {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #07080d;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
     }
   </style>
 </head>
@@ -41,24 +51,27 @@
         <!-- Logo & Title -->
         <div class="flex items-center gap-3">
           <div class="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-amber-500 to-red-500 shadow-lg flex-shrink-0">
-            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Logo" class="w-full h-full rounded-full object-cover">
+            <img id="adminHeaderLogo" src="assets/images/ashish-traders-logo.jpg" alt="A&T Logo" class="w-full h-full rounded-full object-cover">
           </div>
           <div>
             <div class="flex items-center gap-2">
               <span class="font-display font-black text-lg text-gold-gradient tracking-wide">ASHISH TRADERS</span>
               <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-bold uppercase">ADMIN PANEL</span>
             </div>
-            <div class="text-[11px] text-slate-400">Full Catalog & Store Customization Engine (A to Z)</div>
+            <div class="text-[11px] text-slate-400">Complete Store, Logos, Media & Reviews Customization Engine</div>
           </div>
         </div>
 
         <!-- Navigation Links -->
-        <div class="flex items-center gap-3">
-          <a href="brands.html" target="_blank" class="text-xs px-3.5 py-2 rounded-xl bg-slate-900 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black font-semibold transition-all flex items-center gap-1.5 shadow">
-            <span>View Live Store</span>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="brands.html" target="_blank" class="text-xs px-3 py-2 rounded-xl bg-slate-900 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black font-semibold transition-all flex items-center gap-1.5 shadow">
+            <span>Live Store</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
           </a>
-          <a href="index.html" target="_blank" class="text-xs px-3.5 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:text-white font-semibold transition-all">
+          <a href="gallery.html" target="_blank" class="text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:text-white font-semibold transition-all">
+            Gallery
+          </a>
+          <a href="index.html" target="_blank" class="text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:text-white font-semibold transition-all">
             Home Page
           </a>
         </div>
@@ -67,122 +80,558 @@
   </header>
 
   <!-- ==========================================================================
+       SUB-HEADER NAVIGATION TABS
+       ========================================================================== -->
+  <div class="bg-slate-950/80 border-b border-slate-800/80 sticky top-20 z-30 overflow-x-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-2">
+      <button onclick="switchTab('tabProducts')" id="tabBtnProducts" class="admin-tab-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        📦 Products Catalog
+      </button>
+      <button onclick="switchTab('tabBrandLogos')" id="tabBtnBrandLogos" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        🏷️ Brand Logos & Size
+      </button>
+      <button onclick="switchTab('tabCompanyLogo')" id="tabBtnCompanyLogo" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        🏢 Company Logo & Size
+      </button>
+      <button onclick="switchTab('tabBackgroundMedia')" id="tabBtnBackgroundMedia" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        🎬 Video / Photo Background
+      </button>
+      <button onclick="switchTab('tabGallery')" id="tabBtnGallery" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        🖼️ Gallery Photos Manager
+      </button>
+      <button onclick="switchTab('tabReviews')" id="tabBtnReviews" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        ⭐ Customer Reviews
+      </button>
+      <button onclick="switchTab('tabSettings')" id="tabBtnSettings" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        ⚙️ Settings & Price Visibility
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
        MAIN ADMIN CONTAINER
        ========================================================================== -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
     
     <!-- STATS COUNTER BAR -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-      <div class="admin-card p-5 border-l-4 border-l-amber-500">
+      <div class="admin-card p-4 sm:p-5 border-l-4 border-l-amber-500">
         <span class="text-xs text-slate-400 uppercase font-semibold">Total Products</span>
-        <div id="statTotalProducts" class="text-3xl font-black text-amber-400 mt-1">0</div>
+        <div id="statTotalProducts" class="text-2xl sm:text-3xl font-black text-amber-400 mt-1">0</div>
         <span class="text-[11px] text-slate-500">In database</span>
       </div>
 
-      <div class="admin-card p-5 border-l-4 border-l-emerald-500">
+      <div class="admin-card p-4 sm:p-5 border-l-4 border-l-emerald-500">
         <span class="text-xs text-slate-400 uppercase font-semibold">In Stock</span>
-        <div id="statInStock" class="text-3xl font-black text-emerald-400 mt-1">0</div>
+        <div id="statInStock" class="text-2xl sm:text-3xl font-black text-emerald-400 mt-1">0</div>
         <span class="text-[11px] text-emerald-500/80">Available to order</span>
       </div>
 
-      <div class="admin-card p-5 border-l-4 border-l-red-500">
-        <span class="text-xs text-slate-400 uppercase font-semibold">Not Available</span>
-        <div id="statOutOfStock" class="text-3xl font-black text-red-400 mt-1">0</div>
-        <span class="text-[11px] text-red-500/80">Marked Out of Stock</span>
+      <div class="admin-card p-4 sm:p-5 border-l-4 border-l-red-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">Out of Stock</span>
+        <div id="statOutOfStock" class="text-2xl sm:text-3xl font-black text-red-400 mt-1">0</div>
+        <span class="text-[11px] text-red-500/80">Marked unavailable</span>
       </div>
 
-      <div class="admin-card p-5 border-l-4 border-l-blue-500">
-        <span class="text-xs text-slate-400 uppercase font-semibold">Partner Brands</span>
-        <div id="statTotalBrands" class="text-3xl font-black text-blue-400 mt-1">8</div>
-        <span class="text-[11px] text-slate-500">Sivakasi manufacturers</span>
-      </div>
-    </div>
-
-    <!-- CONTROLS & ACTION BAR -->
-    <div class="admin-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <!-- Search & Brand Filters -->
-      <div class="flex flex-wrap items-center gap-3 flex-1">
-        <div class="relative flex-1 min-w-[200px] max-w-sm">
-          <input id="adminSearchInput" type="text" placeholder="Search products..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400">
-          <svg class="w-4 h-4 text-slate-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        </div>
-
-        <select id="adminBrandFilter" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none">
-          <option value="ALL">All Brands</option>
-          <option value="Cock Brand">Cock Brand</option>
-          <option value="Ravindra Fireworks">Ravindra Fireworks</option>
-          <option value="Sonny Fireworks">Sonny Fireworks</option>
-          <option value="Mercury Fireworks">Mercury Fireworks</option>
-          <option value="Supreme Fireworks">Supreme Fireworks</option>
-          <option value="Vel's Fireworks">Vel's Fireworks</option>
-          <option value="Sunshine Fireworks">Sunshine Fireworks</option>
-          <option value="Son India">Son India</option>
-        </select>
-
-        <select id="adminStockFilter" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none">
-          <option value="ALL">All Stock Status</option>
-          <option value="IN_STOCK">In Stock Only</option>
-          <option value="OUT_OF_STOCK">Not Available Only</option>
-        </select>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="flex items-center gap-2.5">
-        <button onclick="openAddProductModal()" class="btn-gold py-2.5 px-4 text-xs font-bold flex items-center gap-1.5 shadow-lg">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-          <span>Add New Product</span>
-        </button>
-
-        <button onclick="openSettingsModal()" class="text-xs px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-white font-semibold flex items-center gap-1.5 transition-colors">
-          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          <span>Store Settings</span>
-        </button>
-
-        <button onclick="confirmResetDefaults()" class="text-xs px-3 py-2.5 rounded-xl bg-red-950/40 border border-red-800/60 hover:bg-red-900/50 text-red-300 font-semibold transition-colors" title="Reset to Factory Products">
-          Reset
-        </button>
+      <div class="admin-card p-4 sm:p-5 border-l-4 border-l-blue-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">Price Display</span>
+        <div id="statPriceMode" class="text-base sm:text-lg font-black text-amber-300 mt-2">Hidden (Quote Mode)</div>
+        <span class="text-[11px] text-slate-500">Controlled in Settings</span>
       </div>
     </div>
 
-    <!-- PRODUCTS MANAGEMENT TABLE / LIST -->
-    <div class="admin-card overflow-hidden">
-      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
-        <div>
-          <h2 class="font-bold text-base text-white">Products Catalog Database</h2>
-          <p class="text-xs text-slate-400">Click on any product's stock button to instantly toggle Available vs Not Available.</p>
+    <!-- ==========================================================================
+         TAB 1: PRODUCTS CATALOG
+         ========================================================================== -->
+    <div id="tabProducts" class="tab-content space-y-6">
+      
+      <!-- Current Status Alert Banner -->
+      <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">ℹ️</span>
+          <div>
+            <div class="text-xs font-bold text-amber-300">Public Product Prices Notice</div>
+            <div class="text-[11px] text-slate-300">Fixed prices are currently hidden on the website as requested. Customers send WhatsApp inquiries for live wholesale quotes. You can set individual prices anytime and toggle public visibility in the Settings tab.</div>
+          </div>
         </div>
-        <span id="filteredCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 font-bold border border-amber-500/20">0 items</span>
+        <button onclick="switchTab('tabSettings')" class="text-xs px-3 py-1.5 rounded-lg bg-amber-500 text-black font-bold flex-shrink-0">
+          Price Settings
+        </button>
       </div>
 
-      <!-- Desktop Table -->
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="bg-slate-950/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider text-[11px]">
-              <th class="py-3.5 px-4">Photo</th>
-              <th class="py-3.5 px-4">Product Name & Category</th>
-              <th class="py-3.5 px-4">Brand</th>
-              <th class="py-3.5 px-4">Wholesale Rate</th>
-              <th class="py-3.5 px-4">MRP</th>
-              <th class="py-3.5 px-4 text-center">Stock Status</th>
-              <th class="py-3.5 px-4 text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="adminProductsTableBody" class="divide-y divide-slate-800/80">
-            <!-- Populated dynamically by JavaScript -->
-          </tbody>
-        </table>
+      <!-- Search, Filters, & Action Bar -->
+      <div class="admin-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-3 flex-1">
+          <div class="relative flex-1 min-w-[200px] max-w-sm">
+            <input id="adminSearchInput" type="text" placeholder="Search products by name, category, or brand..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400">
+            <svg class="w-4 h-4 text-slate-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+
+          <select id="adminBrandFilter" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none">
+            <option value="ALL">All Brands</option>
+            <option value="Cock Brand">Cock Brand</option>
+            <option value="Ravindra Fireworks">Ravindra Fireworks</option>
+            <option value="Sonny Fireworks">Sonny Fireworks</option>
+            <option value="Mercury Fireworks">Mercury Fireworks</option>
+            <option value="Supreme Fireworks">Supreme Fireworks</option>
+            <option value="Vel's Fireworks">Vel's Fireworks</option>
+            <option value="Sunshine Fireworks">Sunshine Fireworks</option>
+            <option value="Son India">Son India</option>
+          </select>
+
+          <select id="adminStockFilter" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none">
+            <option value="ALL">All Stock Status</option>
+            <option value="IN_STOCK">In Stock Only</option>
+            <option value="OUT_OF_STOCK">Not Available Only</option>
+          </select>
+        </div>
+
+        <!-- Add & Reset Actions -->
+        <div class="flex items-center gap-2.5">
+          <button onclick="openAddProductModal()" class="btn-gold py-2.5 px-4 text-xs font-bold flex items-center gap-1.5 shadow-lg">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <span>Add New Product</span>
+          </button>
+
+          <button onclick="confirmResetDefaults()" class="text-xs px-3 py-2.5 rounded-xl bg-red-950/40 border border-red-800/60 hover:bg-red-900/50 text-red-300 font-semibold transition-colors" title="Reset to Factory Products">
+            Reset Factory Products
+          </button>
+        </div>
       </div>
 
-      <div id="adminEmptyState" class="py-16 text-center" style="display: none;">
-        <div class="w-14 h-14 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto mb-3 text-slate-500">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+      <!-- Products Management Table -->
+      <div class="admin-card overflow-hidden">
+        <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+          <div>
+            <h2 class="font-bold text-base text-white">Products Catalog Database</h2>
+            <p class="text-xs text-slate-400">Click on any product's stock badge to toggle Available vs Not Available with 1 click.</p>
+          </div>
+          <span id="filteredCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 font-bold border border-amber-500/20">0 items</span>
         </div>
-        <h3 class="font-bold text-slate-300 text-sm mb-1">No products match your filter</h3>
-        <p class="text-xs text-slate-500 mb-4">Try resetting filters or search query.</p>
-        <button onclick="resetAdminFilters()" class="btn-gold text-xs py-2 px-4">Reset Filters</button>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-950/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider text-[11px]">
+                <th class="py-3.5 px-4">Photo</th>
+                <th class="py-3.5 px-4">Product Name & Category</th>
+                <th class="py-3.5 px-4">Brand</th>
+                <th class="py-3.5 px-4">Wholesale Rate</th>
+                <th class="py-3.5 px-4">MRP</th>
+                <th class="py-3.5 px-4 text-center">Stock Status</th>
+                <th class="py-3.5 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminProductsTableBody" class="divide-y divide-slate-800/80">
+              <!-- Populated dynamically by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="adminEmptyState" class="py-16 text-center" style="display: none;">
+          <h3 class="font-bold text-slate-300 text-sm mb-1">No products match your filter</h3>
+          <p class="text-xs text-slate-500 mb-4">Try resetting filters or search query.</p>
+          <button onclick="resetAdminFilters()" class="btn-gold text-xs py-2 px-4">Reset Filters</button>
+        </div>
       </div>
     </div>
+
+    <!-- ==========================================================================
+         TAB 2: BRAND LOGOS & SIZE ADJUSTMENT
+         ========================================================================== -->
+    <div id="tabBrandLogos" class="tab-content space-y-6" style="display: none;">
+      
+      <!-- Brand Logo Sizing Slider -->
+      <div class="admin-card p-6 border-amber-500/30">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+          <div>
+            <h3 class="font-bold text-base text-white">Global Brand Logo Sizing Control</h3>
+            <p class="text-xs text-slate-400">Adjust the display dimension for partner brand logos across store cards and selectors.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-400">Current Size:</span>
+            <span id="brandLogoSizeDisplay" class="text-lg font-black text-amber-400 px-3 py-1 rounded bg-slate-900 border border-amber-500/30">56px</span>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row items-center gap-6">
+          <div class="flex-1 w-full">
+            <input type="range" id="brandLogoSizeSlider" min="32" max="100" value="56" step="2" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+            <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+              <span>Small (32px)</span>
+              <span>Default (56px)</span>
+              <span>Extra Large (100px)</span>
+            </div>
+          </div>
+
+          <!-- Live Preview Box -->
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-3 flex-shrink-0">
+            <div class="text-xs text-slate-400 font-semibold">Live Preview:</div>
+            <div class="w-24 h-24 rounded-xl bg-slate-900 border border-amber-500/30 flex items-center justify-center overflow-hidden">
+              <img id="brandLogoLivePreview" src="assets/images/brand-cock.svg" alt="Preview" style="width: 56px; height: 56px; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partner Brands Cards (Upload / Edit Logo per Brand) -->
+      <div class="admin-card p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="font-bold text-base text-white">Manage 8 Sivakasi Partner Brands</h3>
+            <p class="text-xs text-slate-400">Change logo image path or URL for each partner brand, update brand tagline, and save.</p>
+          </div>
+          <button onclick="saveAllBrandLogos()" class="btn-gold text-xs py-2 px-4 font-bold shadow">
+            Save All Brand Changes
+          </button>
+        </div>
+
+        <div id="adminBrandsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 3: COMPANY LOGO & SIZE ADJUSTMENT
+         ========================================================================== -->
+    <div id="tabCompanyLogo" class="tab-content space-y-6" style="display: none;">
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Company Official Logo & Sizing Customizer</h3>
+        <p class="text-xs text-slate-400 mb-6">Change the main Ashish Traders Fireworks emblem used in the top navbar, header, footer, and about cards across the entire website.</p>
+
+        <form id="companyLogoForm" class="space-y-6">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+            
+            <!-- Left inputs -->
+            <div class="lg:col-span-2 space-y-4">
+              <div>
+                <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Company Logo Path / Image URL *</label>
+                <input id="formCompanyLogoPath" type="text" required placeholder="assets/images/ashish-traders-logo.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+                <span class="text-[11px] text-slate-400 mt-1 block">You can provide a relative project path (e.g. <code>assets/images/ashish-traders-logo.jpg</code>) or a direct web URL (https://...).</span>
+              </div>
+
+              <!-- Presets -->
+              <div>
+                <span class="text-[11px] text-amber-400 font-bold uppercase">Quick Logo Presets:</span>
+                <div class="flex flex-wrap gap-2 mt-1.5">
+                  <button type="button" onclick="setCompanyLogoPreset('assets/images/ashish-traders-logo.jpg')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Default Official Emblem</button>
+                  <button type="button" onclick="setCompanyLogoPreset('assets/images/hero-banner.jpg')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Showroom Crest</button>
+                </div>
+              </div>
+
+              <!-- Size slider -->
+              <div class="pt-4 border-t border-slate-800">
+                <div class="flex items-center justify-between mb-2">
+                  <label class="text-xs font-bold uppercase text-slate-300">Navbar & Header Logo Size</label>
+                  <span id="companyLogoSizeDisplay" class="text-sm font-bold text-amber-400">48px</span>
+                </div>
+                <input type="range" id="companyLogoSizeSlider" min="32" max="100" value="48" step="2" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                  <span>Compact (32px)</span>
+                  <span>Standard (48px)</span>
+                  <span>Large (100px)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Preview Box -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-center text-center">
+              <div class="text-xs text-slate-400 font-bold uppercase mb-4 tracking-wider">Live Preview</div>
+              <div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-amber-500 to-red-500 shadow-2xl flex items-center justify-center mb-3">
+                <img id="companyLogoPreviewImg" src="assets/images/ashish-traders-logo.jpg" alt="Company Logo" class="w-full h-full rounded-full object-cover">
+              </div>
+              <div class="font-display font-black text-amber-400 text-sm">ASHISH TRADERS</div>
+              <div class="text-[10px] text-slate-400 uppercase tracking-widest">FIREWORKS • DEHRADUN</div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-end">
+            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow-lg">
+              Save Company Logo & Size
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 4: BACKGROUND VIDEO / PHOTO WALLPAPER
+         ========================================================================== -->
+    <div id="tabBackgroundMedia" class="tab-content space-y-6" style="display: none;">
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Permanent Background Media Switcher</h3>
+        <p class="text-xs text-slate-400 mb-6">Choose whether the website plays a continuous looping fireworks video in the background, or displays a high-resolution photo wallpaper.</p>
+
+        <form id="bgMediaForm" class="space-y-6">
+          <!-- Choice: Video vs Photo -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="p-4 rounded-xl border border-slate-800 bg-slate-900/80 cursor-pointer hover:border-amber-400 flex items-start gap-3">
+              <input type="radio" name="bgMediaTypeChoice" value="video" class="mt-1 accent-amber-500" checked>
+              <div>
+                <div class="font-bold text-xs text-white">Looping Video Background</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">Continuous celebration fireworks video playing seamlessly behind the page.</div>
+              </div>
+            </label>
+
+            <label class="p-4 rounded-xl border border-slate-800 bg-slate-900/80 cursor-pointer hover:border-amber-400 flex items-start gap-3">
+              <input type="radio" name="bgMediaTypeChoice" value="image" class="mt-1 accent-amber-500">
+              <div>
+                <div class="font-bold text-xs text-white">Still Photo Wallpaper</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">High-definition stationary festive fireworks wallpaper behind the page.</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Video URL Input -->
+          <div id="bgVideoInputContainer">
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Background Video Path / URL</label>
+            <input id="formBgVideoUrl" type="text" value="assets/videos/fireworks-intro.mp4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            <div class="text-[11px] text-slate-500 mt-1">Default: <code>assets/videos/fireworks-intro.mp4</code></div>
+          </div>
+
+          <!-- Image URL Input -->
+          <div id="bgImageInputContainer">
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Background Image / Wallpaper Path or URL</label>
+            <input id="formBgImageUrl" type="text" value="assets/images/hero-banner.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            <div class="flex flex-wrap gap-2 mt-2">
+              <span class="text-[11px] text-amber-400 font-bold uppercase">Presets:</span>
+              <button type="button" onclick="setBgImagePreset('assets/images/hero-banner.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-400">Showroom Banner</button>
+              <button type="button" onclick="setBgImagePreset('assets/images/cock-skyshots-240.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-400">Celestial Sky Shots</button>
+              <button type="button" onclick="setBgImagePreset('assets/images/diwali-gift-hamper.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-400">Diwali Hamper</button>
+            </div>
+          </div>
+
+          <!-- Background Opacity Slider -->
+          <div class="pt-4 border-t border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-xs font-bold uppercase text-slate-300">Background Brightness / Opacity</label>
+              <span id="bgOpacityDisplay" class="text-sm font-bold text-amber-400">40%</span>
+            </div>
+            <input type="range" id="bgOpacitySlider" min="10" max="80" value="40" step="5" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+            <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+              <span>Subtle (10%)</span>
+              <span>Balanced (40%)</span>
+              <span>Vivid (80%)</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-end">
+            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow-lg">
+              Save Background Settings
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 5: GALLERY PHOTOS MANAGER
+         ========================================================================== -->
+    <div id="tabGallery" class="tab-content space-y-6" style="display: none;">
+      
+      <!-- Add New Photo Form Card -->
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Add Company & Showroom Photo to Gallery</h3>
+        <p class="text-xs text-slate-400 mb-6">Upload or link photos of the Mohabewala warehouse, cracker crates, showroom displays, or celebration nights to display on the dedicated <a href="gallery.html" target="_blank" class="text-amber-400 hover:underline">gallery.html</a> page.</p>
+
+        <form id="galleryForm" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Photo Title *</label>
+              <input id="formGalTitle" type="text" required placeholder="e.g., Mohabewala Warehouse Fresh Stock Arrival" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Category *</label>
+              <select id="formGalCategory" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+                <option value="Warehouse & Stock">Warehouse & Stock</option>
+                <option value="Showroom Displays">Showroom Displays</option>
+                <option value="Celebrations & Lights">Celebrations & Lights</option>
+                <option value="Customer Moments">Customer Moments</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Photo Image Path or URL *</label>
+              <input id="formGalImage" type="text" required placeholder="assets/images/cock-skyshots-240.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              
+              <div class="mt-2 flex flex-wrap gap-2">
+                <span class="text-[11px] text-amber-400 font-bold uppercase">Quick Photo Presets:</span>
+                <button type="button" onclick="setGalPreset('assets/images/cock-skyshots-240.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Sky Shots Crates</button>
+                <button type="button" onclick="setGalPreset('assets/images/flower-pot-anaar.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Royal Koti Anaar</button>
+                <button type="button" onclick="setGalPreset('assets/images/cock-sparklers-giant.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Giant Sparklers</button>
+                <button type="button" onclick="setGalPreset('assets/images/diwali-gift-hamper.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Gift Hampers</button>
+                <button type="button" onclick="setGalPreset('assets/images/red-garland-ladi.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Festive Ladi</button>
+              </div>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Caption / Description</label>
+              <textarea id="formGalCaption" rows="2" placeholder="Write a short note describing this picture..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-3">
+            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow">
+              Add Photo to Gallery
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Current Gallery Photos List -->
+      <div class="admin-card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-base text-white">Current Gallery Photos</h3>
+          <span id="galleryCountBadge" class="text-xs text-amber-400 font-semibold">0 Photos</span>
+        </div>
+        <div id="adminGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 6: CUSTOMER REVIEWS MANAGER
+         ========================================================================== -->
+    <div id="tabReviews" class="tab-content space-y-6" style="display: none;">
+      
+      <!-- Add Review Form -->
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Add Customer Testimonial & Review</h3>
+        <p class="text-xs text-slate-400 mb-6">Reviews added here will immediately appear in the Testimonials section of <a href="index.html" target="_blank" class="text-amber-400 hover:underline">index.html</a>.</p>
+
+        <form id="reviewForm" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Customer Full Name *</label>
+              <input id="formRevName" type="text" required placeholder="e.g., Rajesh Rawat" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">City / Area *</label>
+              <input id="formRevCity" type="text" required placeholder="e.g., Rajpur Road, Dehradun" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Rating *</label>
+              <select id="formRevRating" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+                <option value="5">★★★★★ (5 / 5 Stars)</option>
+                <option value="4">★★★★☆ (4 / 5 Stars)</option>
+                <option value="3">★★★☆☆ (3 / 5 Stars)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Occasion / Date</label>
+              <input id="formRevDate" type="text" placeholder="e.g., Diwali Season 2025" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Review Feedback *</label>
+              <textarea id="formRevText" required rows="2" placeholder="Customer words about Sivakasi quality, prices, WhatsApp delivery, etc." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-3">
+            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow">
+              Publish Review to Website
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Current Reviews List -->
+      <div class="admin-card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-base text-white">Current Published Reviews</h3>
+          <span id="reviewsCountBadge" class="text-xs text-amber-400 font-semibold">0 Reviews</span>
+        </div>
+        <div id="adminReviewsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 7: SETTINGS & PRICE VISIBILITY TOGGLE
+         ========================================================================== -->
+    <div id="tabSettings" class="tab-content space-y-6" style="display: none;">
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Store Configuration & Price Display Settings</h3>
+        <p class="text-xs text-slate-400 mb-6">Manage global store parameters, WhatsApp routing numbers, and public price visibility.</p>
+
+        <form id="globalSettingsForm" class="space-y-6">
+          
+          <!-- Master Price Toggle (The Key Requirement) -->
+          <div class="p-5 rounded-2xl bg-amber-500/10 border-2 border-amber-500/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-lg">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-lg">💰</span>
+                <span class="font-bold text-sm text-white">Public Product Prices Display</span>
+                <span id="priceModeStatusBadge" class="text-[10px] px-2 py-0.5 rounded bg-red-600 text-white font-bold uppercase">HIDDEN (QUOTE MODE)</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1 max-w-xl">
+                When turned <strong>OFF</strong>, all product cards and cart drawers hide fixed rupee numbers and instead display "Wholesale Rate on WhatsApp". Customers build orders and inquire directly. When turned <strong>ON</strong>, product prices are visible.
+              </p>
+            </div>
+
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="settShowPricesToggle" class="sr-only peer">
+              <div class="w-14 h-7 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-amber-500"></div>
+            </label>
+          </div>
+
+          <!-- Announcement Banner -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Top Announcement Bar Text</label>
+            <input id="settAnnouncement" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+
+          <!-- Phone Numbers -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Ashish Chopra WhatsApp (Country code + 10 digits)</label>
+              <input id="settAshishPhone" type="text" placeholder="919837081321" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Yuvraj Chopra WhatsApp (Country code + 10 digits)</label>
+              <input id="settYuvrajPhone" type="text" placeholder="918630615934" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <!-- Social Links (IG, FB, WA) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Instagram Profile URL</label>
+              <input id="settInstagram" type="text" placeholder="https://instagram.com/ashishtraders" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Facebook Page URL</label>
+              <input id="settFacebook" type="text" placeholder="https://facebook.com/ashishtraders" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Direct WhatsApp Link</label>
+              <input id="settWhatsAppLink" type="text" placeholder="https://wa.me/919837081321" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <!-- Address -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Showroom / Warehouse Physical Address</label>
+            <textarea id="settAddress" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-end">
+            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow-lg">
+              Save Global Store Settings
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </main>
 
   <!-- ==========================================================================
@@ -191,7 +640,6 @@
   <div id="productModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto" style="display: none;">
     <div class="bg-slate-950 border border-amber-500/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in">
       
-      <!-- Modal Header -->
       <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
         <div>
           <h3 id="modalFormTitle" class="font-bold text-base text-white">Add New Firecracker Product</h3>
@@ -200,18 +648,15 @@
         <button onclick="closeProductModal()" class="text-slate-400 hover:text-white p-2 text-2xl leading-none">&times;</button>
       </div>
 
-      <!-- Modal Form Body -->
       <form id="productForm" class="p-6 overflow-y-auto space-y-4 flex-1">
         <input type="hidden" id="editProductId">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Product Name -->
           <div class="sm:col-span-2">
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Product Name *</label>
             <input id="formProdName" type="text" required placeholder="e.g., Cock Brand 240 Sky Shots Celestial Fiesta" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
           </div>
 
-          <!-- Brand -->
           <div>
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Brand *</label>
             <select id="formProdBrand" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
@@ -221,12 +666,11 @@
               <option value="Mercury Fireworks">Mercury Fireworks</option>
               <option value="Supreme Fireworks">Supreme Fireworks</option>
               <option value="Vel's Fireworks">Vel's Fireworks</option>
-              <option value="Sunshine Fireworks">Sunshine Fireworks (Green)</option>
+              <option value="Sunshine Fireworks">Sunshine Fireworks</option>
               <option value="Son India">Son India</option>
             </select>
           </div>
 
-          <!-- Category -->
           <div>
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Category *</label>
             <select id="formProdCategory" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
@@ -241,25 +685,21 @@
             </select>
           </div>
 
-          <!-- Wholesale Price -->
           <div>
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Wholesale Offer Price (₹) *</label>
             <input id="formProdPrice" type="number" required min="1" placeholder="3499" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
           </div>
 
-          <!-- MRP -->
           <div>
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Original MRP (₹)</label>
             <input id="formProdOriginalPrice" type="number" min="1" placeholder="4200" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
           </div>
 
-          <!-- Pack Info -->
           <div>
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Packaging Specifications *</label>
             <input id="formProdPackInfo" type="text" required placeholder="e.g., 1 Box (10 Pcs) / 240 Shots" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
           </div>
 
-          <!-- Stock Status Switch -->
           <div>
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Stock Availability *</label>
             <select id="formProdStock" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
@@ -268,12 +708,10 @@
             </select>
           </div>
 
-          <!-- Product Image URL -->
           <div class="sm:col-span-2">
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Product Image Path / URL *</label>
             <input id="formProdImage" type="text" required placeholder="assets/images/cock-skyshots-240.jpg" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
             
-            <!-- Quick Preset Real Images -->
             <div class="mt-2">
               <span class="text-[10px] text-amber-400 font-bold uppercase">Quick Select Authentic Photo Preset:</span>
               <div class="flex flex-wrap gap-1.5 mt-1.5">
@@ -290,20 +728,18 @@
             </div>
           </div>
 
-          <!-- Description -->
           <div class="sm:col-span-2">
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Description</label>
             <textarea id="formProdDesc" rows="2" placeholder="Visual effects, altitude, duration, colors..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"></textarea>
           </div>
         </div>
 
-        <!-- Submit Buttons -->
         <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
           <button type="button" onclick="closeProductModal()" class="text-xs px-4 py-2.5 rounded-xl bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
             Cancel
           </button>
           <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow">
-            Save Product to Store
+            Save Product
           </button>
         </div>
       </form>
@@ -311,101 +747,88 @@
   </div>
 
   <!-- ==========================================================================
-       MODAL 2: STORE SETTINGS MODAL (A to Z Customization)
-       ========================================================================== -->
-  <div id="settingsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto" style="display: none;">
-    <div class="bg-slate-950 border border-amber-500/40 rounded-2xl w-full max-w-xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in">
-      
-      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
-        <div>
-          <h3 class="font-bold text-base text-white">Store Customization Settings (A to Z)</h3>
-          <p class="text-xs text-slate-400">Configure banner text, WhatsApp numbers & video background</p>
-        </div>
-        <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white p-2 text-2xl leading-none">&times;</button>
-      </div>
-
-      <form id="settingsForm" class="p-6 overflow-y-auto space-y-4 flex-1">
-        <!-- Announcement Banner -->
-        <div>
-          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Top Announcement Bar Text</label>
-          <input id="settAnnouncement" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-        </div>
-
-        <!-- Phone Numbers -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Ashish Chopra WhatsApp (digits)</label>
-            <input id="settAshishPhone" type="text" placeholder="919837081321" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Yuvraj Chopra WhatsApp (digits)</label>
-            <input id="settYuvrajPhone" type="text" placeholder="918630615934" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-          </div>
-        </div>
-
-        <!-- Address -->
-        <div>
-          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Showroom / Warehouse Address</label>
-          <textarea id="settAddress" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
-        </div>
-
-        <!-- Permanent Background Video Switch -->
-        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
-          <div>
-            <div class="font-bold text-xs text-slate-200">Permanent Background Video</div>
-            <div class="text-[11px] text-slate-400">Play continuous fireworks video loop behind website content</div>
-          </div>
-          <label class="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" id="settBgVideoToggle" class="sr-only peer" checked>
-            <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
-          </label>
-        </div>
-
-        <!-- Submit -->
-        <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
-          <button type="button" onclick="closeSettingsModal()" class="text-xs px-4 py-2.5 rounded-xl bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
-            Cancel
-          </button>
-          <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow">
-            Save Settings
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- ==========================================================================
-       CORE SCRIPTS
+       CORE SCRIPTS & ADMIN ENGINE
        ========================================================================== -->
   <script src="assets/js/products-data.js"></script>
 
   <script>
     let currentAdminProducts = [];
+    let currentAdminBrands = [];
+    let currentAdminGallery = [];
+    let currentAdminReviews = [];
     let searchFilter = '';
     let brandFilter = 'ALL';
     let stockFilter = 'ALL';
 
+    // TAB NAVIGATION
+    window.switchTab = function(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      const activeTab = document.getElementById(tabId);
+      if (activeTab) activeTab.style.display = 'block';
+
+      const map = {
+        'tabProducts': 'tabBtnProducts',
+        'tabBrandLogos': 'tabBtnBrandLogos',
+        'tabCompanyLogo': 'tabBtnCompanyLogo',
+        'tabBackgroundMedia': 'tabBtnBackgroundMedia',
+        'tabGallery': 'tabBtnGallery',
+        'tabReviews': 'tabBtnReviews',
+        'tabSettings': 'tabBtnSettings'
+      };
+      const activeBtn = document.getElementById(map[tabId]);
+      if (activeBtn) activeBtn.classList.add('active');
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
-      loadProductsData();
+      loadAllAdminData();
       setupEventListeners();
     });
 
-    function loadProductsData() {
+    function loadAllAdminData() {
+      // 1. Products
       currentAdminProducts = window.getStoredProducts();
       renderStats();
       renderTable();
+
+      // 2. Brands
+      currentAdminBrands = window.getStoredBrands();
+      renderBrandsManager();
+
+      // 3. Company Logo & Settings
+      loadCompanyLogoAndSettings();
+
+      // 4. Background Media
+      loadBgMediaSettings();
+
+      // 5. Gallery
+      currentAdminGallery = window.getStoredGallery();
+      renderGalleryManager();
+
+      // 6. Reviews
+      currentAdminReviews = window.getStoredReviews();
+      renderReviewsManager();
     }
 
+    // ----------------------------------------------------
+    // STATS & TABLE RENDERING
+    // ----------------------------------------------------
     function renderStats() {
       const total = currentAdminProducts.length;
       const inStock = currentAdminProducts.filter(p => p.inStock !== false).length;
       const outOfStock = total - inStock;
-      const brands = new Set(currentAdminProducts.map(p => p.brand)).size;
+      const settings = window.getSiteSettings();
 
       document.getElementById('statTotalProducts').textContent = total;
       document.getElementById('statInStock').textContent = inStock;
       document.getElementById('statOutOfStock').textContent = outOfStock;
-      document.getElementById('statTotalBrands').textContent = brands;
+
+      const priceModeEl = document.getElementById('statPriceMode');
+      if (priceModeEl) {
+        priceModeEl.textContent = settings.showPrices ? 'Visible (₹ Active)' : 'Hidden (Quote Mode)';
+        priceModeEl.className = settings.showPrices ? 'text-base sm:text-lg font-black text-emerald-400 mt-2' : 'text-base sm:text-lg font-black text-amber-300 mt-2';
+      }
     }
 
     function renderTable() {
@@ -415,19 +838,16 @@
 
       let filtered = currentAdminProducts;
 
-      // Filter Brand
       if (brandFilter !== 'ALL') {
         filtered = filtered.filter(p => p.brand === brandFilter);
       }
 
-      // Filter Stock
       if (stockFilter === 'IN_STOCK') {
         filtered = filtered.filter(p => p.inStock !== false);
       } else if (stockFilter === 'OUT_OF_STOCK') {
         filtered = filtered.filter(p => p.inStock === false);
       }
 
-      // Search
       if (searchFilter) {
         const q = searchFilter.toLowerCase();
         filtered = filtered.filter(p => 
@@ -451,14 +871,11 @@
         const isAvailable = p.inStock !== false;
         return `
           <tr class="hover:bg-slate-900/60 transition-colors">
-            <!-- Thumbnail -->
             <td class="py-3 px-4">
               <div class="w-12 h-12 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex-shrink-0">
                 <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
               </div>
             </td>
-
-            <!-- Name & Category -->
             <td class="py-3 px-4 min-w-[220px]">
               <div class="font-bold text-slate-100">${p.name}</div>
               <div class="text-[10px] text-slate-400 mt-0.5 flex items-center gap-2">
@@ -466,25 +883,17 @@
                 <span>${p.packInfo}</span>
               </div>
             </td>
-
-            <!-- Brand -->
             <td class="py-3 px-4 whitespace-nowrap">
               <span class="px-2 py-1 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">
                 ${p.brand}
               </span>
             </td>
-
-            <!-- Price -->
             <td class="py-3 px-4 whitespace-nowrap font-black text-amber-400 text-sm">
               ₹${p.price.toLocaleString('en-IN')}
             </td>
-
-            <!-- MRP -->
             <td class="py-3 px-4 whitespace-nowrap text-slate-500 line-through">
               ${p.originalPrice ? `₹${p.originalPrice.toLocaleString('en-IN')}` : '—'}
             </td>
-
-            <!-- Stock Toggle (1 Click Action) -->
             <td class="py-3 px-4 text-center whitespace-nowrap">
               <button onclick="toggleStockStatus('${p.id}')" 
                       class="px-3 py-1 rounded-full text-[11px] font-bold border transition-all cursor-pointer shadow ${
@@ -493,11 +902,9 @@
                         : 'bg-red-500/20 text-red-300 border-red-500/50 hover:bg-red-500 hover:text-white'
                       }" 
                       title="Click to toggle availability">
-                ${isAvailable ? '🟢 In Stock' : '🔴 Not Available'}
+                ${isAvailable ? '🟢 In Stock' : '🔴 Out of Stock'}
               </button>
             </td>
-
-            <!-- Actions -->
             <td class="py-3 px-4 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-2">
                 <button onclick="openEditProductModal('${p.id}')" class="p-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-white transition-colors" title="Edit Product">
@@ -524,7 +931,7 @@
       renderTable();
     };
 
-    // Open Add Modal
+    // Product Modal Handlers
     window.openAddProductModal = function() {
       document.getElementById('modalFormTitle').textContent = 'Add New Firecracker Product';
       document.getElementById('editProductId').value = '';
@@ -534,7 +941,6 @@
       document.getElementById('productModalOverlay').style.display = 'flex';
     };
 
-    // Open Edit Modal
     window.openEditProductModal = function(productId) {
       const product = currentAdminProducts.find(p => p.id === productId);
       if (!product) return;
@@ -562,7 +968,6 @@
       document.getElementById('formProdImage').value = path;
     };
 
-    // Handle Product Form Submit (Create or Update)
     document.getElementById('productForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const id = document.getElementById('editProductId').value;
@@ -577,7 +982,6 @@
       const inStock = document.getElementById('formProdStock').value === 'true';
 
       if (id) {
-        // Update existing
         const index = currentAdminProducts.findIndex(p => p.id === id);
         if (index !== -1) {
           currentAdminProducts[index] = Object.assign(currentAdminProducts[index], {
@@ -585,23 +989,11 @@
           });
         }
       } else {
-        // Create new
         const newId = 'AT-CUSTOM-' + Date.now().toString().slice(-6);
         currentAdminProducts.unshift({
           id: newId,
-          name,
-          brand,
-          category,
-          price,
-          originalPrice,
-          packInfo,
-          image,
-          description,
-          inStock,
-          ecoFriendly: true,
-          badge: 'New Arrival',
-          noiseLevel: 'Standard',
-          safetyDistance: '10 Meters'
+          name, brand, category, price, originalPrice, packInfo, image, description, inStock,
+          ecoFriendly: true, badge: 'New Arrival', noiseLevel: 'Standard', safetyDistance: '10 Meters'
         });
       }
 
@@ -611,7 +1003,6 @@
       renderTable();
     });
 
-    // Delete Product
     window.deleteProduct = function(productId) {
       const product = currentAdminProducts.find(p => p.id === productId);
       if (!product) return;
@@ -624,7 +1015,6 @@
       }
     };
 
-    // Reset Defaults
     window.confirmResetDefaults = function() {
       if (confirm('Are you sure you want to reset all products back to the original factory catalog? Any custom products will be replaced.')) {
         currentAdminProducts = window.resetToDefaultProducts();
@@ -633,37 +1023,381 @@
       }
     };
 
-    // Store Settings Modal
-    window.openSettingsModal = function() {
+    // ----------------------------------------------------
+    // TAB 2: BRAND LOGOS & SIZE ADJUSTMENT
+    // ----------------------------------------------------
+    function renderBrandsManager() {
+      const grid = document.getElementById('adminBrandsGrid');
       const settings = window.getSiteSettings();
-      document.getElementById('settAnnouncement').value = settings.announcement || '';
-      document.getElementById('settAshishPhone').value = settings.ashishPhone || '919837081321';
-      document.getElementById('settYuvrajPhone').value = settings.yuvrajPhone || '918630615934';
-      document.getElementById('settAddress').value = settings.address || '';
-      document.getElementById('settBgVideoToggle').checked = settings.bgVideoEnabled !== false;
-      document.getElementById('settingsModalOverlay').style.display = 'flex';
+      const brandLogoSize = settings.brandLogoSize || 56;
+
+      const sizeSlider = document.getElementById('brandLogoSizeSlider');
+      const sizeDisplay = document.getElementById('brandLogoSizeDisplay');
+      const livePreview = document.getElementById('brandLogoLivePreview');
+
+      if (sizeSlider) sizeSlider.value = brandLogoSize;
+      if (sizeDisplay) sizeDisplay.textContent = `${brandLogoSize}px`;
+      if (livePreview) {
+        livePreview.style.width = `${brandLogoSize}px`;
+        livePreview.style.height = `${brandLogoSize}px`;
+      }
+
+      if (!grid) return;
+
+      grid.innerHTML = currentAdminBrands.map((b, idx) => `
+        <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-14 h-14 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center p-1 overflow-hidden flex-shrink-0">
+                <img id="brand-thumb-${b.id}" src="${b.logo}" alt="${b.name}" class="object-contain w-full h-full">
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4 class="font-bold text-sm text-white truncate">${b.name}</h4>
+                <p class="text-[11px] text-amber-400 truncate">${b.tagline}</p>
+                <span class="text-[10px] text-slate-500">${b.origin}</span>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div>
+                <label class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Brand Logo URL / Path</label>
+                <input id="brand-logo-input-${b.id}" type="text" value="${b.logo}" 
+                       oninput="updateBrandThumbPreview('${b.id}', this.value)"
+                       class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              </div>
+              <div>
+                <label class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Tagline</label>
+                <input id="brand-tagline-input-${b.id}" type="text" value="${b.tagline || ''}" 
+                       class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-end">
+            <button onclick="saveSingleBrand('${b.id}')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black font-semibold transition-all">
+              Save ${b.name}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.updateBrandThumbPreview = function(brandId, newUrl) {
+      const img = document.getElementById(`brand-thumb-${brandId}`);
+      if (img && newUrl) img.src = newUrl;
     };
 
-    window.closeSettingsModal = function() {
-      document.getElementById('settingsModalOverlay').style.display = 'none';
+    window.saveSingleBrand = function(brandId) {
+      const brand = currentAdminBrands.find(b => b.id === brandId);
+      if (!brand) return;
+
+      const logoInput = document.getElementById(`brand-logo-input-${brandId}`);
+      const taglineInput = document.getElementById(`brand-tagline-input-${brandId}`);
+
+      if (logoInput) brand.logo = logoInput.value.trim() || brand.logo;
+      if (taglineInput) brand.tagline = taglineInput.value.trim() || brand.tagline;
+
+      window.saveStoredBrands(currentAdminBrands);
+      alert(`${brand.name} logo and details updated successfully!`);
     };
 
-    document.getElementById('settingsForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const newSettings = {
-        announcement: document.getElementById('settAnnouncement').value.trim(),
-        ashishPhone: document.getElementById('settAshishPhone').value.trim(),
-        yuvrajPhone: document.getElementById('settYuvrajPhone').value.trim(),
-        address: document.getElementById('settAddress').value.trim(),
-        bgVideoEnabled: document.getElementById('settBgVideoToggle').checked,
-        bgVideoUrl: 'assets/videos/fireworks-intro.mp4'
-      };
-      window.saveSiteSettings(newSettings);
-      closeSettingsModal();
-      alert('Store settings saved successfully! Live store and website have been updated.');
+    window.saveAllBrandLogos = function() {
+      currentAdminBrands.forEach(b => {
+        const logoInput = document.getElementById(`brand-logo-input-${b.id}`);
+        const taglineInput = document.getElementById(`brand-tagline-input-${b.id}`);
+        if (logoInput && logoInput.value.trim()) b.logo = logoInput.value.trim();
+        if (taglineInput && taglineInput.value.trim()) b.tagline = taglineInput.value.trim();
+      });
+
+      window.saveStoredBrands(currentAdminBrands);
+      alert('All 8 brand logos saved! Live store updated.');
+    };
+
+    // Brand logo size slider event
+    document.getElementById('brandLogoSizeSlider').addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      document.getElementById('brandLogoSizeDisplay').textContent = `${val}px`;
+      const livePreview = document.getElementById('brandLogoLivePreview');
+      if (livePreview) {
+        livePreview.style.width = `${val}px`;
+        livePreview.style.height = `${val}px`;
+      }
+
+      const settings = window.getSiteSettings();
+      settings.brandLogoSize = val;
+      window.saveSiteSettings(settings);
     });
 
-    // Event Listeners for Filters
+    // ----------------------------------------------------
+    // TAB 3: COMPANY LOGO & SIZE CUSTOMIZER
+    // ----------------------------------------------------
+    function loadCompanyLogoAndSettings() {
+      const settings = window.getSiteSettings();
+      const logoPath = settings.companyLogo || 'assets/images/ashish-traders-logo.jpg';
+      const logoSize = settings.companyLogoSize || 48;
+
+      document.getElementById('formCompanyLogoPath').value = logoPath;
+      document.getElementById('companyLogoSizeSlider').value = logoSize;
+      document.getElementById('companyLogoSizeDisplay').textContent = `${logoSize}px`;
+
+      const previewImg = document.getElementById('companyLogoPreviewImg');
+      if (previewImg) previewImg.src = logoPath;
+
+      const headerLogo = document.getElementById('adminHeaderLogo');
+      if (headerLogo) headerLogo.src = logoPath;
+    }
+
+    window.setCompanyLogoPreset = function(path) {
+      document.getElementById('formCompanyLogoPath').value = path;
+      document.getElementById('companyLogoPreviewImg').src = path;
+    };
+
+    document.getElementById('formCompanyLogoPath').addEventListener('input', (e) => {
+      const path = e.target.value.trim();
+      if (path) document.getElementById('companyLogoPreviewImg').src = path;
+    });
+
+    document.getElementById('companyLogoSizeSlider').addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      document.getElementById('companyLogoSizeDisplay').textContent = `${val}px`;
+    });
+
+    document.getElementById('companyLogoForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const settings = window.getSiteSettings();
+      settings.companyLogo = document.getElementById('formCompanyLogoPath').value.trim() || 'assets/images/ashish-traders-logo.jpg';
+      settings.companyLogoSize = parseInt(document.getElementById('companyLogoSizeSlider').value, 10);
+
+      window.saveSiteSettings(settings);
+      document.getElementById('adminHeaderLogo').src = settings.companyLogo;
+      alert('Company Logo & Size updated successfully across all website pages!');
+    });
+
+    // ----------------------------------------------------
+    // TAB 4: BACKGROUND MEDIA SWITCHER
+    // ----------------------------------------------------
+    function loadBgMediaSettings() {
+      const settings = window.getSiteSettings();
+      const bgType = settings.bgMediaType || 'video';
+      const radio = document.querySelector(`input[name="bgMediaTypeChoice"][value="${bgType}"]`);
+      if (radio) radio.checked = true;
+
+      document.getElementById('formBgVideoUrl').value = settings.bgVideoUrl || 'assets/videos/fireworks-intro.mp4';
+      document.getElementById('formBgImageUrl').value = settings.bgImageUrl || 'assets/images/hero-banner.jpg';
+      
+      const opacity = Math.round((settings.bgOpacity || 0.4) * 100);
+      document.getElementById('bgOpacitySlider').value = opacity;
+      document.getElementById('bgOpacityDisplay').textContent = `${opacity}%`;
+    }
+
+    window.setBgImagePreset = function(path) {
+      document.getElementById('formBgImageUrl').value = path;
+    };
+
+    document.getElementById('bgOpacitySlider').addEventListener('input', (e) => {
+      document.getElementById('bgOpacityDisplay').textContent = `${e.target.value}%`;
+    });
+
+    document.getElementById('bgMediaForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const settings = window.getSiteSettings();
+      const selectedType = document.querySelector('input[name="bgMediaTypeChoice"]:checked').value;
+      settings.bgMediaType = selectedType;
+      settings.bgVideoUrl = document.getElementById('formBgVideoUrl').value.trim() || 'assets/videos/fireworks-intro.mp4';
+      settings.bgImageUrl = document.getElementById('formBgImageUrl').value.trim() || 'assets/images/hero-banner.jpg';
+      settings.bgOpacity = parseInt(document.getElementById('bgOpacitySlider').value, 10) / 100;
+
+      window.saveSiteSettings(settings);
+      alert(`Background media updated! Website is now set to continuous ${selectedType === 'video' ? 'Fireworks Video' : 'Photo Wallpaper'}.`);
+    });
+
+    // ----------------------------------------------------
+    // TAB 5: GALLERY PHOTOS MANAGER
+    // ----------------------------------------------------
+    function renderGalleryManager() {
+      const grid = document.getElementById('adminGalleryGrid');
+      const badge = document.getElementById('galleryCountBadge');
+      if (!grid) return;
+
+      badge.textContent = `${currentAdminGallery.length} Photos`;
+
+      if (currentAdminGallery.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-xs">No gallery photos added yet. Use form above to add photos.</div>`;
+        return;
+      }
+
+      grid.innerHTML = currentAdminGallery.map(item => `
+        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="h-36 rounded-lg overflow-hidden bg-slate-900 relative mb-3">
+              <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-bold text-amber-400 border border-amber-500/30">
+                ${item.category}
+              </span>
+            </div>
+            <h4 class="font-bold text-xs sm:text-sm text-white truncate">${item.title}</h4>
+            <p class="text-[11px] text-slate-400 line-clamp-2 mt-1">${item.caption || ''}</p>
+          </div>
+          <div class="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-between">
+            <span class="text-[10px] text-slate-500 truncate max-w-[140px]">${item.image}</span>
+            <button onclick="deleteGalleryItem('${item.id}')" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors">
+              Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.setGalPreset = function(path) {
+      document.getElementById('formGalImage').value = path;
+    };
+
+    document.getElementById('galleryForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('formGalTitle').value.trim();
+      const category = document.getElementById('formGalCategory').value;
+      const image = document.getElementById('formGalImage').value.trim();
+      const caption = document.getElementById('formGalCaption').value.trim();
+
+      const newItem = {
+        id: 'gal-' + Date.now().toString().slice(-6),
+        title, category, image, caption
+      };
+
+      currentAdminGallery.unshift(newItem);
+      window.saveStoredGallery(currentAdminGallery);
+      document.getElementById('galleryForm').reset();
+      renderGalleryManager();
+      alert('Photo added to Gallery successfully!');
+    });
+
+    window.deleteGalleryItem = function(id) {
+      if (confirm('Delete this photo from the gallery?')) {
+        currentAdminGallery = currentAdminGallery.filter(g => g.id !== id);
+        window.saveStoredGallery(currentAdminGallery);
+        renderGalleryManager();
+      }
+    };
+
+    // ----------------------------------------------------
+    // TAB 6: CUSTOMER REVIEWS MANAGER
+    // ----------------------------------------------------
+    function renderReviewsManager() {
+      const list = document.getElementById('adminReviewsList');
+      const badge = document.getElementById('reviewsCountBadge');
+      if (!list) return;
+
+      badge.textContent = `${currentAdminReviews.length} Reviews`;
+
+      if (currentAdminReviews.length === 0) {
+        list.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-xs">No reviews published yet. Use form above to add customer testimonials.</div>`;
+        return;
+      }
+
+      list.innerHTML = currentAdminReviews.map(rev => `
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="font-bold text-xs sm:text-sm text-white">${rev.name}</div>
+              <div class="text-amber-400 text-xs tracking-wider">${'★'.repeat(rev.rating || 5)}</div>
+            </div>
+            <div class="text-[10px] text-slate-400 mb-2">${rev.city || 'Dehradun'} • <span class="text-slate-500">${rev.date || 'Recent Customer'}</span></div>
+            <p class="text-xs text-slate-300 leading-relaxed italic">"${rev.review}"</p>
+          </div>
+          <div class="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-end">
+            <button onclick="deleteReviewItem('${rev.id}')" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors">
+              Delete Review
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('reviewForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('formRevName').value.trim();
+      const city = document.getElementById('formRevCity').value.trim();
+      const rating = parseInt(document.getElementById('formRevRating').value, 10);
+      const date = document.getElementById('formRevDate').value.trim() || 'Festive Customer';
+      const review = document.getElementById('formRevText').value.trim();
+
+      const newRev = {
+        id: 'rev-' + Date.now().toString().slice(-6),
+        name, city, rating, date, review, verified: true
+      };
+
+      currentAdminReviews.unshift(newRev);
+      window.saveStoredReviews(currentAdminReviews);
+      document.getElementById('reviewForm').reset();
+      renderReviewsManager();
+      alert('Review published! Now visible on Home page reviews section.');
+    });
+
+    window.deleteReviewItem = function(id) {
+      if (confirm('Delete this customer review?')) {
+        currentAdminReviews = currentAdminReviews.filter(r => r.id !== id);
+        window.saveStoredReviews(currentAdminReviews);
+        renderReviewsManager();
+      }
+    };
+
+    // ----------------------------------------------------
+    // TAB 7: GLOBAL STORE SETTINGS & PRICE DISPLAY
+    // ----------------------------------------------------
+    const priceToggle = document.getElementById('settShowPricesToggle');
+    const priceModeStatusBadge = document.getElementById('priceModeStatusBadge');
+
+    function updatePriceToggleUI(isChecked) {
+      if (priceModeStatusBadge) {
+        if (isChecked) {
+          priceModeStatusBadge.textContent = 'VISIBLE (RUPEES ACTIVE)';
+          priceModeStatusBadge.className = 'text-[10px] px-2 py-0.5 rounded bg-emerald-600 text-white font-bold uppercase';
+        } else {
+          priceModeStatusBadge.textContent = 'HIDDEN (QUOTE MODE)';
+          priceModeStatusBadge.className = 'text-[10px] px-2 py-0.5 rounded bg-red-600 text-white font-bold uppercase';
+        }
+      }
+    }
+
+    // Load initial settings
+    const currentSettings = window.getSiteSettings();
+    document.getElementById('settAnnouncement').value = currentSettings.announcement || '';
+    document.getElementById('settAshishPhone').value = currentSettings.ashishPhone || '919837081321';
+    document.getElementById('settYuvrajPhone').value = currentSettings.yuvrajPhone || '918630615934';
+    document.getElementById('settAddress').value = currentSettings.address || '';
+    document.getElementById('settInstagram').value = currentSettings.socialLinks?.instagram || 'https://instagram.com';
+    document.getElementById('settFacebook').value = currentSettings.socialLinks?.facebook || 'https://facebook.com';
+    document.getElementById('settWhatsAppLink').value = currentSettings.socialLinks?.whatsapp || 'https://wa.me/919837081321';
+    
+    priceToggle.checked = currentSettings.showPrices === true;
+    updatePriceToggleUI(priceToggle.checked);
+
+    priceToggle.addEventListener('change', (e) => {
+      updatePriceToggleUI(e.target.checked);
+    });
+
+    document.getElementById('globalSettingsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const settings = window.getSiteSettings();
+      settings.announcement = document.getElementById('settAnnouncement').value.trim();
+      settings.ashishPhone = document.getElementById('settAshishPhone').value.trim();
+      settings.yuvrajPhone = document.getElementById('settYuvrajPhone').value.trim();
+      settings.address = document.getElementById('settAddress').value.trim();
+      settings.showPrices = document.getElementById('settShowPricesToggle').checked;
+      settings.socialLinks = {
+        instagram: document.getElementById('settInstagram').value.trim(),
+        facebook: document.getElementById('settFacebook').value.trim(),
+        whatsapp: document.getElementById('settWhatsAppLink').value.trim()
+      };
+
+      window.saveSiteSettings(settings);
+      renderStats();
+      alert('Global store settings saved successfully! Live store and website have been updated.');
+    });
+
+    // ----------------------------------------------------
+    // FILTER EVENT LISTENERS FOR PRODUCTS
+    // ----------------------------------------------------
     function setupEventListeners() {
       document.getElementById('adminSearchInput').addEventListener('input', (e) => {
         searchFilter = e.target.value.trim();

@@ -472,3 +472,120 @@ body {
   opacity: 1;
   visibility: visible;
 }
+
+/* Floating WhatsApp & Call Action Buttons (Right Side) */
+.floating-actions-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  z-index: 9990;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.floating-action-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+
+.floating-action-btn:hover {
+  transform: scale(1.12) translateY(-2px);
+}
+
+.floating-btn-wa {
+  background: #25D366;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+}
+.floating-btn-wa:hover {
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.7);
+}
+
+.floating-btn-call {
+  background: linear-gradient(135deg, #ff9100 0%, #ff3d00 100%);
+  box-shadow: 0 4px 20px rgba(255, 61, 0, 0.45);
+}
+.floating-btn-call:hover {
+  box-shadow: 0 8px 30px rgba(255, 61, 0, 0.7);
+}
+
+/* Footer Social Icon Links */
+.social-icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+.social-icon-btn:hover {
+  background: rgba(255, 179, 0, 0.2);
+  border-color: #ffb300;
+  color: #ffb300;
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(255, 179, 0, 0.35);
+}
+
+/* Gallery & Lightbox */
+.gallery-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.35s ease;
+}
+
+.gallery-card:hover {
+  border-color: rgba(255, 179, 0, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 179, 0, 0.2);
+}
+
+.gallery-card img {
+  transition: transform 0.5s ease;
+}
+
+.gallery-card:hover img {
+  transform: scale(1.06);
+}
+
+/* Lightbox Modal */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(16px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.lightbox-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
