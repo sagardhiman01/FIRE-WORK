@@ -250,10 +250,18 @@ class FireworksCart {
       });
     });
 
-    const closeBtn = document.getElementById('closeCartBtn');
+    document.querySelectorAll('#closeCartBtn, .close-cart-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.closeDrawer();
+      });
+    });
     const overlay = document.getElementById('cartOverlay');
-    if (closeBtn) closeBtn.addEventListener('click', () => this.closeDrawer());
     if (overlay) overlay.addEventListener('click', () => this.closeDrawer());
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') this.closeDrawer();
+    });
 
     const nameInput = document.getElementById('cartCustomerName');
     const cityInput = document.getElementById('cartCustomerCity');

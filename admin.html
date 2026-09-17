@@ -280,7 +280,7 @@
           <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-3 flex-shrink-0">
             <div class="text-xs text-slate-400 font-semibold">Live Preview:</div>
             <div class="w-24 h-24 rounded-xl bg-slate-900 border border-amber-500/30 flex items-center justify-center overflow-hidden">
-              <img id="brandLogoLivePreview" src="assets/images/brand-cock.svg" alt="Preview" style="width: 56px; height: 56px; object-fit: contain;">
+              <img id="brandLogoLivePreview" src="assets/images/brand-cock.jpg" alt="Preview" style="width: 56px; height: 56px; object-fit: contain;">
             </div>
           </div>
         </div>
@@ -476,16 +476,28 @@
             <div class="sm:col-span-2">
               <div onclick="document.getElementById('galleryFileInput').click()" 
                    id="galleryDropzone"
-                   class="upload-dropzone p-6 rounded-2xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-2">
+                   class="upload-dropzone p-6 rounded-2xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-2 cursor-pointer border border-dashed border-slate-700 hover:border-amber-400 transition-colors">
                 <input type="file" id="galleryFileInput" accept="image/*" class="hidden" onchange="uploadGalleryPhotoFile(this)">
-                <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center pointer-events-none">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
-                <div>
+                <div class="pointer-events-none">
                   <span class="font-bold text-xs sm:text-sm text-white block">Click or Drag to Upload Photo from Device</span>
-                  <span class="text-[11px] text-slate-400 block mt-0.5">JPG, PNG, WEBP</span>
+                  <span class="text-[11px] text-slate-400 block mt-0.5">JPG, PNG, WEBP, GIF (Uploads directly to server)</span>
                 </div>
                 <div id="galleryUploadStatus" class="text-xs font-semibold"></div>
+              </div>
+
+              <!-- Live Photo Preview Box -->
+              <div id="galleryPhotoPreviewBox" class="hidden mt-3 p-3 bg-slate-950 border border-amber-500/40 rounded-xl flex items-center gap-4">
+                <div class="w-16 h-16 rounded-lg bg-slate-900 border border-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                  <img id="galleryPhotoPreviewImg" src="" alt="Selected Photo" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-bold text-white truncate" id="galleryPhotoPreviewTitle">Photo Selected</p>
+                  <p class="text-[11px] text-emerald-400 font-medium">✓ Ready to add to gallery</p>
+                  <button type="button" onclick="clearGalleryPhotoPreview()" class="mt-1 text-[11px] text-red-400 hover:text-red-300 font-semibold underline">Remove / Choose another</button>
+                </div>
               </div>
             </div>
 
@@ -505,7 +517,11 @@
             </div>
 
             <div class="sm:col-span-2">
-              <input id="formGalImage" type="hidden" required>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Photo File / Image Path / URL *</label>
+              <div class="flex gap-2">
+                <input id="formGalImage" type="text" placeholder="Upload file above or paste image path / URL (e.g. assets/images/hero-banner.jpg)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+                <button type="button" onclick="previewManualGalleryUrl()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200 rounded-xl font-medium flex-shrink-0">Preview</button>
+              </div>
             </div>
 
             <div class="sm:col-span-2">
@@ -1412,19 +1428,82 @@
       `).join('');
     }
 
+    window.clearGalleryPhotoPreview = function() {
+      const imgInput = document.getElementById('formGalImage');
+      const fileInput = document.getElementById('galleryFileInput');
+      const box = document.getElementById('galleryPhotoPreviewBox');
+      const statusEl = document.getElementById('galleryUploadStatus');
+      if (imgInput) imgInput.value = '';
+      if (fileInput) fileInput.value = '';
+      if (box) box.classList.add('hidden');
+      if (statusEl) statusEl.innerHTML = '';
+    };
+
+    window.previewManualGalleryUrl = function() {
+      const url = document.getElementById('formGalImage').value.trim();
+      if (!url) {
+        alert('Please enter an image path or URL first.');
+        return;
+      }
+      showGalleryPhotoPreview(url, 'Manual URL / Path');
+    };
+
+    window.showGalleryPhotoPreview = function(url, label) {
+      const box = document.getElementById('galleryPhotoPreviewBox');
+      const img = document.getElementById('galleryPhotoPreviewImg');
+      const title = document.getElementById('galleryPhotoPreviewTitle');
+      if (box && img) {
+        img.src = url;
+        if (title) title.textContent = label || url;
+        box.classList.remove('hidden');
+      }
+    };
+
     window.uploadGalleryPhotoFile = function(input) {
-      const file = input.files[0];
+      const file = (input && input.files) ? input.files[0] : input;
       if (!file) return;
 
       const statusEl = document.getElementById('galleryUploadStatus');
       uploadFileToServer(file, statusEl, (savedPath) => {
-        document.getElementById('formGalImage').value = savedPath;
-        if (!document.getElementById('formGalTitle').value) {
+        const galImg = document.getElementById('formGalImage');
+        if (galImg) galImg.value = savedPath;
+        showGalleryPhotoPreview(savedPath, file.name);
+
+        const titleInput = document.getElementById('formGalTitle');
+        if (titleInput && !titleInput.value.trim()) {
           const rawName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
-          document.getElementById('formGalTitle').value = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+          titleInput.value = rawName.charAt(0).toUpperCase() + rawName.slice(1);
         }
       });
     };
+
+    // Setup Drag and Drop for Gallery Dropzone
+    document.addEventListener('DOMContentLoaded', () => {
+      const galDrop = document.getElementById('galleryDropzone');
+      if (galDrop) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          galDrop.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            galDrop.classList.add('border-amber-400', 'bg-amber-500/10');
+          }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+          galDrop.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            galDrop.classList.remove('border-amber-400', 'bg-amber-500/10');
+          }, false);
+        });
+        galDrop.addEventListener('drop', (e) => {
+          const dt = e.dataTransfer;
+          const files = dt ? dt.files : null;
+          if (files && files.length > 0) {
+            uploadGalleryPhotoFile(files[0]);
+          }
+        }, false);
+      }
+    });
 
     document.getElementById('galleryForm').addEventListener('submit', (e) => {
       e.preventDefault();
@@ -1434,20 +1513,22 @@
       const caption = document.getElementById('formGalCaption').value.trim();
 
       if (!image) {
-        alert('Please select and upload a photo file first.');
+        alert('Please choose or upload a photo file first, or enter an image URL / path.');
         return;
       }
 
       const newItem = {
         id: 'gal-' + Date.now().toString().slice(-6),
-        title, category, image, caption
+        title: title || 'Celebration Showcase',
+        category: category || 'Warehouse & Stock',
+        image,
+        caption
       };
 
       currentAdminGallery.unshift(newItem);
       window.saveStoredGallery(currentAdminGallery);
       document.getElementById('galleryForm').reset();
-      document.getElementById('galleryUploadStatus').innerHTML = '';
-      document.getElementById('formGalImage').value = '';
+      clearGalleryPhotoPreview();
       renderGalleryManager();
       alert('Photo directly uploaded and added to Gallery successfully!');
     });
