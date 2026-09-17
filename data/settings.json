@@ -1,0 +1,19 @@
+{
+  "announcement": "SPECIAL FESTIVE WHOLESALE DEALS . 23, Mohabewala Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun . Call: +91 9837081321 / +91 8630615934",
+  "showPrices": true,
+  "brandLogoSize": 56,
+  "bgOpacity": 0.4,
+  "bgVideoUrl": "assets/videos/fireworks-intro.mp4",
+  "yuvrajPhone": "918630615934",
+  "companyLogo": "assets/images/ashish-traders-logo.jpg",
+  "socialLinks": {
+    "whatsapp": "https://wa.me/919837081321",
+    "instagram": "https://instagram.com",
+    "facebook": "https://facebook.com"
+  },
+  "bgMediaType": "video",
+  "ashishPhone": "919837081321",
+  "bgImageUrl": "assets/images/hero-banner.jpg",
+  "companyLogoSize": 48,
+  "address": "23, Mohabewala, Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun - 248007, Uttarakhand"
+}

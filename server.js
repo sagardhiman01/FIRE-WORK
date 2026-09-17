@@ -5,9 +5,13 @@ const path = require('path');
 const PORT = 5500;
 const ROOT = path.resolve(__dirname);
 const UPLOAD_DIR = path.join(ROOT, 'assets', 'uploads');
+const DATA_DIR = path.join(ROOT, 'data');
 
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+}
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
 const MIME_TYPES = {
@@ -26,6 +30,24 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon'
 };
 
+function readJsonFile(filename) {
+  const filePath = path.join(DATA_DIR, filename);
+  try {
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, 'utf8');
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error(`Error reading ${filename}:`, err.message);
+  }
+  return null;
+}
+
+function writeJsonFile(filename, data) {
+  const filePath = path.join(DATA_DIR, filename);
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+}
+
 const server = http.createServer((req, res) => {
   // CORS Preflight
   if (req.method === 'OPTIONS') {
@@ -35,6 +57,103 @@ const server = http.createServer((req, res) => {
       'Access-Control-Allow-Headers': '*'
     });
     return res.end();
+  }
+
+  // ==========================================================================
+  // GET ALL PERSISTENT DATA: GET /api/data
+  // ==========================================================================
+  if (req.method === 'GET' && req.url === '/api/data') {
+    const data = {
+      products: readJsonFile('products.json'),
+      brands: readJsonFile('brands.json'),
+      reviews: readJsonFile('reviews.json'),
+      gallery: readJsonFile('gallery.json'),
+      settings: readJsonFile('settings.json')
+    };
+    res.writeHead(200, {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
+    });
+    return res.end(JSON.stringify(data));
+  }
+
+  // ==========================================================================
+  // SAVE PERSISTENT DATA: POST /api/save
+  // ==========================================================================
+  if (req.method === 'POST' && req.url === '/api/save') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const allowedTypes = ['products', 'brands', 'reviews', 'gallery', 'settings'];
+        if (!payload.type || !allowedTypes.includes(payload.type)) {
+          res.writeHead(400, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+          return res.end(JSON.stringify({ success: false, error: 'Invalid data type' }));
+        }
+
+        writeJsonFile(`${payload.type}.json`, payload.data);
+        console.log(`[Admin Save] Saved ${payload.type}.json (${Array.isArray(payload.data) ? payload.data.length + ' items' : 'object'}) to disk.`);
+
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({ success: true, type: payload.type }));
+      } catch (err) {
+        console.error('Save error:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // ==========================================================================
+  // SUBMIT REVIEW ENDPOINT: POST /api/review/submit
+  // ==========================================================================
+  if (req.method === 'POST' && req.url === '/api/review/submit') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        if (!payload.name || !payload.review) {
+          res.writeHead(400, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+          return res.end(JSON.stringify({ success: false, error: 'Name and review are required' }));
+        }
+
+        let existing = readJsonFile('reviews.json');
+        if (!Array.isArray(existing)) {
+          existing = [];
+        }
+
+        const newRev = {
+          id: 'rev-' + Date.now().toString().slice(-6),
+          name: payload.name.trim(),
+          city: (payload.city || 'Dehradun').trim(),
+          rating: parseInt(payload.rating, 10) || 5,
+          date: payload.date || 'Festive Season 2026',
+          review: payload.review.trim(),
+          verified: true
+        };
+
+        existing.unshift(newRev);
+        writeJsonFile('reviews.json', existing);
+
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({ success: true, review: newRev }));
+      } catch (err) {
+        console.error('Review submit error:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
   }
 
   // ==========================================================================

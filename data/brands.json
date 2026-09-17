@@ -1,0 +1,133 @@
+[
+  {
+    "id": "cock-brand",
+    "name": "Cock Brand",
+    "fullName": "Cock Brand / Sri Kaliswari Fireworks Sivakasi",
+    "logo": "assets/images/brand-cock.jpg",
+    "isImage": true,
+    "origin": "Sivakasi, Tamil Nadu (Est. 1923)",
+    "tagline": "India's Most Prestigious Pyrotechnics Pioneer",
+    "reputation": "Over 100 years of unrivaled fireworks supremacy, known for zero misfires, rich colors, and strict safety standards.",
+    "specialties": [
+      "Grand 240 Sky Shots",
+      "Deluxe Ground Chakkars",
+      "Special Bijili Snaps",
+      "Royal Koti Anaar"
+    ],
+    "rating": "5.0 / 5.0 (Authorized Official Partner)"
+  },
+  {
+    "id": "ravindra-fireworks",
+    "name": "Ravindra Fireworks",
+    "fullName": "Ravindra Fireworks Sivakasi",
+    "logo": "assets/images/brand-ravindra.jpg",
+    "isImage": true,
+    "origin": "Sivakasi, Tamil Nadu (Est. 1968)",
+    "tagline": "Unmatched Aerial Color Vibrancy & Craftsmanship",
+    "reputation": "Celebrated across North India for artistic color saturation, Bollywood-style aerial cakes, and reliable quality.",
+    "specialties": [
+      "120 Shots Night Cakes",
+      "Ashok Tri-Color Anaar",
+      "Hydro Bomb Twine Packs",
+      "2000 Wala Ladi"
+    ],
+    "rating": "4.9 / 5.0 (Direct Channel Partner)"
+  },
+  {
+    "id": "sonny-fireworks",
+    "name": "Sonny Fireworks",
+    "fullName": "Sonny Fireworks Industries",
+    "logo": "assets/images/brand-sonny.jpg",
+    "isImage": true,
+    "origin": "Sivakasi, Tamil Nadu (Est. 1974)",
+    "tagline": "Precision Engineering & Sparkling Elegance",
+    "reputation": "Pioneers of long-duration brocade waterfall cakes and color-changing sparklers with minimal ash.",
+    "specialties": [
+      "60 Shots Golden Brocade",
+      "Color Changing Sparklers",
+      "Whistling Sky Riders",
+      "Multi-Color Chakkars"
+    ],
+    "rating": "4.9 / 5.0 (Direct Channel Partner)"
+  },
+  {
+    "id": "mercury-fireworks",
+    "name": "Mercury Fireworks",
+    "fullName": "Mercury Fireworks Sivakasi",
+    "logo": "assets/images/brand-mercury.jpg",
+    "isImage": true,
+    "origin": "Sivakasi, Tamil Nadu (Est. 1980)",
+    "tagline": "High Altitude Thrust & Precision Sound",
+    "reputation": "Renowned for whistling rockets, high altitude multi-tube riders, and precision aerial shells.",
+    "specialties": [
+      "12-Shot Sky Riders",
+      "Apollo High Altitude Rockets",
+      "Whistling Chakkars"
+    ],
+    "rating": "4.8 / 5.0 (Certified Partner)"
+  },
+  {
+    "id": "supreme-fireworks",
+    "name": "Supreme Fireworks",
+    "fullName": "Supreme Fireworks Corporation",
+    "logo": "assets/images/brand-supreme.svg",
+    "isImage": true,
+    "origin": "Sivakasi, Tamil Nadu",
+    "tagline": "Royal Celebration Grade Pyrotechnics",
+    "reputation": "The premier choice for weddings, corporate celebrations, and luxury Diwali gift hampers.",
+    "specialties": [
+      "30-Shot Rapid Cakes",
+      "Giant Koti Deluxe Anaar",
+      "Royal Family Gift Hampers"
+    ],
+    "rating": "4.8 / 5.0 (Certified Partner)"
+  },
+  {
+    "id": "vels-fireworks",
+    "name": "Vel's Fireworks",
+    "fullName": "Vel's Fireworks Sivakasi",
+    "logo": "assets/images/brand-vels.svg",
+    "isImage": true,
+    "origin": "Sivakasi, Tamil Nadu",
+    "tagline": "Traditional Master Pyrotechnicians",
+    "reputation": "Master craftsmen upholding authentic traditional formulas for flower pots and ground chakkars.",
+    "specialties": [
+      "Special Flower Pots No. 1",
+      "Silver Sparklers",
+      "Zamin Chakkars Big"
+    ],
+    "rating": "4.8 / 5.0 (Certified Partner)"
+  },
+  {
+    "id": "sunshine-fireworks",
+    "name": "Sunshine Fireworks",
+    "fullName": "Sunshine Fireworks & Green Pyros",
+    "logo": "assets/images/brand-sunshine.svg",
+    "isImage": true,
+    "origin": "Sivakasi & Dehradun Hub",
+    "tagline": "CSIR-NEERI Certified Green Crackers",
+    "reputation": "Leader in low-smoke, barium-free eco-friendly fireworks with QR code traceability and child safety.",
+    "specialties": [
+      "100% Green Gift Hampers",
+      "Low-Smoke Sparklers",
+      "Eco Tri-Color Fountains"
+    ],
+    "rating": "5.0 / 5.0 (Green Certified)"
+  },
+  {
+    "id": "son-india",
+    "name": "Son India",
+    "fullName": "Son India Fireworks (P) Ltd.",
+    "logo": "assets/images/brand-sonindia.svg",
+    "isImage": true,
+    "origin": "Sivakasi, Tamil Nadu",
+    "tagline": "Pride of Indian Festival Beats",
+    "reputation": "Celebrated for thunderous sound decibels, long rhythmic festival ladi garlands, and bomb rockets.",
+    "specialties": [
+      "5000 Wala Heavy Garland",
+      "1000 Wala Ladi",
+      "Apollo Mega Bomb Rockets"
+    ],
+    "rating": "4.8 / 5.0 (Certified Partner)"
+  }
+]

@@ -67,6 +67,7 @@
             <span>Brands & Products</span>
             <span class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded border border-amber-500/30">8 Brands</span>
           </a>
+          <a href="reviews.html" class="text-slate-300 hover:text-amber-400 transition-colors">Reviews</a>
           <a href="gallery.html" class="text-slate-300 hover:text-amber-400 transition-colors">Gallery</a>
           <a href="about.html" class="text-slate-300 hover:text-amber-400 transition-colors">About Us</a>
           <a href="contact.html" class="text-slate-300 hover:text-amber-400 transition-colors">Contact Showroom</a>
@@ -94,6 +95,7 @@
     <div id="mobileMenu" class="hidden lg:hidden bg-slate-950/98 border-b border-slate-800 px-6 py-4 space-y-3">
       <a href="index.html" class="block font-bold text-amber-400 py-2">Home</a>
       <a href="brands.html" class="block text-slate-300 hover:text-amber-400 py-2">Brands & Products (8 Brands)</a>
+      <a href="reviews.html" class="block text-slate-300 hover:text-amber-400 py-2">Customer Reviews</a>
       <a href="gallery.html" class="block text-slate-300 hover:text-amber-400 py-2">Festive Gallery</a>
       <a href="about.html" class="block text-slate-300 hover:text-amber-400 py-2">About Us & Safety</a>
       <a href="contact.html" class="block text-slate-300 hover:text-amber-400 py-2">Contact Showroom</a>
@@ -270,113 +272,9 @@
       </a>
     </div>
 
-    <!-- Product Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      
-      <!-- Card 1: 240 Sky Shots -->
-      <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all">
-        <div>
-          <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
-            <img src="assets/images/cock-skyshots-240.jpg" alt="Grand 240 Sky Shots" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-            <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-red-600 text-white font-bold text-xs uppercase shadow-md">Bestseller</span>
-            <span class="absolute bottom-2 right-2 badge-eco">Green Approved</span>
-          </div>
-          <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Cock Brand</div>
-          <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">Grand 240 Sky Shots Celestial Fiesta</h3>
-          <p class="text-xs text-slate-400 mb-4">Continuous 3-minute royal aerial barrage with multi-color palms & crackling willow.</p>
-        </div>
-        <div>
-          <div class="flex items-baseline justify-between mb-3">
-            <div>
-              <span class="text-xl font-extrabold text-amber-400">₹3,499</span>
-              <span class="text-xs line-through text-slate-500 ml-1.5">₹4,200</span>
-            </div>
-            <span class="text-[11px] text-slate-400">1 Heavy Cake</span>
-          </div>
-          <button onclick="window.cart.addItem('CB-SK-240', 1)" class="btn-gold w-full text-xs py-2.5 font-bold">
-            <span>Add to Cart</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Card 2: Golden Sparklers -->
-      <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all">
-        <div>
-          <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
-            <img src="assets/images/cock-sparklers-giant.jpg" alt="50cm Mega Sparklers" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-            <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-amber-600 text-white font-bold text-xs uppercase shadow-md">Long Burning</span>
-            <span class="absolute bottom-2 right-2 badge-eco">Low Smoke</span>
-          </div>
-          <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Cock Brand</div>
-          <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">Cock Brand 50cm Mega Giant Golden Sparklers</h3>
-          <p class="text-xs text-slate-400 mb-4">Extra-long burning rods lasting over 3 minutes with radiant golden shower effects.</p>
-        </div>
-        <div>
-          <div class="flex items-baseline justify-between mb-3">
-            <div>
-              <span class="text-xl font-extrabold text-amber-400">₹240</span>
-              <span class="text-xs line-through text-slate-500 ml-1.5">₹320</span>
-            </div>
-            <span class="text-[11px] text-slate-400">5 Giant Rods</span>
-          </div>
-          <button onclick="window.cart.addItem('CB-SP-050', 1)" class="btn-gold w-full text-xs py-2.5 font-bold">
-            <span>Add to Cart</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Card 3: Flower Pots Anaar -->
-      <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all">
-        <div>
-          <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
-            <img src="assets/images/flower-pot-anaar.jpg" alt="Flower Pots Anaar" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-            <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-purple-600 text-white font-bold text-xs uppercase shadow-md">Festive Classic</span>
-            <span class="absolute bottom-2 right-2 badge-eco">Green Approved</span>
-          </div>
-          <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Cock Brand</div>
-          <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">Royal Koti Special Flower Pots (Anaar)</h3>
-          <p class="text-xs text-slate-400 mb-4">Towering 15-foot golden shower fountain with silver sparks and zero toxic sulfur smoke.</p>
-        </div>
-        <div>
-          <div class="flex items-baseline justify-between mb-3">
-            <div>
-              <span class="text-xl font-extrabold text-amber-400">₹320</span>
-              <span class="text-xs line-through text-slate-500 ml-1.5">₹420</span>
-            </div>
-            <span class="text-[11px] text-slate-400">1 Box (5 Pots)</span>
-          </div>
-          <button onclick="window.cart.addItem('CB-FP-005', 1)" class="btn-gold w-full text-xs py-2.5 font-bold">
-            <span>Add to Cart</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Card 4: Green Hamper Box -->
-      <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all">
-        <div>
-          <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
-            <img src="assets/images/diwali-gift-hamper.jpg" alt="Green Hamper Box" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-            <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-emerald-600 text-white font-bold text-xs uppercase shadow-md">Complete Combo</span>
-            <span class="absolute bottom-2 right-2 badge-eco">100% Green</span>
-          </div>
-          <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Sunshine Fireworks</div>
-          <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">Green Cracker Family Gift Hamper</h3>
-          <p class="text-xs text-slate-400 mb-4">Complete luxury family pack with sparklers, anaars, chakkars, and aerial sky shots.</p>
-        </div>
-        <div>
-          <div class="flex items-baseline justify-between mb-3">
-            <div>
-              <span class="text-xl font-extrabold text-amber-400">₹2,499</span>
-              <span class="text-xs line-through text-slate-500 ml-1.5">₹3,200</span>
-            </div>
-            <span class="text-[11px] text-slate-400">35 Items Pack</span>
-          </div>
-          <button onclick="window.cart.addItem('SS-HM-001', 1)" class="btn-gold w-full text-xs py-2.5 font-bold">
-            <span>Add to Cart</span>
-          </button>
-        </div>
-      </div>
-
+    <!-- Product Grid (Dynamic from Stored Products) -->
+    <div id="homeFeaturedProductsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Dynamically rendered via renderHomeFeaturedProducts() -->
     </div>
   </section>
 
@@ -465,6 +363,13 @@
     <div id="homeReviewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
       <!-- Loaded dynamically by JS -->
     </div>
+
+    <div class="mt-10 text-center">
+      <a href="reviews.html" class="btn-gold inline-flex items-center gap-2 text-xs sm:text-sm px-6 py-3 shadow-xl">
+        <span>View All Customer Reviews & Submit Feedback</span>
+        <span>&rarr;</span>
+      </a>
+    </div>
   </section>
 
   <!-- ==========================================================================
@@ -507,6 +412,7 @@
           <ul class="space-y-2 text-xs">
             <li><a href="index.html" class="hover:text-amber-400 transition-colors">Home Page</a></li>
             <li><a href="brands.html" class="hover:text-amber-400 transition-colors">Brands & Products Store</a></li>
+            <li><a href="reviews.html" class="hover:text-amber-400 transition-colors">Customer Reviews & Ratings</a></li>
             <li><a href="gallery.html" class="hover:text-amber-400 transition-colors">Festive Photo Gallery</a></li>
             <li><a href="about.html" class="hover:text-amber-400 transition-colors">About Us & Safety Guidelines</a></li>
             <li><a href="contact.html" class="hover:text-amber-400 transition-colors">Contact Showroom</a></li>
@@ -633,6 +539,51 @@
   <script src="assets/js/cart-inquiry.js"></script>
 
   <script>
+    function renderHomeFeaturedProducts() {
+      const container = document.getElementById('homeFeaturedProductsGrid');
+      if (!container) return;
+      const products = window.getStoredProducts ? window.getStoredProducts() : (window.FIREWORKS_PRODUCTS || []);
+      if (!products || products.length === 0) return;
+
+      const settings = window.getSiteSettings ? window.getSiteSettings() : {};
+      const showPrices = settings.showPrices === true;
+
+      // Show up to 4 top products (or specifically featured ones)
+      const featured = products.slice(0, 4);
+      container.innerHTML = featured.map(p => {
+        const isAvailable = p.inStock !== false;
+        const priceDisplay = showPrices
+          ? `<div><span class="text-xl font-extrabold text-amber-400">₹${p.price.toLocaleString('en-IN')}</span>${p.originalPrice ? `<span class="text-xs line-through text-slate-500 ml-1.5">₹${p.originalPrice.toLocaleString('en-IN')}</span>` : ''}</div>`
+          : `<span class="text-xs text-amber-300 font-bold bg-amber-500/10 px-2 py-1 rounded border border-amber-500/30">Quote on WhatsApp</span>`;
+
+        return `
+          <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all shadow-lg">
+            <div>
+              <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
+                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full ${isAvailable ? 'bg-red-600' : 'bg-slate-700'} text-white font-bold text-xs uppercase shadow-md">
+                  ${isAvailable ? (p.badge || 'Bestseller') : 'Out of Stock'}
+                </span>
+                <span class="absolute bottom-2 right-2 badge-eco">${p.ecoFriendly ? 'Green Approved' : 'Sivakasi Origin'}</span>
+              </div>
+              <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">${p.brand}</div>
+              <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">${p.name}</h3>
+              <p class="text-xs text-slate-400 mb-4 line-clamp-2">${p.description}</p>
+            </div>
+            <div>
+              <div class="flex items-baseline justify-between mb-3">
+                ${priceDisplay}
+                <span class="text-[11px] text-slate-400">${p.packInfo}</span>
+              </div>
+              <button onclick="window.cart.addItem('${p.id}', 1)" ${!isAvailable ? 'disabled' : ''} class="${isAvailable ? 'btn-gold' : 'bg-slate-800 text-slate-500 cursor-not-allowed'} w-full text-xs py-2.5 font-bold">
+                <span>${isAvailable ? 'Add to Cart' : 'Currently Unavailable'}</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
     function renderHomeReviews() {
       const container = document.getElementById('homeReviewsGrid');
       if (!container) return;
@@ -663,6 +614,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      renderHomeFeaturedProducts();
       renderHomeReviews();
       const menuBtn = document.getElementById('mobileMenuBtn');
       const menu = document.getElementById('mobileMenu');
@@ -673,7 +625,12 @@
       }
     });
 
+    window.addEventListener('productsUpdated', renderHomeFeaturedProducts);
     window.addEventListener('reviewsUpdated', renderHomeReviews);
+    window.addEventListener('settingsUpdated', () => {
+      renderHomeFeaturedProducts();
+      renderHomeReviews();
+    });
   </script>
 </body>
 </html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Reviews & Ratings | Ashish Traders Fireworks (A&T) Dehradun</title>
+  <meta name="description" content="Read authentic customer reviews, ratings and festive testimonials for Ashish Traders Fireworks in Dehradun. 100% genuine Sivakasi fireworks for Diwali, weddings, and celebrations.">
+  <meta name="theme-color" content="#07080d">
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css?v=6.0">
+
+  <style>
+    .star-rating-btn {
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .star-rating-btn:hover, .star-rating-btn.active {
+      color: #fbbf24;
+      transform: scale(1.15);
+    }
+    .review-filter-btn.active {
+      background: #f59e0b;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-[#07080d] text-slate-100 antialiased selection:bg-amber-500 selection:text-black min-h-screen flex flex-col font-sans">
+
+  <!-- Permanent Background Video / Photo Container -->
+  <div id="bgMediaContainer" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -999; overflow: hidden; pointer-events: none;">
+    <video src="assets/videos/fireworks-intro.mp4" autoplay muted playsinline loop style="width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: brightness(0.8);"></video>
+    <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(7,8,13,0.5) 0%, rgba(7,8,13,0.92) 100%);"></div>
+  </div>
+
+  <canvas id="bgFireworksCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -998; pointer-events: none; opacity: 0.65;"></canvas>
+
+  <!-- Top Announcement Banner -->
+  <div id="siteAnnouncementBanner" class="bg-gradient-to-r from-amber-600 via-red-600 to-amber-600 text-black py-1.5 px-4 text-xs sm:text-sm font-bold tracking-wide text-center flex items-center justify-center gap-3 relative z-30 shadow-md">
+    <span>SPECIAL FESTIVE WHOLESALE DEALS • 23, Mohabewala Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun • Call: +91 9837081321 / +91 8630615934</span>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="sticky top-0 z-50 glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 group">
+          <div class="relative flex-shrink-0">
+            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Fireworks" class="site-company-logo w-12 h-12 rounded-full border border-amber-400 object-cover group-hover:scale-105 transition-transform shadow-lg">
+            <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#07080d]"></span>
+          </div>
+          <div>
+            <div class="font-display font-black text-lg md:text-xl text-gold-gradient tracking-wide leading-tight">
+              ASHISH TRADERS
+            </div>
+            <div class="text-[10px] tracking-[0.25em] text-slate-400 font-bold uppercase">
+              FIREWORKS • DEHRADUN
+            </div>
+          </div>
+        </a>
+
+        <!-- Desktop Links -->
+        <div class="hidden lg:flex items-center gap-7 text-sm font-medium">
+          <a href="index.html" class="text-slate-300 hover:text-amber-400 transition-colors">Home</a>
+          <a href="brands.html" class="text-slate-300 hover:text-amber-400 transition-colors">Brands & Products</a>
+          <a href="reviews.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Reviews</a>
+          <a href="gallery.html" class="text-slate-300 hover:text-amber-400 transition-colors">Gallery</a>
+          <a href="about.html" class="text-slate-300 hover:text-amber-400 transition-colors">About Us</a>
+          <a href="contact.html" class="text-slate-300 hover:text-amber-400 transition-colors">Contact Showroom</a>
+          <a href="admin.html" class="text-xs px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black font-semibold transition-all">Admin Panel</a>
+        </div>
+
+        <!-- Right Cart & Hamburger -->
+        <div class="flex items-center gap-3">
+          <button class="open-cart-btn relative btn-gold py-2 px-4 text-xs font-bold flex items-center gap-2 shadow-lg">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span>Estimate Cart</span>
+            <span class="cart-count-badge w-5 h-5 rounded-full bg-red-600 text-white font-bold text-[10px] items-center justify-center shadow-lg" style="display:none;">0</span>
+          </button>
+
+          <button id="mobileMenuBtn" class="lg:hidden text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800" aria-label="Open menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-slate-950/98 border-b border-slate-800 px-6 py-4 space-y-3">
+      <a href="index.html" class="block text-slate-300 hover:text-amber-400 py-2">Home</a>
+      <a href="brands.html" class="block text-slate-300 hover:text-amber-400 py-2">Brands & Products (8 Brands)</a>
+      <a href="reviews.html" class="block font-bold text-amber-400 py-2">Customer Reviews</a>
+      <a href="gallery.html" class="block text-slate-300 hover:text-amber-400 py-2">Festive Gallery</a>
+      <a href="about.html" class="block text-slate-300 hover:text-amber-400 py-2">About Us & Safety</a>
+      <a href="contact.html" class="block text-slate-300 hover:text-amber-400 py-2">Contact Showroom</a>
+      <a href="admin.html" class="block text-amber-400 font-bold py-2">Admin Panel</a>
+    </div>
+  </nav>
+
+  <!-- Page Header & Overview -->
+  <header class="pt-12 pb-10 px-4 text-center relative overflow-hidden bg-gradient-to-b from-amber-500/10 via-slate-900/40 to-transparent">
+    <div class="max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase mb-4 tracking-wider">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span>Trusted Across Dehradun & Uttarakhand • 100% Genuine Sivakasi</span>
+      </div>
+      <h1 class="font-display text-3xl sm:text-5xl md:text-6xl font-black text-gold-gradient mb-4">
+        CUSTOMER REVIEWS & RATINGS
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-8">
+        Read real feedback from families, retail dealers, and wedding organizers across Dehradun, Rishikesh, and Haridwar who celebrate with authentic fireworks from Ashish Traders (A&T).
+      </p>
+
+      <!-- Rating Highlight Stats Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto p-4 sm:p-6 rounded-2xl glass-panel border border-amber-500/30 shadow-2xl mb-8">
+        <div class="text-center">
+          <div class="text-2xl sm:text-3xl font-black text-gold-gradient">5.0 ★</div>
+          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Average Rating</div>
+        </div>
+        <div class="text-center">
+          <div id="statsTotalReviewsCount" class="text-2xl sm:text-3xl font-black text-amber-300">500+</div>
+          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Happy Celebrations</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl sm:text-3xl font-black text-emerald-400">100%</div>
+          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">PESO Certified Green</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl sm:text-3xl font-black text-blue-400">0%</div>
+          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold mt-1">Misfire Guarantee</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <button onclick="openReviewModal()" class="btn-gold px-6 py-3 text-xs sm:text-sm font-bold flex items-center gap-2 shadow-xl">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          <span>Write a Review</span>
+        </button>
+
+        <a href="https://wa.me/919837081321?text=Hello%20Ashish%20Ji%2C%20I%20would%20like%20to%20share%20my%20feedback%20regarding%20my%20fireworks%20purchase." target="_blank" class="btn-outline-gold px-6 py-3 text-xs sm:text-sm font-bold flex items-center gap-2">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <span>WhatsApp Review</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter & Search Controls -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl glass-panel border-slate-800">
+      
+      <!-- Filter Tabs -->
+      <div class="flex items-center gap-2 flex-wrap" id="reviewFilterButtons">
+        <button onclick="filterReviews('ALL')" class="review-filter-btn active px-4 py-1.5 rounded-full bg-amber-500 text-black text-xs font-bold transition-all" data-filter="ALL">All Reviews</button>
+        <button onclick="filterReviews('5-STAR')" class="review-filter-btn px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-semibold transition-all" data-filter="5-STAR">5 ★ Only</button>
+        <button onclick="filterReviews('DEHRADUN')" class="review-filter-btn px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-semibold transition-all" data-filter="DEHRADUN">Dehradun Locals</button>
+        <button onclick="filterReviews('WHOLESALE')" class="review-filter-btn px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-semibold transition-all" data-filter="WHOLESALE">Wholesale & Crates</button>
+      </div>
+
+      <!-- Live Search Box -->
+      <div class="relative w-full sm:w-72">
+        <input id="reviewsSearchInput" type="text" placeholder="Search customer or city..." 
+               class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 transition-colors">
+        <svg class="w-4 h-4 text-slate-500 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Grid -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
+    <div id="reviewsGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Injected dynamically via renderReviews() -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="noReviewsFound" class="hidden text-center py-20">
+      <div class="w-16 h-16 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center mx-auto mb-4 border border-amber-500/30 text-2xl">
+        ★
+      </div>
+      <h3 class="text-lg font-bold text-white mb-1">No matching reviews found</h3>
+      <p class="text-xs text-slate-400 mb-4">Try clearing your search query or selecting "All Reviews".</p>
+      <button onclick="resetReviewFilters()" class="btn-outline-gold text-xs px-4 py-2">Reset Filters</button>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       SUBMIT REVIEW MODAL
+       ========================================================================== -->
+  <div id="reviewModalOverlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-panel max-w-lg w-full rounded-2xl border border-amber-500/40 p-6 sm:p-8 shadow-2xl relative">
+      <button onclick="closeReviewModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold p-1">
+        &times;
+      </button>
+
+      <div class="text-left mb-6">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">Share Your Experience</span>
+        <h3 class="font-display font-black text-2xl text-white">Write a Customer Review</h3>
+        <p class="text-xs text-slate-400 mt-1">Your feedback helps families and wholesalers in Uttarakhand choose genuine Sivakasi fireworks.</p>
+      </div>
+
+      <form id="publicReviewForm" class="space-y-4 text-left">
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Your Full Name *</label>
+          <input type="text" id="revInputName" required placeholder="e.g. Ramesh Negi" 
+                 class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">City / Neighborhood *</label>
+            <input type="text" id="revInputCity" required placeholder="e.g. Rajpur Road, Dehradun" 
+                   class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Occasion / Season</label>
+            <input type="text" id="revInputDate" placeholder="e.g. Diwali / Wedding" 
+                   class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Star Rating *</label>
+          <div class="flex items-center gap-2 text-2xl text-amber-400 py-1" id="starRatingSelector">
+            <span class="star-rating-btn active" data-val="1">★</span>
+            <span class="star-rating-btn active" data-val="2">★</span>
+            <span class="star-rating-btn active" data-val="3">★</span>
+            <span class="star-rating-btn active" data-val="4">★</span>
+            <span class="star-rating-btn active" data-val="5">★</span>
+            <span id="selectedRatingLabel" class="text-xs text-slate-300 font-bold ml-2">5 Stars (Excellent)</span>
+          </div>
+          <input type="hidden" id="revInputRating" value="5">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Your Review & Experience *</label>
+          <textarea id="revInputText" required rows="4" placeholder="Tell us about the fireworks quality, sound, brightness, packaging, or customer service..." 
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+        </div>
+
+        <div id="modalSubmitStatus" class="text-xs text-center font-semibold"></div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" onclick="closeReviewModal()" class="px-4 py-2 rounded-xl bg-slate-900 text-xs font-semibold text-slate-400 hover:text-white">
+            Cancel
+          </button>
+          <button type="submit" id="submitReviewBtn" class="btn-gold px-6 py-2.5 text-xs font-bold shadow-lg flex items-center gap-2">
+            <span>Publish Review</span>
+            <span>&rarr;</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="bg-black text-slate-400 pt-16 pb-12 border-t border-slate-900 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12">
+        
+        <!-- Brand Info -->
+        <div class="md:col-span-1">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Logo" class="site-company-logo w-10 h-10 rounded-full border border-amber-400 object-cover">
+            <div>
+              <div class="font-display font-black text-white text-base">ASHISH TRADERS</div>
+              <div class="text-[10px] text-amber-400 font-bold tracking-widest uppercase">FIREWORKS • A&T</div>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed mb-5">
+            "What we think, we become." Uttarakhand's premier Sivakasi authorized channel distributor. Direct wholesale and family retail fireworks hub.
+          </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="font-bold text-white text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2.5">Quick Links</h3>
+          <ul class="space-y-2 text-xs">
+            <li><a href="index.html" class="hover:text-amber-400 transition-colors">Home Page</a></li>
+            <li><a href="brands.html" class="hover:text-amber-400 transition-colors">Brands & Products Catalog</a></li>
+            <li><a href="reviews.html" class="text-amber-400 font-bold">Customer Reviews & Ratings</a></li>
+            <li><a href="gallery.html" class="hover:text-amber-400 transition-colors">Festive Photo Gallery</a></li>
+            <li><a href="about.html" class="hover:text-amber-400 transition-colors">About Us & Safety Guidelines</a></li>
+            <li><a href="contact.html" class="hover:text-amber-400 transition-colors">Contact Showroom</a></li>
+            <li><a href="admin.html" class="hover:text-amber-400 transition-colors">Admin Dashboard</a></li>
+          </ul>
+        </div>
+
+        <!-- 8 Partner Brands -->
+        <div>
+          <h3 class="font-bold text-white text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2.5">Authorized Brands</h3>
+          <ul class="space-y-1.5 text-xs text-slate-400">
+            <li>Cock Brand (Sri Kaliswari)</li>
+            <li>Ravindra Fireworks</li>
+            <li>Sonny Fireworks Industries</li>
+            <li>Mercury Fireworks Sivakasi</li>
+            <li>Supreme Fireworks</li>
+            <li>Vel's Fireworks</li>
+            <li>Sunshine Green Crackers</li>
+            <li>Son India Fireworks</li>
+          </ul>
+        </div>
+
+        <!-- Showroom Address -->
+        <div>
+          <h3 class="font-bold text-white text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2.5">Dehradun Showroom</h3>
+          <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+            23, Mohabewala, Ind. Area,<br>
+            Near Ford Showroom, Saharanpur Road,<br>
+            Dehradun - 248007, Uttarakhand.
+          </p>
+          <div class="text-xs text-slate-300 font-semibold space-y-1 mb-3">
+            <div>Ashish Chopra: <a href="tel:+919837081321" class="text-amber-400 hover:underline">+91 9837081321</a></div>
+            <div>Yuvraj Chopra: <a href="tel:+918630615934" class="text-amber-400 hover:underline">+91 8630615934</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-slate-900 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>&copy; 2026 Ashish Traders Fireworks (A&T). All rights reserved.</div>
+        <div class="text-[11px] text-slate-400">Direct Sivakasi Distribution • Zero Misfires Policy</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Slide-over WhatsApp Cart Drawer -->
+  <div id="cartOverlay" class="cart-overlay fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden transition-opacity"></div>
+  <aside id="cartDrawer" class="cart-drawer fixed top-0 right-0 z-50 w-full sm:w-[420px] h-full bg-[#0d0f18] border-l border-amber-500/30 flex flex-col justify-between shadow-2xl transition-transform translate-x-full">
+    <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+      <div>
+        <h3 class="font-display font-bold text-lg text-white">Your Estimate Cart</h3>
+        <p class="text-xs text-slate-400">Wholesale & Retail Direct Sivakasi Quote</p>
+      </div>
+      <button class="close-cart-btn text-slate-400 hover:text-white text-xl font-bold p-1">&times;</button>
+    </div>
+    <div id="cartItemsList" class="p-6 overflow-y-auto flex-1 space-y-3">
+      <!-- Injected by cart-inquiry.js -->
+    </div>
+    <div class="p-6 border-t border-slate-800 bg-slate-950/70 space-y-3">
+      <div id="cartPricingSummary"></div>
+      <a id="cartWaAshish" href="#" target="_blank" class="btn-gold w-full text-xs py-3 px-4 text-center font-bold flex items-center justify-center gap-2">
+        <span>Send Order to Ashish Chopra (WhatsApp)</span>
+      </a>
+      <a id="cartWaYuvraj" href="#" target="_blank" class="btn-outline-gold w-full text-xs py-2.5 px-4 text-center flex items-center justify-center gap-2">
+        <span>Send Order to Yuvraj Chopra (WhatsApp)</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Core Scripts -->
+  <script src="assets/js/fireworks-canvas.js"></script>
+  <script src="assets/js/products-data.js"></script>
+  <script src="assets/js/cart-inquiry.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let searchQuery = '';
+
+    function getInitials(name) {
+      if (!name) return 'AT';
+      const parts = name.trim().split(' ');
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+
+    function renderReviews() {
+      const container = document.getElementById('reviewsGridContainer');
+      const emptyState = document.getElementById('noReviewsFound');
+      const statsBadge = document.getElementById('statsTotalReviewsCount');
+      if (!container) return;
+
+      const allReviews = window.getStoredReviews ? window.getStoredReviews() : (window.DEFAULT_REVIEWS || []);
+      if (statsBadge) statsBadge.textContent = `${allReviews.length}+`;
+
+      let filtered = [...allReviews];
+
+      if (activeFilter === '5-STAR') {
+        filtered = filtered.filter(r => (r.rating || 5) === 5);
+      } else if (activeFilter === 'DEHRADUN') {
+        filtered = filtered.filter(r => (r.city || '').toLowerCase().includes('dehradun'));
+      } else if (activeFilter === 'WHOLESALE') {
+        filtered = filtered.filter(r => 
+          (r.review || '').toLowerCase().includes('wholesale') || 
+          (r.review || '').toLowerCase().includes('carton') ||
+          (r.review || '').toLowerCase().includes('hampers')
+        );
+      }
+
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(r => 
+          r.name.toLowerCase().includes(q) || 
+          (r.city || '').toLowerCase().includes(q) || 
+          (r.review || '').toLowerCase().includes(q)
+        );
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add('hidden');
+
+      container.innerHTML = filtered.map(r => {
+        const rating = r.rating || 5;
+        const initials = getInitials(r.name);
+
+        return `
+          <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between border-slate-800 hover:border-amber-500/60 transition-all shadow-xl hover:-translate-y-1 duration-300">
+            <div>
+              <!-- Top Reviewer Row -->
+              <div class="flex items-start justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center font-black text-black text-xs font-display shadow-md">
+                    ${initials}
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-sm sm:text-base text-white leading-tight">${r.name}</h3>
+                    <div class="text-[11px] text-amber-400 mt-0.5">${r.city || 'Dehradun'}</div>
+                  </div>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold whitespace-nowrap">
+                  Verified
+                </span>
+              </div>
+
+              <!-- Rating Stars -->
+              <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+                ${'★'.repeat(rating)}
+                ${'☆'.repeat(5 - rating)}
+                <span class="text-[11px] text-slate-400 ml-1.5 font-bold">(${rating}.0)</span>
+              </div>
+
+              <!-- Review Text Quote -->
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed italic mb-4">
+                "${r.review}"
+              </p>
+            </div>
+
+            <div class="pt-3.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
+              <span>${r.date || 'Festive Customer'}</span>
+              <span class="text-amber-500/80 font-medium">Ashish Traders A&T</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterReviews(category) {
+      activeFilter = category;
+      document.querySelectorAll('.review-filter-btn').forEach(btn => {
+        if (btn.dataset.filter === category) {
+          btn.classList.add('active', 'bg-amber-500', 'text-black', 'font-bold');
+          btn.classList.remove('bg-slate-900', 'text-slate-300');
+        } else {
+          btn.classList.remove('active', 'bg-amber-500', 'text-black', 'font-bold');
+          btn.classList.add('bg-slate-900', 'text-slate-300');
+        }
+      });
+      renderReviews();
+    }
+
+    function resetReviewFilters() {
+      activeFilter = 'ALL';
+      searchQuery = '';
+      const input = document.getElementById('reviewsSearchInput');
+      if (input) input.value = '';
+      filterReviews('ALL');
+    }
+
+    // Modal Control
+    window.openReviewModal = function() {
+      document.getElementById('reviewModalOverlay').classList.remove('hidden');
+      document.getElementById('reviewModalOverlay').classList.add('flex');
+    };
+
+    window.closeReviewModal = function() {
+      document.getElementById('reviewModalOverlay').classList.add('hidden');
+      document.getElementById('reviewModalOverlay').classList.remove('flex');
+      document.getElementById('modalSubmitStatus').innerHTML = '';
+      document.getElementById('publicReviewForm').reset();
+    };
+
+    // Star Selection
+    let selectedRating = 5;
+    const ratingLabels = {
+      1: '1 Star (Poor)',
+      2: '2 Stars (Fair)',
+      3: '3 Stars (Good)',
+      4: '4 Stars (Very Good)',
+      5: '5 Stars (Excellent)'
+    };
+
+    document.querySelectorAll('.star-rating-btn').forEach(star => {
+      star.addEventListener('click', (e) => {
+        selectedRating = parseInt(e.target.dataset.val, 10);
+        document.getElementById('revInputRating').value = selectedRating;
+        document.getElementById('selectedRatingLabel').textContent = ratingLabels[selectedRating];
+        document.querySelectorAll('.star-rating-btn').forEach(s => {
+          const val = parseInt(s.dataset.val, 10);
+          if (val <= selectedRating) {
+            s.classList.add('active');
+            s.textContent = '★';
+          } else {
+            s.classList.remove('active');
+            s.textContent = '☆';
+          }
+        });
+      });
+    });
+
+    // Form Submission
+    document.getElementById('publicReviewForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('revInputName').value.trim();
+      const city = document.getElementById('revInputCity').value.trim();
+      const date = document.getElementById('revInputDate').value.trim() || 'Festive Customer';
+      const review = document.getElementById('revInputText').value.trim();
+      const rating = parseInt(document.getElementById('revInputRating').value, 10) || 5;
+
+      const submitBtn = document.getElementById('submitReviewBtn');
+      const statusEl = document.getElementById('modalSubmitStatus');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Publishing...</span>';
+
+      const newRev = {
+        id: 'rev-' + Date.now().toString().slice(-6),
+        name,
+        city,
+        rating,
+        date,
+        review,
+        verified: true
+      };
+
+      // Try server save first
+      fetch('/api/review/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newRev)
+      })
+      .then(res => res.json())
+      .then(data => {
+        const reviews = window.getStoredReviews ? window.getStoredReviews() : [];
+        reviews.unshift(newRev);
+        if (window.saveStoredReviews) window.saveStoredReviews(reviews);
+
+        statusEl.innerHTML = '<span class="text-emerald-400">★ Thank you! Your review has been published and saved successfully.</span>';
+        setTimeout(() => {
+          closeReviewModal();
+          renderReviews();
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Publish Review</span><span>&rarr;</span>';
+        }, 1200);
+      })
+      .catch(err => {
+        // Local fallback
+        const reviews = window.getStoredReviews ? window.getStoredReviews() : [];
+        reviews.unshift(newRev);
+        if (window.saveStoredReviews) window.saveStoredReviews(reviews);
+
+        statusEl.innerHTML = '<span class="text-emerald-400">★ Review published successfully!</span>';
+        setTimeout(() => {
+          closeReviewModal();
+          renderReviews();
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Publish Review</span><span>&rarr;</span>';
+        }, 1000);
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderReviews();
+
+      const searchInput = document.getElementById('reviewsSearchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          searchQuery = e.target.value.trim();
+          renderReviews();
+        });
+      }
+
+      const menuBtn = document.getElementById('mobileMenuBtn');
+      const menu = document.getElementById('mobileMenu');
+      if (menuBtn && menu) {
+        menuBtn.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+        });
+      }
+    });
+
+    window.addEventListener('reviewsUpdated', renderReviews);
+    window.addEventListener('settingsUpdated', renderReviews);
+  </script>
+</body>
+</html>

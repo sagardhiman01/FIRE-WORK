@@ -638,10 +638,27 @@ window.BRANDS_INFO = [
 ];
 
 // ============================================================================
-// ADMIN STORAGE & PERSISTENCE HELPER METHODS
+// ADMIN STORAGE & PERSISTENCE HELPER METHODS (With Server Disk Persistence)
 // ============================================================================
 
 window.DEFAULT_BRANDS_INFO = JSON.parse(JSON.stringify(window.BRANDS_INFO));
+
+// Server Sync Helper
+window.syncDataToServer = function (type, data) {
+  try {
+    fetch('/api/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, data })
+    }).then(res => res.json()).then(resData => {
+      if (resData.success) {
+        console.log(`[Persistence Engine] Successfully saved ${type} to server disk.`);
+      }
+    }).catch(err => {
+      console.warn(`[Persistence Engine] Server save skipped (offline/standalone mode):`, err.message);
+    });
+  } catch (e) {}
+};
 
 window.getStoredBrands = function () {
   try {
@@ -663,6 +680,7 @@ window.saveStoredBrands = function (brandsList) {
   try {
     localStorage.setItem('at_admin_brands', JSON.stringify(brandsList));
     window.BRANDS_INFO = brandsList;
+    window.syncDataToServer('brands', brandsList);
     window.dispatchEvent(new CustomEvent('brandsUpdated', { detail: { brands: brandsList } }));
     window.applySiteSettings();
   } catch (e) {
@@ -723,6 +741,7 @@ window.getStoredReviews = function () {
 window.saveStoredReviews = function (reviewsList) {
   try {
     localStorage.setItem('at_admin_reviews', JSON.stringify(reviewsList));
+    window.syncDataToServer('reviews', reviewsList);
     window.dispatchEvent(new CustomEvent('reviewsUpdated', { detail: { reviews: reviewsList } }));
   } catch (e) {
     console.error('Failed to save reviews:', e);
@@ -788,6 +807,7 @@ window.getStoredGallery = function () {
 window.saveStoredGallery = function (galleryList) {
   try {
     localStorage.setItem('at_admin_gallery', JSON.stringify(galleryList));
+    window.syncDataToServer('gallery', galleryList);
     window.dispatchEvent(new CustomEvent('galleryUpdated', { detail: { gallery: galleryList } }));
   } catch (e) {
     console.error('Failed to save gallery:', e);
@@ -807,14 +827,14 @@ window.getStoredProducts = function () {
   } catch (e) {
     console.error('Failed to load admin products from storage:', e);
   }
-  window.saveStoredProducts(window.DEFAULT_FIREWORKS_PRODUCTS);
-  return window.DEFAULT_FIREWORKS_PRODUCTS;
+  return window.FIREWORKS_PRODUCTS || window.DEFAULT_FIREWORKS_PRODUCTS;
 };
 
 window.saveStoredProducts = function (productsList) {
   try {
     localStorage.setItem('at_admin_products', JSON.stringify(productsList));
     window.FIREWORKS_PRODUCTS = productsList;
+    window.syncDataToServer('products', productsList);
     window.dispatchEvent(new CustomEvent('productsUpdated', { detail: { products: productsList } }));
   } catch (e) {
     console.error('Failed to save admin products:', e);
@@ -861,6 +881,7 @@ window.getSiteSettings = function () {
 window.saveSiteSettings = function (newSettings) {
   try {
     localStorage.setItem('at_site_settings', JSON.stringify(newSettings));
+    window.syncDataToServer('settings', newSettings);
     window.dispatchEvent(new CustomEvent('settingsUpdated', { detail: { settings: newSettings } }));
     window.applySiteSettings();
   } catch (e) {
@@ -910,6 +931,106 @@ window.applySiteSettings = function () {
       `;
     }
   }
+
+  // Update contact details across pages
+  const ashishPhoneClean = (settings.ashishPhone || '919837081321').replace(/[^0-9]/g, '');
+  const yuvrajPhoneClean = (settings.yuvrajPhone || '918630615934').replace(/[^0-9]/g, '');
+
+  document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href.includes('9837081321')) {
+      link.setAttribute('href', `tel:+${ashishPhoneClean}`);
+      if (link.textContent.includes('9837081321')) {
+        link.textContent = link.textContent.replace(/(\+?91[\s-]?)?9837081321/, `+${ashishPhoneClean}`);
+      }
+    } else if (href.includes('8630615934')) {
+      link.setAttribute('href', `tel:+${yuvrajPhoneClean}`);
+      if (link.textContent.includes('8630615934')) {
+        link.textContent = link.textContent.replace(/(\+?91[\s-]?)?8630615934/, `+${yuvrajPhoneClean}`);
+      }
+    }
+  });
+
+  document.querySelectorAll('a[id="cartWaAshish"]').forEach(link => {
+    link.href = `https://wa.me/${ashishPhoneClean}?text=${encodeURIComponent('Hello Ashish Ji, I want to place an order from your fireworks catalog.')}`;
+  });
+  document.querySelectorAll('a[id="cartWaYuvraj"]').forEach(link => {
+    link.href = `https://wa.me/${yuvrajPhoneClean}?text=${encodeURIComponent('Hello Yuvraj Ji, I want to place an order from your fireworks catalog.')}`;
+  });
+};
+
+// Global Server Data Hydration Engine
+window.syncDataFromServer = function (onComplete) {
+  fetch('/api/data')
+    .then(res => {
+      if (!res.ok) throw new Error('Network response was not ok');
+      return res.json();
+    })
+    .then(data => {
+      if (!data) return;
+
+      let hasUpdates = false;
+
+      // Products
+      if (Array.isArray(data.products) && data.products.length > 0) {
+        localStorage.setItem('at_admin_products', JSON.stringify(data.products));
+        window.FIREWORKS_PRODUCTS = data.products;
+        hasUpdates = true;
+      } else {
+        // First run seed
+        window.syncDataToServer('products', window.DEFAULT_FIREWORKS_PRODUCTS);
+      }
+
+      // Brands
+      if (Array.isArray(data.brands) && data.brands.length > 0) {
+        localStorage.setItem('at_admin_brands', JSON.stringify(data.brands));
+        window.BRANDS_INFO = data.brands;
+        hasUpdates = true;
+      } else {
+        window.syncDataToServer('brands', window.DEFAULT_BRANDS_INFO);
+      }
+
+      // Reviews
+      if (Array.isArray(data.reviews) && data.reviews.length > 0) {
+        localStorage.setItem('at_admin_reviews', JSON.stringify(data.reviews));
+        hasUpdates = true;
+      } else {
+        window.syncDataToServer('reviews', window.DEFAULT_REVIEWS);
+      }
+
+      // Gallery
+      if (Array.isArray(data.gallery) && data.gallery.length > 0) {
+        localStorage.setItem('at_admin_gallery', JSON.stringify(data.gallery));
+        hasUpdates = true;
+      } else {
+        window.syncDataToServer('gallery', window.DEFAULT_GALLERY);
+      }
+
+      // Settings
+      if (data.settings && typeof data.settings === 'object') {
+        localStorage.setItem('at_site_settings', JSON.stringify(data.settings));
+        hasUpdates = true;
+      } else {
+        window.syncDataToServer('settings', window.getSiteSettings());
+      }
+
+      window.applySiteSettings();
+
+      if (hasUpdates) {
+        window.dispatchEvent(new CustomEvent('productsUpdated', { detail: { products: window.getStoredProducts() } }));
+        window.dispatchEvent(new CustomEvent('brandsUpdated', { detail: { brands: window.getStoredBrands() } }));
+        window.dispatchEvent(new CustomEvent('reviewsUpdated', { detail: { reviews: window.getStoredReviews() } }));
+        window.dispatchEvent(new CustomEvent('galleryUpdated', { detail: { gallery: window.getStoredGallery() } }));
+        window.dispatchEvent(new CustomEvent('settingsUpdated', { detail: { settings: window.getSiteSettings() } }));
+      }
+
+      if (typeof onComplete === 'function') onComplete();
+    })
+    .catch(err => {
+      // In offline / static preview, apply from localStorage
+      window.applySiteSettings();
+      if (typeof onComplete === 'function') onComplete();
+    });
 };
 
 // Auto-run on script load
@@ -918,6 +1039,7 @@ if (typeof document !== 'undefined') {
     window.getStoredProducts();
     window.getStoredBrands();
     window.applySiteSettings();
+    window.syncDataFromServer();
   });
 }
 
