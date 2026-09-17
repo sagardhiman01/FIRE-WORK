@@ -4,6 +4,11 @@ const path = require('path');
 
 const PORT = 5500;
 const ROOT = path.resolve(__dirname);
+const UPLOAD_DIR = path.join(ROOT, 'assets', 'uploads');
+
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+}
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -15,12 +20,78 @@ const MIME_TYPES = {
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
   '.webp': 'image/webp',
+  '.gif': 'image/gif',
   '.mp4': 'video/mp4',
   '.mp3': 'audio/mpeg',
   '.ico': 'image/x-icon'
 };
 
 const server = http.createServer((req, res) => {
+  // CORS Preflight
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': '*'
+    });
+    return res.end();
+  }
+
+  // ==========================================================================
+  // DIRECT FILE UPLOAD ENDPOINT: POST /api/upload?filename=xyz.jpg
+  // ==========================================================================
+  if (req.method === 'POST' && req.url.startsWith('/api/upload')) {
+    try {
+      const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost:5500'}`);
+      let originalFilename = urlObj.searchParams.get('filename') || ('upload_' + Date.now() + '.jpg');
+      
+      // Clean filename
+      const ext = path.extname(originalFilename).toLowerCase() || '.jpg';
+      const cleanBase = path.basename(originalFilename, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+      const uniqueFilename = `${Date.now()}_${cleanBase}${ext}`;
+      const targetFilePath = path.join(UPLOAD_DIR, uniqueFilename);
+
+      const writeStream = fs.createWriteStream(targetFilePath);
+
+      req.pipe(writeStream);
+
+      writeStream.on('finish', () => {
+        const publicRelativePath = `assets/uploads/${uniqueFilename}`;
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({
+          success: true,
+          filePath: publicRelativePath,
+          filename: uniqueFilename,
+          size: fs.statSync(targetFilePath).size
+        }));
+      });
+
+      writeStream.on('error', (err) => {
+        console.error('Upload stream error:', err);
+        res.writeHead(500, {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      });
+
+      return;
+    } catch (err) {
+      console.error('Upload handling error:', err);
+      res.writeHead(500, {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      });
+      return res.end(JSON.stringify({ success: false, error: err.message }));
+    }
+  }
+
+  // ==========================================================================
+  // STATIC FILE SERVING
+  // ==========================================================================
   let reqPath = req.url.split('?')[0];
   if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
   
@@ -71,5 +142,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Node HTTP Server running at http://localhost:${PORT} with zero caching & video range support`);
+  console.log(`Node HTTP Server running at http://localhost:${PORT} with Direct File Upload (/api/upload), zero caching & video range support`);
 });

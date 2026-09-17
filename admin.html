@@ -18,7 +18,7 @@
   <meta http-equiv="Expires" content="0">
 
   <!-- Core Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css?v=5.0">
+  <link rel="stylesheet" href="assets/css/style.css?v=6.0">
 
   <style>
     .admin-card {
@@ -36,6 +36,15 @@
       color: #07080d;
       font-weight: 800;
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+    }
+    .upload-dropzone {
+      border: 2px dashed rgba(245, 158, 11, 0.35);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .upload-dropzone:hover, .upload-dropzone.dragover {
+      border-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.08);
     }
   </style>
 </head>
@@ -58,7 +67,7 @@
               <span class="font-display font-black text-lg text-gold-gradient tracking-wide">ASHISH TRADERS</span>
               <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-bold uppercase">ADMIN PANEL</span>
             </div>
-            <div class="text-[11px] text-slate-400">Complete Store, Logos, Media & Reviews Customization Engine</div>
+            <div class="text-[11px] text-slate-400">Direct File Upload Engine • No Path Typing Required</div>
           </div>
         </div>
 
@@ -88,16 +97,16 @@
         📦 Products Catalog
       </button>
       <button onclick="switchTab('tabBrandLogos')" id="tabBtnBrandLogos" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
-        🏷️ Brand Logos & Size
+        🏷️ Upload Brand Logos
       </button>
       <button onclick="switchTab('tabCompanyLogo')" id="tabBtnCompanyLogo" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
-        🏢 Company Logo & Size
+        🏢 Upload Company Logo
       </button>
       <button onclick="switchTab('tabBackgroundMedia')" id="tabBtnBackgroundMedia" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
-        🎬 Video / Photo Background
+        🎬 Upload Video / Photo BG
       </button>
       <button onclick="switchTab('tabGallery')" id="tabBtnGallery" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
-        🖼️ Gallery Photos Manager
+        🖼️ Upload Gallery Photos
       </button>
       <button onclick="switchTab('tabReviews')" id="tabBtnReviews" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
         ⭐ Customer Reviews
@@ -237,7 +246,7 @@
     </div>
 
     <!-- ==========================================================================
-         TAB 2: BRAND LOGOS & SIZE ADJUSTMENT
+         TAB 2: BRAND LOGOS & DIRECT UPLOAD / SIZE ADJUSTMENT
          ========================================================================== -->
     <div id="tabBrandLogos" class="tab-content space-y-6" style="display: none;">
       
@@ -274,12 +283,12 @@
         </div>
       </div>
 
-      <!-- Partner Brands Cards (Upload / Edit Logo per Brand) -->
+      <!-- Partner Brands Cards (Upload Logo per Brand) -->
       <div class="admin-card p-6">
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h3 class="font-bold text-base text-white">Manage 8 Sivakasi Partner Brands</h3>
-            <p class="text-xs text-slate-400">Change logo image path or URL for each partner brand, update brand tagline, and save.</p>
+            <h3 class="font-bold text-base text-white">Direct Upload Logos for 8 Sivakasi Partner Brands</h3>
+            <p class="text-xs text-slate-400">Click <strong>"Upload Brand Logo"</strong> on any brand to pick an image file directly from your computer or phone.</p>
           </div>
           <button onclick="saveAllBrandLogos()" class="btn-gold text-xs py-2 px-4 font-bold shadow">
             Save All Brand Changes
@@ -293,75 +302,80 @@
     </div>
 
     <!-- ==========================================================================
-         TAB 3: COMPANY LOGO & SIZE ADJUSTMENT
+         TAB 3: COMPANY LOGO DIRECT UPLOAD & SIZE ADJUSTMENT
          ========================================================================== -->
     <div id="tabCompanyLogo" class="tab-content space-y-6" style="display: none;">
       <div class="admin-card p-6 border-amber-500/30">
-        <h3 class="font-bold text-base text-white mb-1">Company Official Logo & Sizing Customizer</h3>
-        <p class="text-xs text-slate-400 mb-6">Change the main Ashish Traders Fireworks emblem used in the top navbar, header, footer, and about cards across the entire website.</p>
+        <h3 class="font-bold text-base text-white mb-1">Upload Company Official Logo & Size</h3>
+        <p class="text-xs text-slate-400 mb-6">Select or drag & drop any image file directly from your computer or phone to change the Ashish Traders logo across the entire website.</p>
 
-        <form id="companyLogoForm" class="space-y-6">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+          
+          <!-- Left: Direct File Upload Zone -->
+          <div class="lg:col-span-2 space-y-5">
             
-            <!-- Left inputs -->
-            <div class="lg:col-span-2 space-y-4">
-              <div>
-                <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Company Logo Path / Image URL *</label>
-                <input id="formCompanyLogoPath" type="text" required placeholder="assets/images/ashish-traders-logo.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-                <span class="text-[11px] text-slate-400 mt-1 block">You can provide a relative project path (e.g. <code>assets/images/ashish-traders-logo.jpg</code>) or a direct web URL (https://...).</span>
+            <!-- File Dropzone -->
+            <div onclick="document.getElementById('companyLogoFileInput').click()" 
+                 id="companyLogoDropzone"
+                 class="upload-dropzone p-6 rounded-2xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-3">
+              <input type="file" id="companyLogoFileInput" accept="image/*" class="hidden" onchange="uploadCompanyLogoFile(this)">
+              <div class="w-14 h-14 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
               </div>
-
-              <!-- Presets -->
               <div>
-                <span class="text-[11px] text-amber-400 font-bold uppercase">Quick Logo Presets:</span>
-                <div class="flex flex-wrap gap-2 mt-1.5">
-                  <button type="button" onclick="setCompanyLogoPreset('assets/images/ashish-traders-logo.jpg')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Default Official Emblem</button>
-                  <button type="button" onclick="setCompanyLogoPreset('assets/images/hero-banner.jpg')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Showroom Crest</button>
-                </div>
+                <span class="font-bold text-sm text-white block">Click to Select Company Logo File</span>
+                <span class="text-xs text-slate-400 block mt-0.5">Supports JPG, PNG, WEBP, SVG from your device</span>
               </div>
+              <div id="companyLogoUploadStatus" class="text-xs font-semibold"></div>
+            </div>
 
-              <!-- Size slider -->
-              <div class="pt-4 border-t border-slate-800">
-                <div class="flex items-center justify-between mb-2">
-                  <label class="text-xs font-bold uppercase text-slate-300">Navbar & Header Logo Size</label>
-                  <span id="companyLogoSizeDisplay" class="text-sm font-bold text-amber-400">48px</span>
-                </div>
-                <input type="range" id="companyLogoSizeSlider" min="32" max="100" value="48" step="2" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
-                <div class="flex justify-between text-[11px] text-slate-500 mt-1">
-                  <span>Compact (32px)</span>
-                  <span>Standard (48px)</span>
-                  <span>Large (100px)</span>
-                </div>
+            <!-- Path Field (Auto-filled by Upload) -->
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Current Active Logo Path / URL</label>
+              <input id="formCompanyLogoPath" type="text" placeholder="assets/images/ashish-traders-logo.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-slate-300 focus:outline-none focus:border-amber-400">
+            </div>
+
+            <!-- Size slider -->
+            <div class="pt-4 border-t border-slate-800">
+              <div class="flex items-center justify-between mb-2">
+                <label class="text-xs font-bold uppercase text-slate-300">Logo Dimension in Navbar & Header</label>
+                <span id="companyLogoSizeDisplay" class="text-sm font-bold text-amber-400">48px</span>
+              </div>
+              <input type="range" id="companyLogoSizeSlider" min="32" max="100" value="48" step="2" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>Compact (32px)</span>
+                <span>Standard (48px)</span>
+                <span>Large (100px)</span>
               </div>
             </div>
 
-            <!-- Right Preview Box -->
-            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-center text-center">
-              <div class="text-xs text-slate-400 font-bold uppercase mb-4 tracking-wider">Live Preview</div>
-              <div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-amber-500 to-red-500 shadow-2xl flex items-center justify-center mb-3">
-                <img id="companyLogoPreviewImg" src="assets/images/ashish-traders-logo.jpg" alt="Company Logo" class="w-full h-full rounded-full object-cover">
-              </div>
-              <div class="font-display font-black text-amber-400 text-sm">ASHISH TRADERS</div>
-              <div class="text-[10px] text-slate-400 uppercase tracking-widest">FIREWORKS • DEHRADUN</div>
+            <div class="flex justify-end pt-2">
+              <button onclick="saveCompanyLogoSettings()" class="btn-gold text-xs py-2.5 px-6 font-bold shadow-lg">
+                Save Company Logo Changes
+              </button>
             </div>
           </div>
 
-          <div class="pt-4 border-t border-slate-800 flex items-center justify-end">
-            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow-lg">
-              Save Company Logo & Size
-            </button>
+          <!-- Right: Live Preview Box -->
+          <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-center text-center">
+            <div class="text-xs text-slate-400 font-bold uppercase mb-4 tracking-wider">Live Preview</div>
+            <div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-amber-500 to-red-500 shadow-2xl flex items-center justify-center mb-3 overflow-hidden">
+              <img id="companyLogoPreviewImg" src="assets/images/ashish-traders-logo.jpg" alt="Company Logo" class="w-full h-full rounded-full object-cover">
+            </div>
+            <div class="font-display font-black text-amber-400 text-sm">ASHISH TRADERS</div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-widest">FIREWORKS • DEHRADUN</div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
 
     <!-- ==========================================================================
-         TAB 4: BACKGROUND VIDEO / PHOTO WALLPAPER
+         TAB 4: BACKGROUND VIDEO / PHOTO DIRECT UPLOAD
          ========================================================================== -->
     <div id="tabBackgroundMedia" class="tab-content space-y-6" style="display: none;">
       <div class="admin-card p-6 border-amber-500/30">
-        <h3 class="font-bold text-base text-white mb-1">Permanent Background Media Switcher</h3>
-        <p class="text-xs text-slate-400 mb-6">Choose whether the website plays a continuous looping fireworks video in the background, or displays a high-resolution photo wallpaper.</p>
+        <h3 class="font-bold text-base text-white mb-1">Direct Upload Background Video or Photo Wallpaper</h3>
+        <p class="text-xs text-slate-400 mb-6">Directly upload your custom celebration fireworks video (.mp4) or high-resolution photo wallpaper from your device.</p>
 
         <form id="bgMediaForm" class="space-y-6">
           <!-- Choice: Video vs Photo -->
@@ -383,29 +397,46 @@
             </label>
           </div>
 
-          <!-- Video URL Input -->
-          <div id="bgVideoInputContainer">
-            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Background Video Path / URL</label>
-            <input id="formBgVideoUrl" type="text" value="assets/videos/fireworks-intro.mp4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-            <div class="text-[11px] text-slate-500 mt-1">Default: <code>assets/videos/fireworks-intro.mp4</code></div>
+          <!-- Video Direct Upload Box -->
+          <div id="bgVideoInputContainer" class="space-y-3">
+            <div onclick="document.getElementById('bgVideoFileInput').click()" 
+                 class="upload-dropzone p-5 rounded-xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-2">
+              <input type="file" id="bgVideoFileInput" accept="video/mp4,video/*" class="hidden" onchange="uploadBgVideoFile(this)">
+              <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="font-bold text-xs text-white">Click to Upload Video File (.mp4) from Computer</span>
+              <div id="bgVideoUploadStatus" class="text-xs"></div>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Active Background Video Path</label>
+              <input id="formBgVideoUrl" type="text" value="assets/videos/fireworks-intro.mp4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
           </div>
 
-          <!-- Image URL Input -->
-          <div id="bgImageInputContainer">
-            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Background Image / Wallpaper Path or URL</label>
-            <input id="formBgImageUrl" type="text" value="assets/images/hero-banner.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-            <div class="flex flex-wrap gap-2 mt-2">
-              <span class="text-[11px] text-amber-400 font-bold uppercase">Presets:</span>
-              <button type="button" onclick="setBgImagePreset('assets/images/hero-banner.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-400">Showroom Banner</button>
-              <button type="button" onclick="setBgImagePreset('assets/images/cock-skyshots-240.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-400">Celestial Sky Shots</button>
-              <button type="button" onclick="setBgImagePreset('assets/images/diwali-gift-hamper.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:border-amber-400">Diwali Hamper</button>
+          <!-- Photo Direct Upload Box -->
+          <div id="bgImageInputContainer" class="space-y-3">
+            <div onclick="document.getElementById('bgImageFileInput').click()" 
+                 class="upload-dropzone p-5 rounded-xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-2">
+              <input type="file" id="bgImageFileInput" accept="image/*" class="hidden" onchange="uploadBgPhotoFile(this)">
+              <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="font-bold text-xs text-white">Click to Upload Wallpaper Photo from Computer</span>
+              <div id="bgPhotoUploadStatus" class="text-xs"></div>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Active Wallpaper Photo Path</label>
+              <input id="formBgImageUrl" type="text" value="assets/images/hero-banner.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
             </div>
           </div>
 
           <!-- Background Opacity Slider -->
           <div class="pt-4 border-t border-slate-800">
             <div class="flex items-center justify-between mb-2">
-              <label class="text-xs font-bold uppercase text-slate-300">Background Brightness / Opacity</label>
+              <label class="text-xs font-bold uppercase text-slate-300">Background Opacity / Brightness</label>
               <span id="bgOpacityDisplay" class="text-sm font-bold text-amber-400">40%</span>
             </div>
             <input type="range" id="bgOpacitySlider" min="10" max="80" value="40" step="5" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
@@ -426,17 +457,35 @@
     </div>
 
     <!-- ==========================================================================
-         TAB 5: GALLERY PHOTOS MANAGER
+         TAB 5: GALLERY PHOTOS DIRECT UPLOADER
          ========================================================================== -->
     <div id="tabGallery" class="tab-content space-y-6" style="display: none;">
       
-      <!-- Add New Photo Form Card -->
+      <!-- Direct Upload Photo Form Card -->
       <div class="admin-card p-6 border-amber-500/30">
-        <h3 class="font-bold text-base text-white mb-1">Add Company & Showroom Photo to Gallery</h3>
-        <p class="text-xs text-slate-400 mb-6">Upload or link photos of the Mohabewala warehouse, cracker crates, showroom displays, or celebration nights to display on the dedicated <a href="gallery.html" target="_blank" class="text-amber-400 hover:underline">gallery.html</a> page.</p>
+        <h3 class="font-bold text-base text-white mb-1">Direct Upload Photo to Company Gallery</h3>
+        <p class="text-xs text-slate-400 mb-6">Choose any photo from your computer or phone — it will upload directly and appear instantly on <a href="gallery.html" target="_blank" class="text-amber-400 hover:underline">gallery.html</a>.</p>
 
         <form id="galleryForm" class="space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Direct File Dropzone -->
+            <div class="sm:col-span-2">
+              <div onclick="document.getElementById('galleryFileInput').click()" 
+                   id="galleryDropzone"
+                   class="upload-dropzone p-6 rounded-2xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-2">
+                <input type="file" id="galleryFileInput" accept="image/*" class="hidden" onchange="uploadGalleryPhotoFile(this)">
+                <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </div>
+                <div>
+                  <span class="font-bold text-xs sm:text-sm text-white block">Click or Drag to Upload Photo from Device</span>
+                  <span class="text-[11px] text-slate-400 block mt-0.5">JPG, PNG, WEBP</span>
+                </div>
+                <div id="galleryUploadStatus" class="text-xs font-semibold"></div>
+              </div>
+            </div>
+
             <div>
               <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Photo Title *</label>
               <input id="formGalTitle" type="text" required placeholder="e.g., Mohabewala Warehouse Fresh Stock Arrival" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
@@ -453,17 +502,7 @@
             </div>
 
             <div class="sm:col-span-2">
-              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Photo Image Path or URL *</label>
-              <input id="formGalImage" type="text" required placeholder="assets/images/cock-skyshots-240.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-              
-              <div class="mt-2 flex flex-wrap gap-2">
-                <span class="text-[11px] text-amber-400 font-bold uppercase">Quick Photo Presets:</span>
-                <button type="button" onclick="setGalPreset('assets/images/cock-skyshots-240.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Sky Shots Crates</button>
-                <button type="button" onclick="setGalPreset('assets/images/flower-pot-anaar.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Royal Koti Anaar</button>
-                <button type="button" onclick="setGalPreset('assets/images/cock-sparklers-giant.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Giant Sparklers</button>
-                <button type="button" onclick="setGalPreset('assets/images/diwali-gift-hamper.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Gift Hampers</button>
-                <button type="button" onclick="setGalPreset('assets/images/red-garland-ladi.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Festive Ladi</button>
-              </div>
+              <input id="formGalImage" type="hidden" required>
             </div>
 
             <div class="sm:col-span-2">
@@ -635,7 +674,7 @@
   </main>
 
   <!-- ==========================================================================
-       MODAL 1: ADD / EDIT PRODUCT MODAL
+       MODAL 1: ADD / EDIT PRODUCT MODAL (With Direct Photo Upload)
        ========================================================================== -->
   <div id="productModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto" style="display: none;">
     <div class="bg-slate-950 border border-amber-500/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in">
@@ -643,13 +682,37 @@
       <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
         <div>
           <h3 id="modalFormTitle" class="font-bold text-base text-white">Add New Firecracker Product</h3>
-          <p class="text-xs text-slate-400">Fill in product details for Ashish Traders catalog</p>
+          <p class="text-xs text-slate-400">Directly upload photo from computer or phone</p>
         </div>
         <button onclick="closeProductModal()" class="text-slate-400 hover:text-white p-2 text-2xl leading-none">&times;</button>
       </div>
 
       <form id="productForm" class="p-6 overflow-y-auto space-y-4 flex-1">
         <input type="hidden" id="editProductId">
+
+        <!-- Product Photo Direct Upload Dropzone -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-2">Product Photo *</label>
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            
+            <div onclick="document.getElementById('prodModalFileInput').click()" 
+                 class="upload-dropzone flex-1 p-4 rounded-xl bg-slate-950 text-center flex flex-col items-center justify-center gap-1.5 w-full">
+              <input type="file" id="prodModalFileInput" accept="image/*" class="hidden" onchange="uploadProductModalPhoto(this)">
+              <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+              </div>
+              <span class="font-bold text-xs text-white">Click to Select Product Photo from Device</span>
+              <span class="text-[10px] text-slate-400">No path typing needed</span>
+              <div id="prodModalUploadStatus" class="text-[11px] font-semibold"></div>
+            </div>
+
+            <!-- Thumbnail Preview -->
+            <div class="w-20 h-20 rounded-xl bg-slate-950 border border-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
+              <img id="prodModalPhotoPreview" src="assets/images/cock-skyshots-240.jpg" alt="Preview" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <input type="hidden" id="formProdImage" value="assets/images/cock-skyshots-240.jpg">
+        </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="sm:col-span-2">
@@ -709,26 +772,6 @@
           </div>
 
           <div class="sm:col-span-2">
-            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Product Image Path / URL *</label>
-            <input id="formProdImage" type="text" required placeholder="assets/images/cock-skyshots-240.jpg" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
-            
-            <div class="mt-2">
-              <span class="text-[10px] text-amber-400 font-bold uppercase">Quick Select Authentic Photo Preset:</span>
-              <div class="flex flex-wrap gap-1.5 mt-1.5">
-                <button type="button" onclick="setPresetImage('assets/images/cock-skyshots-240.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">240 Sky Shots</button>
-                <button type="button" onclick="setPresetImage('assets/images/cock-sparklers-giant.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Golden Sparklers</button>
-                <button type="button" onclick="setPresetImage('assets/images/flower-pot-anaar.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Flower Pots Anaar</button>
-                <button type="button" onclick="setPresetImage('assets/images/ground-chakkar-deluxe.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Ground Chakkars</button>
-                <button type="button" onclick="setPresetImage('assets/images/bomb-rockets.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Bomb Rockets</button>
-                <button type="button" onclick="setPresetImage('assets/images/cock-bijili-crackers.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Bijili Crackers</button>
-                <button type="button" onclick="setPresetImage('assets/images/hydro-bomb-pack.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Hydro Bomb</button>
-                <button type="button" onclick="setPresetImage('assets/images/red-garland-ladi.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">1000/5000 Ladi</button>
-                <button type="button" onclick="setPresetImage('assets/images/diwali-gift-hamper.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Family Gift Hamper</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="sm:col-span-2">
             <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Description</label>
             <textarea id="formProdDesc" rows="2" placeholder="Visual effects, altitude, duration, colors..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"></textarea>
           </div>
@@ -747,7 +790,7 @@
   </div>
 
   <!-- ==========================================================================
-       CORE SCRIPTS & ADMIN ENGINE
+       CORE SCRIPTS & ADMIN ENGINE WITH DIRECT FILE UPLOADS
        ========================================================================== -->
   <script src="assets/js/products-data.js"></script>
 
@@ -759,6 +802,44 @@
     let searchFilter = '';
     let brandFilter = 'ALL';
     let stockFilter = 'ALL';
+
+    // UNIVERSAL DIRECT FILE UPLOAD HANDLER
+    async function uploadFileToServer(file, statusEl, onDone) {
+      if (!file) return;
+
+      if (statusEl) {
+        statusEl.innerHTML = `<span class="text-amber-400 animate-pulse">⏳ Uploading ${file.name}...</span>`;
+      }
+
+      // Try uploading to Node backend /api/upload
+      try {
+        const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+          method: 'POST',
+          body: file
+        });
+        const data = await res.json();
+        if (data && data.success && data.filePath) {
+          if (statusEl) {
+            statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Uploaded: ${data.filename}</span>`;
+          }
+          onDone(data.filePath);
+          return data.filePath;
+        }
+      } catch (err) {
+        console.warn('Backend upload unavailable, using instant DataURL fallback:', err);
+      }
+
+      // Fallback to FileReader Base64 Data URL (guaranteed offline/standalone support)
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64Url = e.target.result;
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Loaded: ${file.name}</span>`;
+        }
+        onDone(base64Url);
+      };
+      reader.readAsDataURL(file);
+    }
 
     // TAB NAVIGATION
     window.switchTab = function(tabId) {
@@ -931,13 +1012,15 @@
       renderTable();
     };
 
-    // Product Modal Handlers
+    // Product Modal Handlers with Direct File Upload
     window.openAddProductModal = function() {
       document.getElementById('modalFormTitle').textContent = 'Add New Firecracker Product';
       document.getElementById('editProductId').value = '';
       document.getElementById('productForm').reset();
       document.getElementById('formProdStock').value = 'true';
       document.getElementById('formProdImage').value = 'assets/images/cock-skyshots-240.jpg';
+      document.getElementById('prodModalPhotoPreview').src = 'assets/images/cock-skyshots-240.jpg';
+      document.getElementById('prodModalUploadStatus').innerHTML = '';
       document.getElementById('productModalOverlay').style.display = 'flex';
     };
 
@@ -954,6 +1037,8 @@
       document.getElementById('formProdOriginalPrice').value = product.originalPrice || '';
       document.getElementById('formProdPackInfo').value = product.packInfo;
       document.getElementById('formProdImage').value = product.image;
+      document.getElementById('prodModalPhotoPreview').src = product.image;
+      document.getElementById('prodModalUploadStatus').innerHTML = '';
       document.getElementById('formProdDesc').value = product.description || '';
       document.getElementById('formProdStock').value = product.inStock !== false ? 'true' : 'false';
 
@@ -964,8 +1049,16 @@
       document.getElementById('productModalOverlay').style.display = 'none';
     };
 
-    window.setPresetImage = function(path) {
-      document.getElementById('formProdImage').value = path;
+    window.uploadProductModalPhoto = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const preview = document.getElementById('prodModalPhotoPreview');
+      preview.src = URL.createObjectURL(file);
+      const statusEl = document.getElementById('prodModalUploadStatus');
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formProdImage').value = savedPath;
+        preview.src = savedPath;
+      });
     };
 
     document.getElementById('productForm').addEventListener('submit', (e) => {
@@ -1024,7 +1117,7 @@
     };
 
     // ----------------------------------------------------
-    // TAB 2: BRAND LOGOS & SIZE ADJUSTMENT
+    // TAB 2: BRAND LOGOS DIRECT UPLOADER & SIZE
     // ----------------------------------------------------
     function renderBrandsManager() {
       const grid = document.getElementById('adminBrandsGrid');
@@ -1044,11 +1137,11 @@
 
       if (!grid) return;
 
-      grid.innerHTML = currentAdminBrands.map((b, idx) => `
+      grid.innerHTML = currentAdminBrands.map((b) => `
         <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
           <div>
             <div class="flex items-center gap-3 mb-3">
-              <div class="w-14 h-14 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center p-1 overflow-hidden flex-shrink-0">
+              <div class="w-16 h-16 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center p-1.5 overflow-hidden flex-shrink-0">
                 <img id="brand-thumb-${b.id}" src="${b.logo}" alt="${b.name}" class="object-contain w-full h-full">
               </div>
               <div class="flex-1 min-w-0">
@@ -1058,13 +1151,18 @@
               </div>
             </div>
 
-            <div class="space-y-2">
+            <!-- Direct File Upload Button for Brand -->
+            <div class="space-y-3">
               <div>
-                <label class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Brand Logo URL / Path</label>
-                <input id="brand-logo-input-${b.id}" type="text" value="${b.logo}" 
-                       oninput="updateBrandThumbPreview('${b.id}', this.value)"
-                       class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+                <input type="file" id="brand-file-${b.id}" accept="image/*" class="hidden" onchange="uploadBrandLogoFile('${b.id}', this)">
+                <button type="button" onclick="document.getElementById('brand-file-${b.id}').click()" 
+                        class="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-xs font-bold text-amber-300 flex items-center justify-center gap-2 transition-all shadow">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                  <span>Upload Brand Logo File</span>
+                </button>
+                <div id="brand-status-${b.id}" class="text-[10px] mt-1 text-center font-semibold"></div>
               </div>
+
               <div>
                 <label class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Tagline</label>
                 <input id="brand-tagline-input-${b.id}" type="text" value="${b.tagline || ''}" 
@@ -1082,35 +1180,42 @@
       `).join('');
     }
 
-    window.updateBrandThumbPreview = function(brandId, newUrl) {
-      const img = document.getElementById(`brand-thumb-${brandId}`);
-      if (img && newUrl) img.src = newUrl;
+    window.uploadBrandLogoFile = function(brandId, input) {
+      const file = input.files[0];
+      if (!file) return;
+      const brand = currentAdminBrands.find(b => b.id === brandId);
+      if (!brand) return;
+
+      const thumb = document.getElementById(`brand-thumb-${brandId}`);
+      if (thumb) thumb.src = URL.createObjectURL(file);
+      const statusEl = document.getElementById(`brand-status-${brandId}`);
+
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        brand.logo = savedPath;
+        if (thumb) thumb.src = savedPath;
+        window.saveStoredBrands(currentAdminBrands);
+      });
     };
 
     window.saveSingleBrand = function(brandId) {
       const brand = currentAdminBrands.find(b => b.id === brandId);
       if (!brand) return;
 
-      const logoInput = document.getElementById(`brand-logo-input-${brandId}`);
       const taglineInput = document.getElementById(`brand-tagline-input-${brandId}`);
-
-      if (logoInput) brand.logo = logoInput.value.trim() || brand.logo;
       if (taglineInput) brand.tagline = taglineInput.value.trim() || brand.tagline;
 
       window.saveStoredBrands(currentAdminBrands);
-      alert(`${brand.name} logo and details updated successfully!`);
+      alert(`${brand.name} updated successfully!`);
     };
 
     window.saveAllBrandLogos = function() {
       currentAdminBrands.forEach(b => {
-        const logoInput = document.getElementById(`brand-logo-input-${b.id}`);
         const taglineInput = document.getElementById(`brand-tagline-input-${b.id}`);
-        if (logoInput && logoInput.value.trim()) b.logo = logoInput.value.trim();
         if (taglineInput && taglineInput.value.trim()) b.tagline = taglineInput.value.trim();
       });
 
       window.saveStoredBrands(currentAdminBrands);
-      alert('All 8 brand logos saved! Live store updated.');
+      alert('All brand logos and taglines saved! Live store updated.');
     };
 
     // Brand logo size slider event
@@ -1129,7 +1234,7 @@
     });
 
     // ----------------------------------------------------
-    // TAB 3: COMPANY LOGO & SIZE CUSTOMIZER
+    // TAB 3: COMPANY LOGO DIRECT UPLOADER & SIZE
     // ----------------------------------------------------
     function loadCompanyLogoAndSettings() {
       const settings = window.getSiteSettings();
@@ -1147,23 +1252,32 @@
       if (headerLogo) headerLogo.src = logoPath;
     }
 
-    window.setCompanyLogoPreset = function(path) {
-      document.getElementById('formCompanyLogoPath').value = path;
-      document.getElementById('companyLogoPreviewImg').src = path;
-    };
+    window.uploadCompanyLogoFile = function(input) {
+      const file = input.files[0];
+      if (!file) return;
 
-    document.getElementById('formCompanyLogoPath').addEventListener('input', (e) => {
-      const path = e.target.value.trim();
-      if (path) document.getElementById('companyLogoPreviewImg').src = path;
-    });
+      const preview = document.getElementById('companyLogoPreviewImg');
+      preview.src = URL.createObjectURL(file);
+      const statusEl = document.getElementById('companyLogoUploadStatus');
+
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formCompanyLogoPath').value = savedPath;
+        preview.src = savedPath;
+        document.getElementById('adminHeaderLogo').src = savedPath;
+        
+        // Auto-save company logo immediately
+        const settings = window.getSiteSettings();
+        settings.companyLogo = savedPath;
+        window.saveSiteSettings(settings);
+      });
+    };
 
     document.getElementById('companyLogoSizeSlider').addEventListener('input', (e) => {
       const val = parseInt(e.target.value, 10);
       document.getElementById('companyLogoSizeDisplay').textContent = `${val}px`;
     });
 
-    document.getElementById('companyLogoForm').addEventListener('submit', (e) => {
-      e.preventDefault();
+    window.saveCompanyLogoSettings = function() {
       const settings = window.getSiteSettings();
       settings.companyLogo = document.getElementById('formCompanyLogoPath').value.trim() || 'assets/images/ashish-traders-logo.jpg';
       settings.companyLogoSize = parseInt(document.getElementById('companyLogoSizeSlider').value, 10);
@@ -1171,10 +1285,10 @@
       window.saveSiteSettings(settings);
       document.getElementById('adminHeaderLogo').src = settings.companyLogo;
       alert('Company Logo & Size updated successfully across all website pages!');
-    });
+    };
 
     // ----------------------------------------------------
-    // TAB 4: BACKGROUND MEDIA SWITCHER
+    // TAB 4: BACKGROUND VIDEO / PHOTO DIRECT UPLOADER
     // ----------------------------------------------------
     function loadBgMediaSettings() {
       const settings = window.getSiteSettings();
@@ -1190,8 +1304,24 @@
       document.getElementById('bgOpacityDisplay').textContent = `${opacity}%`;
     }
 
-    window.setBgImagePreset = function(path) {
-      document.getElementById('formBgImageUrl').value = path;
+    window.uploadBgVideoFile = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const statusEl = document.getElementById('bgVideoUploadStatus');
+
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formBgVideoUrl').value = savedPath;
+      });
+    };
+
+    window.uploadBgPhotoFile = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const statusEl = document.getElementById('bgPhotoUploadStatus');
+
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formBgImageUrl').value = savedPath;
+      });
     };
 
     document.getElementById('bgOpacitySlider').addEventListener('input', (e) => {
@@ -1212,7 +1342,7 @@
     });
 
     // ----------------------------------------------------
-    // TAB 5: GALLERY PHOTOS MANAGER
+    // TAB 5: GALLERY PHOTOS DIRECT UPLOADER
     // ----------------------------------------------------
     function renderGalleryManager() {
       const grid = document.getElementById('adminGalleryGrid');
@@ -1222,7 +1352,7 @@
       badge.textContent = `${currentAdminGallery.length} Photos`;
 
       if (currentAdminGallery.length === 0) {
-        grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-xs">No gallery photos added yet. Use form above to add photos.</div>`;
+        grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-xs">No gallery photos added yet. Use direct upload form above to add photos.</div>`;
         return;
       }
 
@@ -1248,8 +1378,18 @@
       `).join('');
     }
 
-    window.setGalPreset = function(path) {
-      document.getElementById('formGalImage').value = path;
+    window.uploadGalleryPhotoFile = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const statusEl = document.getElementById('galleryUploadStatus');
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formGalImage').value = savedPath;
+        if (!document.getElementById('formGalTitle').value) {
+          const rawName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+          document.getElementById('formGalTitle').value = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+        }
+      });
     };
 
     document.getElementById('galleryForm').addEventListener('submit', (e) => {
@@ -1259,6 +1399,11 @@
       const image = document.getElementById('formGalImage').value.trim();
       const caption = document.getElementById('formGalCaption').value.trim();
 
+      if (!image) {
+        alert('Please select and upload a photo file first.');
+        return;
+      }
+
       const newItem = {
         id: 'gal-' + Date.now().toString().slice(-6),
         title, category, image, caption
@@ -1267,8 +1412,10 @@
       currentAdminGallery.unshift(newItem);
       window.saveStoredGallery(currentAdminGallery);
       document.getElementById('galleryForm').reset();
+      document.getElementById('galleryUploadStatus').innerHTML = '';
+      document.getElementById('formGalImage').value = '';
       renderGalleryManager();
-      alert('Photo added to Gallery successfully!');
+      alert('Photo directly uploaded and added to Gallery successfully!');
     });
 
     window.deleteGalleryItem = function(id) {
