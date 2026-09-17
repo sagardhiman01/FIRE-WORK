@@ -107,10 +107,21 @@
       <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
         Browse fresh wholesale arrivals, Sivakasi master display packaging, warehouse stocking, and sparkling celebration moments across Dehradun and Uttarakhand.
       </p>
+
+      <!-- Direct Add Photo Action Buttons -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <button onclick="openGalleryUploadModal()" class="btn-gold text-xs sm:text-sm py-2.5 px-6 font-bold shadow-xl flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 transition-all">
+          <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          <span>Add Photo to Gallery</span>
+        </button>
+        <a href="admin.html" class="px-4 py-2.5 rounded-full bg-slate-900/90 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-all">
+          Manage Company Catalog &rarr;
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- Filter Buttons -->
+  <!-- Filter Buttons & Quick Add -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <div class="flex items-center justify-center gap-2 flex-wrap" id="galleryCategoryFilters">
       <button onclick="filterGallery('ALL')" class="gallery-cat-btn active px-4 py-2 rounded-full bg-amber-500 text-black text-xs font-bold transition-all" data-cat="ALL">All Photos</button>
@@ -118,6 +129,9 @@
       <button onclick="filterGallery('Showroom Displays')" class="gallery-cat-btn px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-medium transition-all" data-cat="Showroom Displays">Showroom Displays</button>
       <button onclick="filterGallery('Celebrations & Lights')" class="gallery-cat-btn px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-medium transition-all" data-cat="Celebrations & Lights">Celebrations & Lights</button>
       <button onclick="filterGallery('Customer Moments')" class="gallery-cat-btn px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-medium transition-all" data-cat="Customer Moments">Customer Moments</button>
+      <button onclick="openGalleryUploadModal()" class="px-3.5 py-2 rounded-full bg-amber-500/10 border border-amber-500/40 text-amber-400 hover:bg-amber-500 hover:text-black text-xs font-bold transition-all flex items-center gap-1">
+        <span>+ Add Photo</span>
+      </button>
     </div>
   </section>
 
@@ -149,6 +163,92 @@
         <h3 id="lightboxTitle" class="text-lg font-bold text-white mb-1"></h3>
         <p id="lightboxCaption" class="text-xs text-slate-400 leading-relaxed"></p>
       </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       DIRECT ADD PHOTO TO GALLERY MODAL (FOR IMMEDIATE LIVE UPLOAD)
+       ========================================================================== -->
+  <div id="galleryUploadModalOverlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-panel max-w-lg w-full rounded-2xl border border-amber-500/40 p-6 sm:p-8 shadow-2xl relative">
+      <button onclick="closeGalleryUploadModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold p-1">
+        &times;
+      </button>
+
+      <div class="text-left mb-5">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">Visual Showcase</span>
+        <h3 class="font-display font-black text-2xl text-white">Add Photo to Gallery</h3>
+        <p class="text-xs text-slate-400 mt-1">Select a photo from your phone/PC or enter an image link — it will appear immediately on this page.</p>
+      </div>
+
+      <form id="publicGalleryUploadForm" class="space-y-4 text-left" onsubmit="handlePublicGallerySubmit(event); return false;">
+        <!-- Dropzone -->
+        <div>
+          <div onclick="document.getElementById('modalGalFileInput').click()" 
+               id="modalGalDropzone"
+               class="upload-dropzone p-5 rounded-xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer border border-dashed border-slate-700 hover:border-amber-400 transition-colors">
+            <input type="file" id="modalGalFileInput" accept="image/*" class="hidden" onchange="uploadModalGalleryPhoto(this)">
+            <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center pointer-events-none">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <span class="font-bold text-xs text-white block pointer-events-none">Click or Drag to Upload Photo</span>
+            <span class="text-[10px] text-slate-400 block pointer-events-none">JPG, PNG, WEBP from Device</span>
+            <div id="modalGalUploadStatus" class="text-[11px] font-semibold"></div>
+          </div>
+
+          <!-- Thumbnail preview -->
+          <div id="modalGalPreviewBox" class="hidden mt-2.5 p-2.5 bg-slate-950 border border-amber-500/30 rounded-xl flex items-center gap-3">
+            <img id="modalGalPreviewImg" src="" alt="Preview" class="w-14 h-14 object-cover rounded-lg border border-slate-700">
+            <div class="flex-1 min-w-0">
+              <p id="modalGalPreviewName" class="text-xs font-bold text-white truncate">Photo selected</p>
+              <p class="text-[10px] text-emerald-400 font-medium">✓ Ready to publish</p>
+              <button type="button" onclick="clearModalGalPreview()" class="text-[10px] text-red-400 hover:text-red-300 font-semibold underline">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Photo Title</label>
+          <input type="text" id="modalGalTitle" placeholder="e.g. Mohabewala Warehouse Fresh Stock Arrival" 
+                 class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Category *</label>
+            <select id="modalGalCategory" 
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="Warehouse & Stock">Warehouse & Stock</option>
+              <option value="Showroom Displays">Showroom Displays</option>
+              <option value="Celebrations & Lights">Celebrations & Lights</option>
+              <option value="Customer Moments">Customer Moments</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Or Image Path / URL</label>
+            <input type="text" id="modalGalImageUrl" placeholder="assets/images/... or https://" 
+                   class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Caption / Description</label>
+          <textarea id="modalGalCaption" rows="2" placeholder="Write a short description..." 
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+        </div>
+
+        <div id="modalGalSubmitStatus" class="text-xs text-center font-semibold"></div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" onclick="closeGalleryUploadModal()" class="px-4 py-2 rounded-xl bg-slate-900 text-xs font-semibold text-slate-400 hover:text-white">
+            Cancel
+          </button>
+          <button type="submit" id="btnPublishGalleryModal" class="btn-gold px-6 py-2.5 text-xs font-bold shadow-lg flex items-center gap-2">
+            <span>Publish to Gallery</span>
+            <span>&rarr;</span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -326,7 +426,7 @@
       container.innerHTML = filtered.map(item => `
         <div class="gallery-card group cursor-pointer flex flex-col justify-between" onclick="openLightbox('${item.id}')">
           <div class="relative h-64 overflow-hidden bg-slate-950">
-            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+            <img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src='assets/images/cock-skyshots-240.jpg';" class="w-full h-full object-cover">
             <div class="absolute top-3 left-3 z-10">
               <span class="px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-amber-400/30 text-[10px] font-bold text-amber-300">
                 ${item.category}
@@ -345,7 +445,7 @@
                 ${item.title}
               </h3>
               <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                ${item.caption}
+                ${item.caption || ''}
               </p>
             </div>
             <div class="pt-3 mt-3 border-t border-slate-800/80 text-[11px] text-amber-400/90 font-semibold flex items-center gap-1">
@@ -378,7 +478,7 @@
       document.getElementById('lightboxImg').src = item.image;
       document.getElementById('lightboxCategory').textContent = item.category;
       document.getElementById('lightboxTitle').textContent = item.title;
-      document.getElementById('lightboxCaption').textContent = item.caption;
+      document.getElementById('lightboxCaption').textContent = item.caption || '';
       document.getElementById('galleryLightbox').classList.add('open');
     }
 
@@ -392,8 +492,190 @@
       }
     });
 
+    // ----------------------------------------------------
+    // GALLERY DIRECT UPLOAD MODAL LOGIC
+    // ----------------------------------------------------
+    let modalSelectedFile = null;
+
+    window.openGalleryUploadModal = function() {
+      const modal = document.getElementById('galleryUploadModalOverlay');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    };
+
+    window.closeGalleryUploadModal = function() {
+      const modal = document.getElementById('galleryUploadModalOverlay');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    };
+
+    window.clearModalGalPreview = function() {
+      modalSelectedFile = null;
+      document.getElementById('modalGalImageUrl').value = '';
+      document.getElementById('modalGalFileInput').value = '';
+      const box = document.getElementById('modalGalPreviewBox');
+      if (box) box.classList.add('hidden');
+      const statusEl = document.getElementById('modalGalUploadStatus');
+      if (statusEl) statusEl.innerHTML = '';
+    };
+
+    window.uploadModalGalleryPhoto = async function(input) {
+      const file = (input && input.files) ? input.files[0] : input;
+      if (!file) return;
+
+      modalSelectedFile = file;
+
+      // Show preview thumbnail
+      const previewBox = document.getElementById('modalGalPreviewBox');
+      const previewImg = document.getElementById('modalGalPreviewImg');
+      const previewName = document.getElementById('modalGalPreviewName');
+      if (previewBox && previewImg) {
+        try {
+          previewImg.src = URL.createObjectURL(file);
+        } catch(e) {}
+        if (previewName) previewName.textContent = file.name;
+        previewBox.classList.remove('hidden');
+      }
+
+      // Auto-title
+      const titleInput = document.getElementById('modalGalTitle');
+      if (titleInput && !titleInput.value.trim()) {
+        const rawName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        titleInput.value = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+      }
+
+      // Background upload
+      const statusEl = document.getElementById('modalGalUploadStatus');
+      if (statusEl) statusEl.innerHTML = '<span class="text-amber-400 animate-pulse">⏳ Uploading...</span>';
+      
+      try {
+        const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+          method: 'POST',
+          body: file
+        });
+        const data = await res.json();
+        if (data && data.success && data.filePath) {
+          document.getElementById('modalGalImageUrl').value = data.filePath;
+          if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
+          return data.filePath;
+        }
+      } catch (err) {}
+
+      // Fallback base64
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('modalGalImageUrl').value = e.target.result;
+          if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
+          resolve(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
+    };
+
+    window.handlePublicGallerySubmit = async function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+
+      const btn = document.getElementById('btnPublishGalleryModal');
+      const statusEl = document.getElementById('modalGalSubmitStatus');
+      const titleInput = document.getElementById('modalGalTitle');
+      const catSelect = document.getElementById('modalGalCategory');
+      const urlInput = document.getElementById('modalGalImageUrl');
+      const capText = document.getElementById('modalGalCaption');
+
+      let image = (urlInput ? urlInput.value : '').trim();
+      let title = (titleInput ? titleInput.value : '').trim();
+      const category = (catSelect ? catSelect.value : '') || 'Warehouse & Stock';
+      const caption = (capText ? capText.value : '').trim();
+
+      if (modalSelectedFile && (!image || image.startsWith('blob:'))) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳ Saving Upload...</span>';
+        image = await uploadModalGalleryPhoto(modalSelectedFile);
+        btn.disabled = false;
+        btn.innerHTML = '<span>Publish to Gallery</span><span>&rarr;</span>';
+      }
+
+      if (!image) {
+        if (statusEl) statusEl.innerHTML = '<span class="text-red-400 font-bold">⚠️ Please choose a photo from device or enter image URL.</span>';
+        alert('Please choose a photo from your device or enter an image URL / path first.');
+        return;
+      }
+
+      if (!title) {
+        if (modalSelectedFile && modalSelectedFile.name) {
+          const rawName = modalSelectedFile.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+          title = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+        } else {
+          title = `${category} Showcase`;
+        }
+      }
+
+      const newItem = {
+        id: 'gal-' + Date.now().toString().slice(-6),
+        title,
+        category,
+        image,
+        caption
+      };
+
+      const gallery = window.getStoredGallery ? window.getStoredGallery() : [];
+      gallery.unshift(newItem);
+      if (window.saveStoredGallery) {
+        window.saveStoredGallery(gallery);
+      }
+
+      renderGallery();
+
+      if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✅ Photo added to Gallery successfully!</span>';
+
+      setTimeout(() => {
+        closeGalleryUploadModal();
+        clearModalGalPreview();
+        document.getElementById('publicGalleryUploadForm').reset();
+        if (statusEl) statusEl.innerHTML = '';
+      }, 900);
+    };
+
+    // Wire drag and drop on modal dropzone
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropzone = document.getElementById('modalGalDropzone');
+      if (dropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('border-amber-400', 'bg-amber-500/10');
+          }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('border-amber-400', 'bg-amber-500/10');
+          }, false);
+        });
+        dropzone.addEventListener('drop', (e) => {
+          const dt = e.dataTransfer;
+          const files = dt ? dt.files : null;
+          if (files && files.length > 0) {
+            uploadModalGalleryPhoto(files[0]);
+          }
+        }, false);
+      }
+    });
+
     window.addEventListener('galleryUpdated', renderGallery);
-    document.addEventListener('DOMContentLoaded', renderGallery);
+    document.addEventListener('DOMContentLoaded', () => {
+      renderGallery();
+      if (window.syncDataFromServer) {
+        window.syncDataFromServer(() => renderGallery());
+      }
+    });
 
     const menuBtn = document.getElementById('mobileMenuBtn');
     const menu = document.getElementById('mobileMenu');
