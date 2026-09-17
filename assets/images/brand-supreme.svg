@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="supBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#143628"/>
+      <stop offset="60%" stop-color="#071912"/>
+      <stop offset="100%" stop-color="#020805"/>
+    </radialGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff0a8"/>
+      <stop offset="35%" stop-color="#d4af37"/>
+      <stop offset="70%" stop-color="#aa8010"/>
+      <stop offset="100%" stop-color="#fdf3b8"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" rx="30" fill="url(#supBg)" stroke="#d4af37" stroke-width="4"/>
+  
+  <!-- Outer Ornate Ring -->
+  <circle cx="200" cy="200" r="175" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-dasharray="8 6"/>
+  <circle cx="200" cy="200" r="162" fill="none" stroke="url(#goldGrad)" stroke-width="1.5"/>
+
+  <!-- Star Rays -->
+  <g stroke="url(#goldGrad)" stroke-width="2" opacity="0.75">
+    <line x1="200" y1="40" x2="200" y2="70"/>
+    <line x1="200" y1="330" x2="200" y2="360"/>
+    <line x1="40" y1="200" x2="70" y2="200"/>
+    <line x1="330" y1="200" x2="360" y2="200"/>
+    <line x1="87" y1="87" x2="108" y2="108"/>
+    <line x1="292" y1="292" x2="313" y2="313"/>
+    <line x1="87" y1="313" x2="108" y2="292"/>
+    <line x1="292" y1="108" x2="313" y2="87"/>
+  </g>
+
+  <!-- Crown Icon -->
+  <g transform="translate(200, 140)" filter="url(#glow)">
+    <path d="M-60,35 L-45,-25 L-15,10 L0,-40 L15,10 L45,-25 L60,35 Z" fill="url(#goldGrad)" stroke="#fff" stroke-width="1"/>
+    <circle cx="-45" cy="-25" r="5" fill="#fff"/>
+    <circle cx="0" cy="-40" r="7" fill="#fff"/>
+    <circle cx="45" cy="-25" r="5" fill="#fff"/>
+    <!-- Jewels -->
+    <circle cx="-25" cy="20" r="4" fill="#10b981"/>
+    <circle cx="0" cy="20" r="5" fill="#ef4444"/>
+    <circle cx="25" cy="20" r="4" fill="#10b981"/>
+  </g>
+
+  <!-- Brand Typography -->
+  <text x="200" y="240" font-family="'Cinzel', 'Trajan Pro', Georgia, serif" font-size="34" font-weight="900" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="4" filter="url(#glow)">SUPREME</text>
+  <text x="200" y="275" font-family="'Outfit', Arial, sans-serif" font-size="20" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="6">FIREWORKS</text>
+
+  <!-- Subtitle / Origin -->
+  <rect x="90" y="300" width="220" height="26" rx="13" fill="#0d261b" stroke="url(#goldGrad)" stroke-width="1.5"/>
+  <text x="200" y="317" font-family="'Outfit', Arial, sans-serif" font-size="11" font-weight="600" fill="#fcd34d" text-anchor="middle" letter-spacing="2">ROYAL CELEBRATION GRADE</text>
+</svg>

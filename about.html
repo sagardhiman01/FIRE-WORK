@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us & Safety Guidelines | Ashish Traders Fireworks (A&T) Dehradun</title>
+  <meta name="description" content="Learn about Ashish Traders Fireworks (A&T) based in Mohabewala, Dehradun. Discover our Sivakasi heritage, PESO green cracker compliance, and festival safety protocols.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            festiveGold: '#ffb300',
+            festiveFire: '#ff3d00',
+            festiveDark: '#07080d',
+            festiveCard: '#121521'
+          }
+        }
+      }
+    }
+  </script>
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+</head>
+<body class="bg-[#07080d] text-slate-100 antialiased selection:bg-amber-500 selection:text-black">
+
+  <!-- Permanent Background Video (Strictly Fixed Behind Content) -->
+  <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -999; overflow: hidden; pointer-events: none;">
+    <video src="assets/videos/fireworks-intro.mp4" autoplay muted playsinline loop style="width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: brightness(0.8);"></video>
+    <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(7,8,13,0.5) 0%, rgba(7,8,13,0.92) 100%);"></div>
+  </div>
+
+  <canvas id="bgFireworksCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -998; pointer-events: none; opacity: 0.65;"></canvas>
+
+  <!-- Top Banner -->
+  <div class="bg-gradient-to-r from-amber-600 via-red-600 to-amber-600 text-black py-1.5 px-4 text-xs md:text-sm font-bold tracking-wide text-center flex items-center justify-center gap-3 relative z-30 shadow-md">
+    <span>SAFETY FIRST • CSIR-NEERI & PESO APPROVED GREEN CRACKERS</span>
+    <span>•</span>
+    <span>Dehradun Hub: +91 9837081321</span>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Fireworks" class="w-12 h-12 rounded-full border border-amber-400 object-cover shadow-lg">
+          <div>
+            <div class="font-display font-black text-lg md:text-xl text-gold-gradient tracking-wide leading-tight">
+              ASHISH TRADERS
+            </div>
+            <div class="text-[10px] tracking-[0.25em] text-slate-400 font-bold uppercase">
+              FIREWORKS • DEHRADUN
+            </div>
+          </div>
+        </a>
+
+        <div class="hidden lg:flex items-center gap-7 text-sm font-medium">
+          <a href="index.html" class="text-slate-300 hover:text-amber-400 transition-colors">Home</a>
+          <a href="brands.html" class="text-slate-300 hover:text-amber-400 transition-colors">Brands & Products</a>
+          <a href="about.html" class="text-amber-400 font-bold transition-colors">About Us</a>
+          <a href="contact.html" class="text-slate-300 hover:text-amber-400 transition-colors">Contact Showroom</a>
+          <a href="admin.html" class="text-xs px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black font-semibold transition-all">Admin Panel</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button class="open-cart-btn relative btn-gold py-2 px-4 text-xs font-bold flex items-center gap-2">
+            <span>Estimate Cart</span>
+            <span class="cart-count-badge w-5 h-5 rounded-full bg-red-600 text-white font-bold text-[10px] items-center justify-center shadow-lg" style="display:none;">0</span>
+          </button>
+
+          <button id="mobileMenuBtn" class="lg:hidden text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800">
+            Menu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden lg:hidden bg-slate-950/95 border-b border-slate-800 px-6 py-4 space-y-3">
+      <a href="index.html" class="block text-slate-300 hover:text-amber-400 py-2">Home</a>
+      <a href="brands.html" class="block text-slate-300 hover:text-amber-400 py-2">Brands & Products (8 Brands)</a>
+      <a href="about.html" class="block font-semibold text-amber-400 py-2">About Us</a>
+      <a href="contact.html" class="block text-slate-300 hover:text-amber-400 py-2">Contact Showroom</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="py-16 px-4 text-center max-w-4xl mx-auto">
+    <span class="badge-brand mb-3">Our Heritage & Commitment</span>
+    <h1 class="font-display text-3xl sm:text-5xl font-black text-gold-gradient mb-4">
+      ABOUT ASHISH TRADERS FIREWORKS
+    </h1>
+    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+      Rooted in Dehradun, Uttarakhand, illuminating the valley's celebrations with integrity, safety, and authentic Sivakasi pyrotechnic mastercraft.
+    </p>
+  </header>
+
+  <!-- Story & Vision -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+      <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+        <div class="text-xs uppercase tracking-[0.25em] text-amber-400 font-bold">Guiding Philosophy</div>
+        <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-white">
+          "What we think, we become."
+        </h2>
+        <p>
+          Founded by <strong class="text-amber-400">Ashish Chopra</strong> and <strong class="text-amber-400">Yuvraj Chopra</strong>, <span class="text-white font-semibold">Ashish Traders (A&T)</span> was born with a single mission: to ensure that every home, wedding, temple, and business in Uttarakhand experiences joyous, safe, and breathtaking fireworks without the exorbitant markups of middlemen.
+        </p>
+        <p>
+          Situated at <strong class="text-white">23, Mohabewala Industrial Area, Saharanpur Road (Near Ford Showroom) in Dehradun</strong>, our centralized distribution facility connects directly with Sivakasi's premier manufacturers—including Cock Brand, Ravindra, Sonny, Mercury, Supreme, Vel's, Sunshine, and Son India.
+        </p>
+        <p class="text-slate-400">
+          Whether you need a compact family festival box for Diwali evening or a synchronized 240-shot multi-cake spectacle for a grand resort wedding in Mussoorie or Dehradun, our team provides technical advice, safety protocols, and prompt delivery.
+        </p>
+      </div>
+
+      <div class="relative">
+        <div class="glass-panel p-4 border-amber-500/40">
+          <img src="assets/images/sparklers-anaar.jpg" alt="Festive Lighting Display" class="w-full h-80 object-cover rounded-xl shadow-2xl">
+          <div class="mt-4 p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs">
+            <div>
+              <div class="font-bold text-white">Central Warehouse Hub</div>
+              <div class="text-slate-400">Mohabewala Industrial Area, Dehradun</div>
+            </div>
+            <a href="contact.html" class="btn-gold text-[11px] py-1.5 px-3">View Map</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Green Crackers Verification Section (Clean, no emojis) -->
+    <section class="glass-panel p-8 md:p-12 mb-20 border-emerald-500/30 relative overflow-hidden">
+      <div class="max-w-3xl">
+        <span class="badge-eco mb-3">Environmental Compliance</span>
+        <h3 class="font-display text-2xl sm:text-3xl font-black text-white mb-4">
+          HOW WE VERIFY 100% PESO & CSIR-NEERI GREEN CRACKERS
+        </h3>
+        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+          Green Crackers emit 30% to 35% less particulate matter (PM2.5) and are manufactured without toxic chemicals like Barium Nitrate, Lead, Chromium, and Arsenic.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="text-xs uppercase text-amber-400 font-bold mb-1">Step 1</div>
+            <div class="font-bold text-slate-200 text-xs mb-1">Scan NEERI QR Code</div>
+            <p class="text-[11px] text-slate-400">Every box features a traceable QR code verifiable through the official CSIR-NEERI mobile app.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="text-xs uppercase text-emerald-400 font-bold mb-1">Step 2</div>
+            <div class="font-bold text-slate-200 text-xs mb-1">SWAS, STAR & SAFAL</div>
+            <p class="text-[11px] text-slate-400">Certified water-releasing formulations that eliminate dust particles immediately upon combustion.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+            <div class="text-xs uppercase text-blue-400 font-bold mb-1">Step 3</div>
+            <div class="font-bold text-slate-200 text-xs mb-1">Decibel Compliance</div>
+            <p class="text-[11px] text-slate-400">All sound crackers conform strictly to the Supreme Court threshold of under 125 dB at 4 meters.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Essential Fireworks Safety Protocols -->
+    <section class="mb-20">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="badge-brand mb-2">Festival Safety Guide</span>
+        <h3 class="font-display text-2xl sm:text-4xl font-black text-slate-100">
+          PYROTECHNIC SAFETY: DOS AND DON'TS
+        </h3>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1">Fireworks bring immense happiness when lit with mindfulness and safety preparations.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- DOs -->
+        <div class="glass-panel p-6 sm:p-8 border-emerald-500/30">
+          <h4 class="font-bold text-lg text-emerald-400 mb-4">
+            SAFETY DOS (Always Follow)
+          </h4>
+          <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><strong>Keep Water & Sand Ready:</strong> Always have two buckets of water and sand nearby for emergency immersion.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><strong>Wear Cotton Clothes:</strong> Wear snug-fitting pure cotton clothing and footwear. Avoid loose synthetics or flowing dupattas near flames.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><strong>Light at Arm's Length:</strong> Use a long burning incense stick (agarbatti) or sparkler to ignite the fuse; never use a pocket lighter right next to the tube.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><strong>Maintain Safe Clearance:</strong> Stand at least 15 meters away from aerial sky shot cakes once ignited.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><strong>Supervise Children:</strong> Young children should only hold sparklers under direct adult supervision.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- DONTs -->
+        <div class="glass-panel p-6 sm:p-8 border-red-500/30">
+          <h4 class="font-bold text-lg text-red-400 mb-4">
+            SAFETY DON'TS (Never Do)
+          </h4>
+          <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
+            <li class="flex items-start gap-2.5">
+              <span class="text-red-400 font-bold">•</span>
+              <span><strong>Never Re-ignite a Dud:</strong> If a firework does not fire after lighting, wait 15 minutes, then pour a bucket of water over it. Never inspect closely.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-red-400 font-bold">•</span>
+              <span><strong>Never Hold Burning Crackers:</strong> Never light rockets, flowerpots, or bombs in hands. Always place them flat on level ground.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-red-400 font-bold">•</span>
+              <span><strong>Never Light Indoors:</strong> Never set off crackers inside rooms, covered balconies, or near closed parking structures.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-red-400 font-bold">•</span>
+              <span><strong>Never Cover with Metal Tins:</strong> Never place tin cans, glass bottles, or clay pots over firecrackers. Shrapnel can cause grave injury.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-red-400 font-bold">•</span>
+              <span><strong>Respect Animals & Elders:</strong> Avoid bursting high-decibel crackers near hospitals, clinics, elderly homes, or pets.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Direct Contact CTA -->
+    <div class="glass-panel p-8 text-center border-amber-500/40 max-w-3xl mx-auto">
+      <h3 class="font-display font-bold text-2xl text-slate-100 mb-2">Visit Our Dehradun Showroom & Warehouse</h3>
+      <p class="text-xs text-slate-400 mb-6">Experience our live display samples and speak directly with Ashish Chopra & Yuvraj Chopra.</p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="contact.html" class="btn-gold text-xs py-3 px-6">Showroom Directions & Hours</a>
+        <a href="https://wa.me/919837081321" target="_blank" class="btn-outline-gold text-xs py-3 px-6">Chat on WhatsApp</a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black text-slate-400 py-12 border-t border-slate-900 text-xs text-center">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="mb-2 font-display font-bold text-white text-base">ASHISH TRADERS FIREWORKS (A&T)</div>
+      <div class="text-slate-400 mb-2">23, Mohabewala Industrial Area, Near Ford Showroom, Saharanpur Road, Dehradun - 248007</div>
+      <div class="text-slate-500">&copy; 2026 Ashish Traders. Authorized Distributor for Cock Brand, Ravindra, Sonny, Mercury, Supreme, Vel's, Sunshine & Son India.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/fireworks-canvas.js"></script>
+  <script src="assets/js/products-data.js"></script>
+  <script src="assets/js/cart-inquiry.js"></script>
+
+  <script>
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const menu = document.getElementById('mobileMenu');
+    if (menuBtn && menu) menuBtn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard & Catalog Manager | Ashish Traders Fireworks</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#07080d">
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+
+  <style>
+    .admin-card {
+      background: rgba(18, 21, 33, 0.85);
+      border: 1px solid rgba(255, 179, 0, 0.15);
+      border-radius: 1rem;
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="bg-[#07080d] text-slate-100 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- ==========================================================================
+       TOP ADMIN HEADER
+       ========================================================================== -->
+  <header class="sticky top-0 z-40 bg-slate-950/95 border-b border-amber-500/20 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-amber-500 to-red-500 shadow-lg flex-shrink-0">
+            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Logo" class="w-full h-full rounded-full object-cover">
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-display font-black text-lg text-gold-gradient tracking-wide">ASHISH TRADERS</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-bold uppercase">ADMIN PANEL</span>
+            </div>
+            <div class="text-[11px] text-slate-400">Full Catalog & Store Customization Engine (A to Z)</div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex items-center gap-3">
+          <a href="brands.html" target="_blank" class="text-xs px-3.5 py-2 rounded-xl bg-slate-900 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black font-semibold transition-all flex items-center gap-1.5 shadow">
+            <span>View Live Store</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="index.html" target="_blank" class="text-xs px-3.5 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:text-white font-semibold transition-all">
+            Home Page
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN ADMIN CONTAINER
+       ========================================================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+    
+    <!-- STATS COUNTER BAR -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="admin-card p-5 border-l-4 border-l-amber-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">Total Products</span>
+        <div id="statTotalProducts" class="text-3xl font-black text-amber-400 mt-1">0</div>
+        <span class="text-[11px] text-slate-500">In database</span>
+      </div>
+
+      <div class="admin-card p-5 border-l-4 border-l-emerald-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">In Stock</span>
+        <div id="statInStock" class="text-3xl font-black text-emerald-400 mt-1">0</div>
+        <span class="text-[11px] text-emerald-500/80">Available to order</span>
+      </div>
+
+      <div class="admin-card p-5 border-l-4 border-l-red-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">Not Available</span>
+        <div id="statOutOfStock" class="text-3xl font-black text-red-400 mt-1">0</div>
+        <span class="text-[11px] text-red-500/80">Marked Out of Stock</span>
+      </div>
+
+      <div class="admin-card p-5 border-l-4 border-l-blue-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">Partner Brands</span>
+        <div id="statTotalBrands" class="text-3xl font-black text-blue-400 mt-1">8</div>
+        <span class="text-[11px] text-slate-500">Sivakasi manufacturers</span>
+      </div>
+    </div>
+
+    <!-- CONTROLS & ACTION BAR -->
+    <div class="admin-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <!-- Search & Brand Filters -->
+      <div class="flex flex-wrap items-center gap-3 flex-1">
+        <div class="relative flex-1 min-w-[200px] max-w-sm">
+          <input id="adminSearchInput" type="text" placeholder="Search products..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          <svg class="w-4 h-4 text-slate-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+
+        <select id="adminBrandFilter" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none">
+          <option value="ALL">All Brands</option>
+          <option value="Cock Brand">Cock Brand</option>
+          <option value="Ravindra Fireworks">Ravindra Fireworks</option>
+          <option value="Sonny Fireworks">Sonny Fireworks</option>
+          <option value="Mercury Fireworks">Mercury Fireworks</option>
+          <option value="Supreme Fireworks">Supreme Fireworks</option>
+          <option value="Vel's Fireworks">Vel's Fireworks</option>
+          <option value="Sunshine Fireworks">Sunshine Fireworks</option>
+          <option value="Son India">Son India</option>
+        </select>
+
+        <select id="adminStockFilter" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none">
+          <option value="ALL">All Stock Status</option>
+          <option value="IN_STOCK">In Stock Only</option>
+          <option value="OUT_OF_STOCK">Not Available Only</option>
+        </select>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2.5">
+        <button onclick="openAddProductModal()" class="btn-gold py-2.5 px-4 text-xs font-bold flex items-center gap-1.5 shadow-lg">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          <span>Add New Product</span>
+        </button>
+
+        <button onclick="openSettingsModal()" class="text-xs px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-white font-semibold flex items-center gap-1.5 transition-colors">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span>Store Settings</span>
+        </button>
+
+        <button onclick="confirmResetDefaults()" class="text-xs px-3 py-2.5 rounded-xl bg-red-950/40 border border-red-800/60 hover:bg-red-900/50 text-red-300 font-semibold transition-colors" title="Reset to Factory Products">
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- PRODUCTS MANAGEMENT TABLE / LIST -->
+    <div class="admin-card overflow-hidden">
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-base text-white">Products Catalog Database</h2>
+          <p class="text-xs text-slate-400">Click on any product's stock button to instantly toggle Available vs Not Available.</p>
+        </div>
+        <span id="filteredCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 font-bold border border-amber-500/20">0 items</span>
+      </div>
+
+      <!-- Desktop Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="bg-slate-950/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider text-[11px]">
+              <th class="py-3.5 px-4">Photo</th>
+              <th class="py-3.5 px-4">Product Name & Category</th>
+              <th class="py-3.5 px-4">Brand</th>
+              <th class="py-3.5 px-4">Wholesale Rate</th>
+              <th class="py-3.5 px-4">MRP</th>
+              <th class="py-3.5 px-4 text-center">Stock Status</th>
+              <th class="py-3.5 px-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminProductsTableBody" class="divide-y divide-slate-800/80">
+            <!-- Populated dynamically by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="adminEmptyState" class="py-16 text-center" style="display: none;">
+        <div class="w-14 h-14 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto mb-3 text-slate-500">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+        </div>
+        <h3 class="font-bold text-slate-300 text-sm mb-1">No products match your filter</h3>
+        <p class="text-xs text-slate-500 mb-4">Try resetting filters or search query.</p>
+        <button onclick="resetAdminFilters()" class="btn-gold text-xs py-2 px-4">Reset Filters</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       MODAL 1: ADD / EDIT PRODUCT MODAL
+       ========================================================================== -->
+  <div id="productModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto" style="display: none;">
+    <div class="bg-slate-950 border border-amber-500/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+        <div>
+          <h3 id="modalFormTitle" class="font-bold text-base text-white">Add New Firecracker Product</h3>
+          <p class="text-xs text-slate-400">Fill in product details for Ashish Traders catalog</p>
+        </div>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-white p-2 text-2xl leading-none">&times;</button>
+      </div>
+
+      <!-- Modal Form Body -->
+      <form id="productForm" class="p-6 overflow-y-auto space-y-4 flex-1">
+        <input type="hidden" id="editProductId">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Product Name -->
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Product Name *</label>
+            <input id="formProdName" type="text" required placeholder="e.g., Cock Brand 240 Sky Shots Celestial Fiesta" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          </div>
+
+          <!-- Brand -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Brand *</label>
+            <select id="formProdBrand" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="Cock Brand">Cock Brand (Sri Kaliswari)</option>
+              <option value="Ravindra Fireworks">Ravindra Fireworks</option>
+              <option value="Sonny Fireworks">Sonny Fireworks</option>
+              <option value="Mercury Fireworks">Mercury Fireworks</option>
+              <option value="Supreme Fireworks">Supreme Fireworks</option>
+              <option value="Vel's Fireworks">Vel's Fireworks</option>
+              <option value="Sunshine Fireworks">Sunshine Fireworks (Green)</option>
+              <option value="Son India">Son India</option>
+            </select>
+          </div>
+
+          <!-- Category -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Category *</label>
+            <select id="formProdCategory" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="Sky Shots">Sky Shots / Aerial Cakes</option>
+              <option value="Sparklers">Sparklers / Phuljhadi</option>
+              <option value="Flower Pots">Flower Pots / Anaar</option>
+              <option value="Chakkars">Ground Chakkars / Wheels</option>
+              <option value="Rockets">Whistling Rockets</option>
+              <option value="Garlands (Ladi)">Garlands (Ladi Rolls)</option>
+              <option value="Sound Crackers">Sound Crackers (Bijili/Hydro)</option>
+              <option value="Gift Boxes">Gift Boxes & Hampers</option>
+            </select>
+          </div>
+
+          <!-- Wholesale Price -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Wholesale Offer Price (₹) *</label>
+            <input id="formProdPrice" type="number" required min="1" placeholder="3499" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          </div>
+
+          <!-- MRP -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Original MRP (₹)</label>
+            <input id="formProdOriginalPrice" type="number" min="1" placeholder="4200" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          </div>
+
+          <!-- Pack Info -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Packaging Specifications *</label>
+            <input id="formProdPackInfo" type="text" required placeholder="e.g., 1 Box (10 Pcs) / 240 Shots" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          </div>
+
+          <!-- Stock Status Switch -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Stock Availability *</label>
+            <select id="formProdStock" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="true">In Stock (Available to Order)</option>
+              <option value="false">Not Available (Out of Stock)</option>
+            </select>
+          </div>
+
+          <!-- Product Image URL -->
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Product Image Path / URL *</label>
+            <input id="formProdImage" type="text" required placeholder="assets/images/cock-skyshots-240.jpg" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+            
+            <!-- Quick Preset Real Images -->
+            <div class="mt-2">
+              <span class="text-[10px] text-amber-400 font-bold uppercase">Quick Select Authentic Photo Preset:</span>
+              <div class="flex flex-wrap gap-1.5 mt-1.5">
+                <button type="button" onclick="setPresetImage('assets/images/cock-skyshots-240.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">240 Sky Shots</button>
+                <button type="button" onclick="setPresetImage('assets/images/cock-sparklers-giant.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Golden Sparklers</button>
+                <button type="button" onclick="setPresetImage('assets/images/flower-pot-anaar.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Flower Pots Anaar</button>
+                <button type="button" onclick="setPresetImage('assets/images/ground-chakkar-deluxe.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Ground Chakkars</button>
+                <button type="button" onclick="setPresetImage('assets/images/bomb-rockets.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Bomb Rockets</button>
+                <button type="button" onclick="setPresetImage('assets/images/cock-bijili-crackers.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Bijili Crackers</button>
+                <button type="button" onclick="setPresetImage('assets/images/hydro-bomb-pack.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Hydro Bomb</button>
+                <button type="button" onclick="setPresetImage('assets/images/red-garland-ladi.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">1000/5000 Ladi</button>
+                <button type="button" onclick="setPresetImage('assets/images/diwali-gift-hamper.jpg')" class="text-[10px] px-2 py-1 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300">Family Gift Hamper</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Description</label>
+            <textarea id="formProdDesc" rows="2" placeholder="Visual effects, altitude, duration, colors..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"></textarea>
+          </div>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeProductModal()" class="text-xs px-4 py-2.5 rounded-xl bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+            Cancel
+          </button>
+          <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow">
+            Save Product to Store
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: STORE SETTINGS MODAL (A to Z Customization)
+       ========================================================================== -->
+  <div id="settingsModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto" style="display: none;">
+    <div class="bg-slate-950 border border-amber-500/40 rounded-2xl w-full max-w-xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in">
+      
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+        <div>
+          <h3 class="font-bold text-base text-white">Store Customization Settings (A to Z)</h3>
+          <p class="text-xs text-slate-400">Configure banner text, WhatsApp numbers & video background</p>
+        </div>
+        <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white p-2 text-2xl leading-none">&times;</button>
+      </div>
+
+      <form id="settingsForm" class="p-6 overflow-y-auto space-y-4 flex-1">
+        <!-- Announcement Banner -->
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Top Announcement Bar Text</label>
+          <input id="settAnnouncement" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <!-- Phone Numbers -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Ashish Chopra WhatsApp (digits)</label>
+            <input id="settAshishPhone" type="text" placeholder="919837081321" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Yuvraj Chopra WhatsApp (digits)</label>
+            <input id="settYuvrajPhone" type="text" placeholder="918630615934" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Showroom / Warehouse Address</label>
+          <textarea id="settAddress" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+        </div>
+
+        <!-- Permanent Background Video Switch -->
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between">
+          <div>
+            <div class="font-bold text-xs text-slate-200">Permanent Background Video</div>
+            <div class="text-[11px] text-slate-400">Play continuous fireworks video loop behind website content</div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="settBgVideoToggle" class="sr-only peer" checked>
+            <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+          </label>
+        </div>
+
+        <!-- Submit -->
+        <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeSettingsModal()" class="text-xs px-4 py-2.5 rounded-xl bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+            Cancel
+          </button>
+          <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow">
+            Save Settings
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CORE SCRIPTS
+       ========================================================================== -->
+  <script src="assets/js/products-data.js"></script>
+
+  <script>
+    let currentAdminProducts = [];
+    let searchFilter = '';
+    let brandFilter = 'ALL';
+    let stockFilter = 'ALL';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProductsData();
+      setupEventListeners();
+    });
+
+    function loadProductsData() {
+      currentAdminProducts = window.getStoredProducts();
+      renderStats();
+      renderTable();
+    }
+
+    function renderStats() {
+      const total = currentAdminProducts.length;
+      const inStock = currentAdminProducts.filter(p => p.inStock !== false).length;
+      const outOfStock = total - inStock;
+      const brands = new Set(currentAdminProducts.map(p => p.brand)).size;
+
+      document.getElementById('statTotalProducts').textContent = total;
+      document.getElementById('statInStock').textContent = inStock;
+      document.getElementById('statOutOfStock').textContent = outOfStock;
+      document.getElementById('statTotalBrands').textContent = brands;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('adminProductsTableBody');
+      const emptyState = document.getElementById('adminEmptyState');
+      const countBadge = document.getElementById('filteredCountBadge');
+
+      let filtered = currentAdminProducts;
+
+      // Filter Brand
+      if (brandFilter !== 'ALL') {
+        filtered = filtered.filter(p => p.brand === brandFilter);
+      }
+
+      // Filter Stock
+      if (stockFilter === 'IN_STOCK') {
+        filtered = filtered.filter(p => p.inStock !== false);
+      } else if (stockFilter === 'OUT_OF_STOCK') {
+        filtered = filtered.filter(p => p.inStock === false);
+      }
+
+      // Search
+      if (searchFilter) {
+        const q = searchFilter.toLowerCase();
+        filtered = filtered.filter(p => 
+          p.name.toLowerCase().includes(q) || 
+          p.brand.toLowerCase().includes(q) || 
+          p.category.toLowerCase().includes(q)
+        );
+      }
+
+      countBadge.textContent = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      tbody.innerHTML = filtered.map(p => {
+        const isAvailable = p.inStock !== false;
+        return `
+          <tr class="hover:bg-slate-900/60 transition-colors">
+            <!-- Thumbnail -->
+            <td class="py-3 px-4">
+              <div class="w-12 h-12 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex-shrink-0">
+                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+              </div>
+            </td>
+
+            <!-- Name & Category -->
+            <td class="py-3 px-4 min-w-[220px]">
+              <div class="font-bold text-slate-100">${p.name}</div>
+              <div class="text-[10px] text-slate-400 mt-0.5 flex items-center gap-2">
+                <span class="px-1.5 py-0.2 rounded bg-slate-900 border border-slate-800">${p.category}</span>
+                <span>${p.packInfo}</span>
+              </div>
+            </td>
+
+            <!-- Brand -->
+            <td class="py-3 px-4 whitespace-nowrap">
+              <span class="px-2 py-1 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">
+                ${p.brand}
+              </span>
+            </td>
+
+            <!-- Price -->
+            <td class="py-3 px-4 whitespace-nowrap font-black text-amber-400 text-sm">
+              ₹${p.price.toLocaleString('en-IN')}
+            </td>
+
+            <!-- MRP -->
+            <td class="py-3 px-4 whitespace-nowrap text-slate-500 line-through">
+              ${p.originalPrice ? `₹${p.originalPrice.toLocaleString('en-IN')}` : '—'}
+            </td>
+
+            <!-- Stock Toggle (1 Click Action) -->
+            <td class="py-3 px-4 text-center whitespace-nowrap">
+              <button onclick="toggleStockStatus('${p.id}')" 
+                      class="px-3 py-1 rounded-full text-[11px] font-bold border transition-all cursor-pointer shadow ${
+                        isAvailable 
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 hover:bg-emerald-500 hover:text-black' 
+                        : 'bg-red-500/20 text-red-300 border-red-500/50 hover:bg-red-500 hover:text-white'
+                      }" 
+                      title="Click to toggle availability">
+                ${isAvailable ? '🟢 In Stock' : '🔴 Not Available'}
+              </button>
+            </td>
+
+            <!-- Actions -->
+            <td class="py-3 px-4 text-right whitespace-nowrap">
+              <div class="flex items-center justify-end gap-2">
+                <button onclick="openEditProductModal('${p.id}')" class="p-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-white transition-colors" title="Edit Product">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </button>
+                <button onclick="deleteProduct('${p.id}')" class="p-1.5 rounded-lg bg-red-950/40 border border-red-800/60 hover:border-red-500 text-red-400 hover:text-red-200 transition-colors" title="Delete Product">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Toggle In Stock / Not Available
+    window.toggleStockStatus = function(productId) {
+      const product = currentAdminProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      product.inStock = product.inStock === false ? true : false;
+      window.saveStoredProducts(currentAdminProducts);
+      renderStats();
+      renderTable();
+    };
+
+    // Open Add Modal
+    window.openAddProductModal = function() {
+      document.getElementById('modalFormTitle').textContent = 'Add New Firecracker Product';
+      document.getElementById('editProductId').value = '';
+      document.getElementById('productForm').reset();
+      document.getElementById('formProdStock').value = 'true';
+      document.getElementById('formProdImage').value = 'assets/images/cock-skyshots-240.jpg';
+      document.getElementById('productModalOverlay').style.display = 'flex';
+    };
+
+    // Open Edit Modal
+    window.openEditProductModal = function(productId) {
+      const product = currentAdminProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      document.getElementById('modalFormTitle').textContent = 'Edit Product Details';
+      document.getElementById('editProductId').value = product.id;
+      document.getElementById('formProdName').value = product.name;
+      document.getElementById('formProdBrand').value = product.brand;
+      document.getElementById('formProdCategory').value = product.category;
+      document.getElementById('formProdPrice').value = product.price;
+      document.getElementById('formProdOriginalPrice').value = product.originalPrice || '';
+      document.getElementById('formProdPackInfo').value = product.packInfo;
+      document.getElementById('formProdImage').value = product.image;
+      document.getElementById('formProdDesc').value = product.description || '';
+      document.getElementById('formProdStock').value = product.inStock !== false ? 'true' : 'false';
+
+      document.getElementById('productModalOverlay').style.display = 'flex';
+    };
+
+    window.closeProductModal = function() {
+      document.getElementById('productModalOverlay').style.display = 'none';
+    };
+
+    window.setPresetImage = function(path) {
+      document.getElementById('formProdImage').value = path;
+    };
+
+    // Handle Product Form Submit (Create or Update)
+    document.getElementById('productForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editProductId').value;
+      const name = document.getElementById('formProdName').value.trim();
+      const brand = document.getElementById('formProdBrand').value;
+      const category = document.getElementById('formProdCategory').value;
+      const price = parseInt(document.getElementById('formProdPrice').value, 10);
+      const originalPrice = document.getElementById('formProdOriginalPrice').value ? parseInt(document.getElementById('formProdOriginalPrice').value, 10) : price + Math.round(price * 0.25);
+      const packInfo = document.getElementById('formProdPackInfo').value.trim();
+      const image = document.getElementById('formProdImage').value.trim() || 'assets/images/cock-skyshots-240.jpg';
+      const description = document.getElementById('formProdDesc').value.trim();
+      const inStock = document.getElementById('formProdStock').value === 'true';
+
+      if (id) {
+        // Update existing
+        const index = currentAdminProducts.findIndex(p => p.id === id);
+        if (index !== -1) {
+          currentAdminProducts[index] = Object.assign(currentAdminProducts[index], {
+            name, brand, category, price, originalPrice, packInfo, image, description, inStock
+          });
+        }
+      } else {
+        // Create new
+        const newId = 'AT-CUSTOM-' + Date.now().toString().slice(-6);
+        currentAdminProducts.unshift({
+          id: newId,
+          name,
+          brand,
+          category,
+          price,
+          originalPrice,
+          packInfo,
+          image,
+          description,
+          inStock,
+          ecoFriendly: true,
+          badge: 'New Arrival',
+          noiseLevel: 'Standard',
+          safetyDistance: '10 Meters'
+        });
+      }
+
+      window.saveStoredProducts(currentAdminProducts);
+      closeProductModal();
+      renderStats();
+      renderTable();
+    });
+
+    // Delete Product
+    window.deleteProduct = function(productId) {
+      const product = currentAdminProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      if (confirm(`Are you sure you want to delete "${product.name}" from the store?`)) {
+        currentAdminProducts = currentAdminProducts.filter(p => p.id !== productId);
+        window.saveStoredProducts(currentAdminProducts);
+        renderStats();
+        renderTable();
+      }
+    };
+
+    // Reset Defaults
+    window.confirmResetDefaults = function() {
+      if (confirm('Are you sure you want to reset all products back to the original factory catalog? Any custom products will be replaced.')) {
+        currentAdminProducts = window.resetToDefaultProducts();
+        renderStats();
+        renderTable();
+      }
+    };
+
+    // Store Settings Modal
+    window.openSettingsModal = function() {
+      const settings = window.getSiteSettings();
+      document.getElementById('settAnnouncement').value = settings.announcement || '';
+      document.getElementById('settAshishPhone').value = settings.ashishPhone || '919837081321';
+      document.getElementById('settYuvrajPhone').value = settings.yuvrajPhone || '918630615934';
+      document.getElementById('settAddress').value = settings.address || '';
+      document.getElementById('settBgVideoToggle').checked = settings.bgVideoEnabled !== false;
+      document.getElementById('settingsModalOverlay').style.display = 'flex';
+    };
+
+    window.closeSettingsModal = function() {
+      document.getElementById('settingsModalOverlay').style.display = 'none';
+    };
+
+    document.getElementById('settingsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newSettings = {
+        announcement: document.getElementById('settAnnouncement').value.trim(),
+        ashishPhone: document.getElementById('settAshishPhone').value.trim(),
+        yuvrajPhone: document.getElementById('settYuvrajPhone').value.trim(),
+        address: document.getElementById('settAddress').value.trim(),
+        bgVideoEnabled: document.getElementById('settBgVideoToggle').checked,
+        bgVideoUrl: 'assets/videos/fireworks-intro.mp4'
+      };
+      window.saveSiteSettings(newSettings);
+      closeSettingsModal();
+      alert('Store settings saved successfully! Live store and website have been updated.');
+    });
+
+    // Event Listeners for Filters
+    function setupEventListeners() {
+      document.getElementById('adminSearchInput').addEventListener('input', (e) => {
+        searchFilter = e.target.value.trim();
+        renderTable();
+      });
+
+      document.getElementById('adminBrandFilter').addEventListener('change', (e) => {
+        brandFilter = e.target.value;
+        renderTable();
+      });
+
+      document.getElementById('adminStockFilter').addEventListener('change', (e) => {
+        stockFilter = e.target.value;
+        renderTable();
+      });
+    }
+
+    window.resetAdminFilters = function() {
+      searchFilter = '';
+      brandFilter = 'ALL';
+      stockFilter = 'ALL';
+      document.getElementById('adminSearchInput').value = '';
+      document.getElementById('adminBrandFilter').value = 'ALL';
+      document.getElementById('adminStockFilter').value = 'ALL';
+      renderTable();
+    };
+  </script>
+</body>
+</html>

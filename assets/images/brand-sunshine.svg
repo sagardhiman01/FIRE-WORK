@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="sunBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3a2500"/>
+      <stop offset="60%" stop-color="#191000"/>
+      <stop offset="100%" stop-color="#050300"/>
+    </radialGradient>
+    <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#fff176"/>
+      <stop offset="70%" stop-color="#ffb300"/>
+      <stop offset="100%" stop-color="#fb8c00"/>
+    </linearGradient>
+    <filter id="sunGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" rx="30" fill="url(#sunBg)" stroke="#ffb300" stroke-width="4"/>
+  <circle cx="200" cy="200" r="175" fill="none" stroke="url(#sunGrad)" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <!-- Shining Sun & Rays Motif -->
+  <g transform="translate(200, 135)" filter="url(#sunGlow)">
+    <circle cx="0" cy="0" r="28" fill="url(#sunGrad)"/>
+    <!-- Sun Rays Triangular -->
+    <g fill="url(#sunGrad)">
+      <polygon points="0,-48 -7,-34 7,-34"/>
+      <polygon points="0,48 -7,34 7,34"/>
+      <polygon points="-48,0 -34,-7 -34,7"/>
+      <polygon points="48,0 34,-7 34,7"/>
+      <polygon points="-34,-34 -30,-20 -20,-30"/>
+      <polygon points="34,-34 30,-20 20,-30"/>
+      <polygon points="-34,34 -30,20 -20,30"/>
+      <polygon points="34,34 30,20 20,30"/>
+    </g>
+    <!-- Eco-friendly Green Sparkles -->
+    <circle cx="-42" cy="-15" r="4" fill="#00e676"/>
+    <circle cx="42" cy="15" r="4" fill="#00e676"/>
+  </g>
+
+  <!-- Typography -->
+  <text x="200" y="240" font-family="'Cinzel', Georgia, serif" font-size="32" font-weight="900" fill="url(#sunGrad)" text-anchor="middle" letter-spacing="3" filter="url(#sunGlow)">SUNSHINE</text>
+  <text x="200" y="275" font-family="'Outfit', Arial, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="6">FIREWORKS</text>
+
+  <rect x="80" y="300" width="240" height="26" rx="13" fill="#1b1200" stroke="#00e676" stroke-width="1.5"/>
+  <text x="200" y="317" font-family="'Outfit', Arial, sans-serif" font-size="11" font-weight="600" fill="#69f0ae" text-anchor="middle" letter-spacing="2">CERTIFIED GREEN CRACKERS</text>
+</svg>

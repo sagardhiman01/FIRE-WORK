@@ -1,0 +1,730 @@
+/**
+ * Ashish Traders Fireworks (A&T) - Official Products & Brands Database
+ * Authorized Partner for 8 Sivakasi Pyrotechnic Manufacturers.
+ * Real authentic packaging imagery, real-time stock status, and admin data persistence.
+ */
+
+window.DEFAULT_FIREWORKS_PRODUCTS = [
+  // ==========================================
+  // 1. COCK BRAND (Sri Kaliswari Fireworks - Est. 1923)
+  // ==========================================
+  {
+    id: 'CB-SK-240',
+    name: 'Cock Brand Grand 240 Sky Shots Celestial Fiesta',
+    brand: 'Cock Brand',
+    category: 'Sky Shots',
+    price: 3499,
+    originalPrice: 4200,
+    packInfo: '1 Heavy Display Box (240 Aerial Shots)',
+    image: 'assets/images/cock-skyshots-240.jpg',
+    badge: 'Bestseller',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'High Spectacle',
+    safetyDistance: '15 Meters',
+    description: 'The crowning jewel of Cock Brand. Continuous 3-minute multi-colored aerial barrage with golden willows, silver brocade, and crackling dragon eggs.'
+  },
+  {
+    id: 'CB-BJ-050',
+    name: 'Cock Brand Special Bijili Crackers (Red & Green Snaps)',
+    brand: 'Cock Brand',
+    category: 'Sound Crackers',
+    price: 120,
+    originalPrice: 170,
+    packInfo: '1 Box (50 Tied Bijili Crackers)',
+    image: 'assets/images/cock-bijili-crackers.jpg',
+    badge: 'Classic Favorite',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Sharp Snap',
+    safetyDistance: '4 Meters',
+    description: 'Authentic Sivakasi striped paper wrapped traditional bijili sound crackers. Instant festive energy with zero duds.'
+  },
+  {
+    id: 'CB-SP-050',
+    name: 'Cock Brand 50cm Mega Giant Golden Sparklers',
+    brand: 'Cock Brand',
+    category: 'Sparklers',
+    price: 240,
+    originalPrice: 320,
+    packInfo: '1 Box (5 Giant Rods)',
+    image: 'assets/images/cock-sparklers-giant.jpg',
+    badge: 'Long Burning',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Silent / Visual',
+    safetyDistance: 'Handheld Safe',
+    description: 'Extra-long burning electric sparklers lasting over 3 minutes with dense golden showers and zero falling hot ash.'
+  },
+  {
+    id: 'CB-GC-010',
+    name: 'Cock Brand Special Deluxe Ground Chakkars',
+    brand: 'Cock Brand',
+    category: 'Chakkars',
+    price: 180,
+    originalPrice: 250,
+    packInfo: '1 Box (10 Giant Chakkars)',
+    image: 'assets/images/ground-chakkar-deluxe.jpg',
+    badge: 'Popular',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Low Whirring',
+    safetyDistance: '5 Meters',
+    description: 'Traditional Sivakasi master formulation spinning wheel fireworks producing a vibrant 6-foot wide rotating fiery ring with silver crackles.'
+  },
+  {
+    id: 'CB-FP-005',
+    name: 'Cock Brand Royal Koti Special Flower Pots (Anaar)',
+    brand: 'Cock Brand',
+    category: 'Flower Pots',
+    price: 320,
+    originalPrice: 420,
+    packInfo: '1 Box (5 Conical Anaar Pots)',
+    image: 'assets/images/flower-pot-anaar.jpg',
+    badge: 'Grand Fountain',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Low / Visual',
+    safetyDistance: '5 Meters',
+    description: 'Towering 15-foot golden shower fountain that transitions into sparkling silver and ruby red stars. Zero sulfur toxic fumes.'
+  },
+  {
+    id: 'CB-RK-005',
+    name: 'Cock Brand Super Whistling Bomb Rockets',
+    brand: 'Cock Brand',
+    category: 'Rockets',
+    price: 380,
+    originalPrice: 490,
+    packInfo: 'Pack of 5 Rockets with Sticks',
+    image: 'assets/images/bomb-rockets.jpg',
+    badge: 'High Altitude',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Loud Whistle & Boom',
+    safetyDistance: '15 Meters',
+    description: 'Aerodynamic rocket with a piercing supersonic whistle ascent up to 150 feet, terminating in a brilliant titanium burst.'
+  },
+  {
+    id: 'CB-LD-1000',
+    name: 'Cock Brand 1000 Wala Deluxe Festive Garland',
+    brand: 'Cock Brand',
+    category: 'Garlands (Ladi)',
+    price: 499,
+    originalPrice: 650,
+    packInfo: '1 Roll Box (1000 Crackers Ladi)',
+    image: 'assets/images/red-garland-ladi.jpg',
+    badge: 'Diwali Essential',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Loud Rhythmic',
+    safetyDistance: '10 Meters',
+    description: 'Classic festive red cracker ladi roll offering rhythmic synchronized bursts and grand festive momentum. Low smoke formula.'
+  },
+
+  // ==========================================
+  // 2. RAVINDRA FIREWORKS
+  // ==========================================
+  {
+    id: 'RV-SK-120',
+    name: 'Ravindra 120 Shots Bollywood Night Extravaganza',
+    brand: 'Ravindra Fireworks',
+    category: 'Sky Shots',
+    price: 1850,
+    originalPrice: 2400,
+    packInfo: '1 Multi-tube Box (120 Aerial Shots)',
+    image: 'assets/images/cock-skyshots-240.jpg',
+    badge: 'Popular',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Medium-High',
+    safetyDistance: '12 Meters',
+    description: 'Synchronized fireworks display shooting alternating red peony, green chrysanthemums, and sparkling strobe tails high into the night sky.'
+  },
+  {
+    id: 'RV-FP-005',
+    name: 'Ravindra Ashok Tri-Color Fountain Flower Pots',
+    brand: 'Ravindra Fireworks',
+    category: 'Flower Pots',
+    price: 290,
+    originalPrice: 380,
+    packInfo: '1 Box (5 Conical Pots)',
+    image: 'assets/images/flower-pot-anaar.jpg',
+    badge: 'Tri-Color Effect',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Visual / Low',
+    safetyDistance: '5 Meters',
+    description: 'Spectacular 3-stage color changing fountain that starts with saffron glow, shifts to brilliant white glitter, and finishes in emerald green.'
+  },
+  {
+    id: 'RV-SP-010',
+    name: 'Ravindra Electric Neon Sparklers (15cm)',
+    brand: 'Ravindra Fireworks',
+    category: 'Sparklers',
+    price: 95,
+    originalPrice: 130,
+    packInfo: '1 Box (10 Sparklers)',
+    image: 'assets/images/cock-sparklers-giant.jpg',
+    badge: 'Kids Safe',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Silent',
+    safetyDistance: 'Handheld Safe',
+    description: 'Super-bright neon sparklers specially formulated for children with easy light fuse and non-toxic cold sparks.'
+  },
+  {
+    id: 'RV-HB-010',
+    name: 'Ravindra Classic Hydro Bomb Sound Crackers',
+    brand: 'Ravindra Fireworks',
+    category: 'Sound Crackers',
+    price: 160,
+    originalPrice: 220,
+    packInfo: '1 Box (10 Green Jute Twine Bombs)',
+    image: 'assets/images/hydro-bomb-pack.jpg',
+    badge: 'Mega Sound',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Loud Thunder',
+    safetyDistance: '10 Meters',
+    description: 'Traditional green twine-wound explosive cubes offering a sharp thunderclap shockwave with high chemical purity.'
+  },
+  {
+    id: 'RV-LD-2000',
+    name: 'Ravindra 2000 Wala Grand Baraat Ladi',
+    brand: 'Ravindra Fireworks',
+    category: 'Garlands (Ladi)',
+    price: 890,
+    originalPrice: 1150,
+    packInfo: '1 Jumbo Garland Box',
+    image: 'assets/images/red-garland-ladi.jpg',
+    badge: 'Wedding Hit',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'High Decibel',
+    safetyDistance: '12 Meters',
+    description: 'Long festive garland popular for weddings, victory processions, and Diwali midnight celebrations. Consistent firing.'
+  },
+
+  // ==========================================
+  // 3. SONNY FIREWORKS
+  // ==========================================
+  {
+    id: 'SN-SK-060',
+    name: 'Sonny 60 Shots Golden Brocade Waterfall Cake',
+    brand: 'Sonny Fireworks',
+    category: 'Sky Shots',
+    price: 980,
+    originalPrice: 1300,
+    packInfo: '1 Multi-shot Cake (60 Shots)',
+    image: 'assets/images/cock-skyshots-240.jpg',
+    badge: 'Staff Pick',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Medium',
+    safetyDistance: '10 Meters',
+    description: 'Spectacular hanging golden waterfall effect that illuminates the entire sky with slow-falling golden glitter and brocade crowns.'
+  },
+  {
+    id: 'SN-SP-030',
+    name: 'Sonny Color Glitter Jumbo Sparklers (30cm)',
+    brand: 'Sonny Fireworks',
+    category: 'Sparklers',
+    price: 160,
+    originalPrice: 220,
+    packInfo: '1 Box (10 Long Sparklers)',
+    image: 'assets/images/cock-sparklers-giant.jpg',
+    badge: 'Color Changing',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Silent',
+    safetyDistance: 'Handheld Safe',
+    description: 'Color-changing electric sparklers transitioning from ruby red to emerald green and dazzling diamond white.'
+  },
+  {
+    id: 'SN-GC-010',
+    name: 'Sonny Multi-Color Deluxe Ground Spinner Wheels',
+    brand: 'Sonny Fireworks',
+    category: 'Chakkars',
+    price: 195,
+    originalPrice: 260,
+    packInfo: '1 Box (10 Deluxe Chakkars)',
+    image: 'assets/images/ground-chakkar-deluxe.jpg',
+    badge: 'High RPM',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Whirring Glow',
+    safetyDistance: '5 Meters',
+    description: 'High-speed spinning ground wheels with alternating red and green flame rings, ending in a crackling flower burst.'
+  },
+  {
+    id: 'SN-RK-010',
+    name: 'Sonny Whistling Sky Rider Shells (10 Pcs)',
+    brand: 'Sonny Fireworks',
+    category: 'Rockets',
+    price: 450,
+    originalPrice: 600,
+    packInfo: '1 Pack (10 Aerial Rockets)',
+    image: 'assets/images/bomb-rockets.jpg',
+    badge: 'Classic',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Whistle & Burst',
+    safetyDistance: '15 Meters',
+    description: 'Precision balanced wooden stick rockets featuring high thrust propellant and dual-color aerial burst.'
+  },
+
+  // ==========================================
+  // 4. MERCURY FIREWORKS
+  // ==========================================
+  {
+    id: 'MC-SK-012',
+    name: 'Mercury 12 Shots Sky Rider Tubes (Pack of 3)',
+    brand: 'Mercury Fireworks',
+    category: 'Sky Shots',
+    price: 420,
+    originalPrice: 550,
+    packInfo: 'Pack of 3 Tubes (36 Shots total)',
+    image: 'assets/images/cock-skyshots-240.jpg',
+    badge: 'Family Favorite',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Medium',
+    safetyDistance: '8 Meters',
+    description: 'Classic vertical aerial shells with whistling takeoff and brilliant dual-color burst at 120 feet altitude.'
+  },
+  {
+    id: 'MC-RK-005',
+    name: 'Mercury Apollo High Altitude Sound Rockets',
+    brand: 'Mercury Fireworks',
+    category: 'Rockets',
+    price: 490,
+    originalPrice: 650,
+    packInfo: 'Pack of 5 Heavy Rockets',
+    image: 'assets/images/bomb-rockets.jpg',
+    badge: 'Thunder Boom',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Very Loud',
+    safetyDistance: '20 Meters',
+    description: 'Super high altitude ascent reaching 200+ feet with a deafening titanium salute explosion.'
+  },
+  {
+    id: 'MC-GC-010',
+    name: 'Mercury Whistling Ground Chakkars',
+    brand: 'Mercury Fireworks',
+    category: 'Chakkars',
+    price: 210,
+    originalPrice: 280,
+    packInfo: '1 Box (10 Whistling Chakkars)',
+    image: 'assets/images/ground-chakkar-deluxe.jpg',
+    badge: 'Whistling Spin',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'High Whistle',
+    safetyDistance: '6 Meters',
+    description: 'Spins with an audible whistling screech while casting brilliant sparks in all 360 degrees.'
+  },
+
+  // ==========================================
+  // 5. SUPREME FIREWORKS
+  // ==========================================
+  {
+    id: 'SP-SK-030',
+    name: 'Supreme 30 Shots Thunder & Magic Aerial Cake',
+    brand: 'Supreme Fireworks',
+    category: 'Sky Shots',
+    price: 540,
+    originalPrice: 750,
+    packInfo: '1 Compact Cake (30 Shots)',
+    image: 'assets/images/cock-skyshots-240.jpg',
+    badge: 'Great Value',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Medium',
+    safetyDistance: '8 Meters',
+    description: 'Compact aerial spectacle with 30 rapid-fire colorful bursts ending with a loud titanium salute finale.'
+  },
+  {
+    id: 'SP-FP-005',
+    name: 'Supreme Giant Koti Deluxe Flower Pots',
+    brand: 'Supreme Fireworks',
+    category: 'Flower Pots',
+    price: 360,
+    originalPrice: 480,
+    packInfo: '1 Box (5 Jumbo Conical Pots)',
+    image: 'assets/images/flower-pot-anaar.jpg',
+    badge: 'Mega Height',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Low / Visual',
+    safetyDistance: '6 Meters',
+    description: 'Jumbo sized flower pot throwing an incandescent fountain reaching up to 18 feet for 45 continuous seconds.'
+  },
+  {
+    id: 'SP-HM-001',
+    name: 'Supreme Royal Family Celebration Gift Hamper',
+    brand: 'Supreme Fireworks',
+    category: 'Gift Boxes',
+    price: 2199,
+    originalPrice: 2900,
+    packInfo: '1 Grand Assorted Hamper (35 Items)',
+    image: 'assets/images/diwali-gift-hamper.jpg',
+    badge: 'All-In-One Box',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'All Spectrum',
+    safetyDistance: 'Assorted Distances',
+    description: 'Luxury Diwali gift box containing assorted sparklers, flower pots, ground chakkars, aerial sky shots, and novelty toys.'
+  },
+
+  // ==========================================
+  // 6. VEL\'S FIREWORKS
+  // ==========================================
+  {
+    id: 'VL-FP-005',
+    name: 'Vel\'s Traditional Special Flower Pots (No. 1)',
+    brand: 'Vel\'s Fireworks',
+    category: 'Flower Pots',
+    price: 240,
+    originalPrice: 320,
+    packInfo: '1 Box (5 Special Pots)',
+    image: 'assets/images/flower-pot-anaar.jpg',
+    badge: 'Heritage',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Visual / Quiet',
+    safetyDistance: '5 Meters',
+    description: 'Century-old Sivakasi clay formula producing a golden crystal fountain with crackling starbursts.'
+  },
+  {
+    id: 'VL-SP-010',
+    name: 'Vel\'s Traditional Electric Silver Sparklers',
+    brand: 'Vel\'s Fireworks',
+    category: 'Sparklers',
+    price: 80,
+    originalPrice: 110,
+    packInfo: '1 Box (10 Sparklers)',
+    image: 'assets/images/cock-sparklers-giant.jpg',
+    badge: 'Value Pack',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Silent',
+    safetyDistance: 'Handheld Safe',
+    description: 'Smooth burning silver sparks with steady flame and minimum residue. Safe for family celebrations.'
+  },
+  {
+    id: 'VL-GC-010',
+    name: 'Vel\'s Deluxe Zamin Chakkar Big',
+    brand: 'Vel\'s Fireworks',
+    category: 'Chakkars',
+    price: 150,
+    originalPrice: 210,
+    packInfo: '1 Box (10 Large Chakkars)',
+    image: 'assets/images/ground-chakkar-deluxe.jpg',
+    badge: 'Evergreen',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Low Whirring',
+    safetyDistance: '5 Meters',
+    description: 'Reliable ground spinning wheels with instant ignition fuse and bright orange-golden rotating halo.'
+  },
+
+  // ==========================================
+  // 7. SUNSHINE FIREWORKS (CSIR-NEERI Green Certified)
+  // ==========================================
+  {
+    id: 'SS-HM-001',
+    name: 'Sunshine CSIR-NEERI Green Certified Family Hamper',
+    brand: 'Sunshine Fireworks',
+    category: 'Gift Boxes',
+    price: 2499,
+    originalPrice: 3200,
+    packInfo: '1 Eco-Certified Gift Hamper',
+    image: 'assets/images/diwali-gift-hamper.jpg',
+    badge: '100% Green Certified',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Low Emission',
+    safetyDistance: 'Family Safe',
+    description: 'Zero barium, 35% reduced emissions green cracker celebration box with official CSIR-NEERI verification QR codes.'
+  },
+  {
+    id: 'SS-SP-050',
+    name: 'Sunshine Low-Smoke Eco Sparklers (50 Pcs)',
+    brand: 'Sunshine Fireworks',
+    category: 'Sparklers',
+    price: 310,
+    originalPrice: 420,
+    packInfo: 'Mega Value Pack (50 Sparklers)',
+    image: 'assets/images/cock-sparklers-giant.jpg',
+    badge: 'Low Smoke',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Silent',
+    safetyDistance: 'Handheld Safe',
+    description: 'Green pyrotechnic technology ensuring practically zero irritating smoke, ideal for apartment balconies and kids.'
+  },
+  {
+    id: 'SS-FP-005',
+    name: 'Sunshine Eco Tri-Color Green Fountains',
+    brand: 'Sunshine Fireworks',
+    category: 'Flower Pots',
+    price: 280,
+    originalPrice: 370,
+    packInfo: '1 Box (5 Eco Pots)',
+    image: 'assets/images/flower-pot-anaar.jpg',
+    badge: 'Eco Friendly',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Visual / Mild',
+    safetyDistance: '5 Meters',
+    description: 'Environment-compliant colorful fountain shower producing glowing emerald and amber lights without harmful particulates.'
+  },
+
+  // ==========================================
+  // 8. SON INDIA FIREWORKS
+  // ==========================================
+  {
+    id: 'SI-LD-5000',
+    name: 'Son India 5000 Wala Heavy Festival Garland',
+    brand: 'Son India',
+    category: 'Garlands (Ladi)',
+    price: 2100,
+    originalPrice: 2800,
+    packInfo: '1 Heavy Wooden Cracker Box (5000 Wala)',
+    image: 'assets/images/red-garland-ladi.jpg',
+    badge: 'Grand Finale',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Heavy Decibel',
+    safetyDistance: '15 Meters',
+    description: 'The heavyweight of festival crackers. Continuous 4-minute non-stop celebration barrage for weddings, rallies, and Diwali midnight.'
+  },
+  {
+    id: 'SI-LD-1000',
+    name: 'Son India 1000 Wala Festive Garland Roll',
+    brand: 'Son India',
+    category: 'Garlands (Ladi)',
+    price: 480,
+    originalPrice: 620,
+    packInfo: '1 Roll Box (1000 Crackers)',
+    image: 'assets/images/red-garland-ladi.jpg',
+    badge: 'Classic Ladi',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Loud Rhythmic',
+    safetyDistance: '10 Meters',
+    description: 'Traditional tight red paper rolled garland with rapid synchronized firing and minimal dud rate.'
+  },
+  {
+    id: 'SI-RK-005',
+    name: 'Son India Apollo Mega Bomb Rockets',
+    brand: 'Son India',
+    category: 'Rockets',
+    price: 430,
+    originalPrice: 580,
+    packInfo: 'Pack of 5 Heavy Shell Rockets',
+    image: 'assets/images/bomb-rockets.jpg',
+    badge: 'Loud Salute',
+    ecoFriendly: true,
+    inStock: true,
+    noiseLevel: 'Very Loud',
+    safetyDistance: '20 Meters',
+    description: 'Renowned for powerful sound pressure and rapid altitude flight. Safe launch tube guidelines included on box.'
+  }
+];
+
+// Reference active products
+window.FIREWORKS_PRODUCTS = window.DEFAULT_FIREWORKS_PRODUCTS;
+
+// Brand Metadata with details & authorized status
+window.BRANDS_INFO = [
+  {
+    id: 'cock-brand',
+    name: 'Cock Brand',
+    fullName: 'Cock Brand / Sri Kaliswari Fireworks Sivakasi',
+    logo: 'assets/images/brand-cock.jpg',
+    isImage: true,
+    origin: 'Sivakasi, Tamil Nadu (Est. 1923)',
+    tagline: 'India\'s Most Prestigious Pyrotechnics Pioneer',
+    reputation: 'Over 100 years of unrivaled fireworks supremacy, known for zero misfires, rich colors, and strict safety standards.',
+    specialties: ['Grand 240 Sky Shots', 'Deluxe Ground Chakkars', 'Special Bijili Snaps', 'Royal Koti Anaar'],
+    rating: '5.0 / 5.0 (Authorized Official Partner)'
+  },
+  {
+    id: 'ravindra-fireworks',
+    name: 'Ravindra Fireworks',
+    fullName: 'Ravindra Fireworks Sivakasi',
+    logo: 'assets/images/brand-ravindra.jpg',
+    isImage: true,
+    origin: 'Sivakasi, Tamil Nadu (Est. 1968)',
+    tagline: 'Unmatched Aerial Color Vibrancy & Craftsmanship',
+    reputation: 'Celebrated across North India for artistic color saturation, Bollywood-style aerial cakes, and reliable quality.',
+    specialties: ['120 Shots Night Cakes', 'Ashok Tri-Color Anaar', 'Hydro Bomb Twine Packs', '2000 Wala Ladi'],
+    rating: '4.9 / 5.0 (Direct Channel Partner)'
+  },
+  {
+    id: 'sonny-fireworks',
+    name: 'Sonny Fireworks',
+    fullName: 'Sonny Fireworks Industries',
+    logo: 'assets/images/brand-sonny.jpg',
+    isImage: true,
+    origin: 'Sivakasi, Tamil Nadu (Est. 1974)',
+    tagline: 'Precision Engineering & Sparkling Elegance',
+    reputation: 'Pioneers of long-duration brocade waterfall cakes and color-changing sparklers with minimal ash.',
+    specialties: ['60 Shots Golden Brocade', 'Color Changing Sparklers', 'Whistling Sky Riders', 'Multi-Color Chakkars'],
+    rating: '4.9 / 5.0 (Direct Channel Partner)'
+  },
+  {
+    id: 'mercury-fireworks',
+    name: 'Mercury Fireworks',
+    fullName: 'Mercury Fireworks Sivakasi',
+    logo: 'assets/images/brand-mercury.jpg',
+    isImage: true,
+    origin: 'Sivakasi, Tamil Nadu (Est. 1980)',
+    tagline: 'High Altitude Thrust & Precision Sound',
+    reputation: 'Renowned for whistling rockets, high altitude multi-tube riders, and precision aerial shells.',
+    specialties: ['12-Shot Sky Riders', 'Apollo High Altitude Rockets', 'Whistling Chakkars'],
+    rating: '4.8 / 5.0 (Certified Partner)'
+  },
+  {
+    id: 'supreme-fireworks',
+    name: 'Supreme Fireworks',
+    fullName: 'Supreme Fireworks Corporation',
+    logo: 'assets/images/brand-supreme.svg',
+    isImage: true,
+    origin: 'Sivakasi, Tamil Nadu',
+    tagline: 'Royal Celebration Grade Pyrotechnics',
+    reputation: 'The premier choice for weddings, corporate celebrations, and luxury Diwali gift hampers.',
+    specialties: ['30-Shot Rapid Cakes', 'Giant Koti Deluxe Anaar', 'Royal Family Gift Hampers'],
+    rating: '4.8 / 5.0 (Certified Partner)'
+  },
+  {
+    id: 'vels-fireworks',
+    name: 'Vel\'s Fireworks',
+    fullName: 'Vel\'s Fireworks Sivakasi',
+    logo: 'assets/images/brand-vels.svg',
+    isImage: true,
+    origin: 'Sivakasi, Tamil Nadu',
+    tagline: 'Traditional Master Pyrotechnicians',
+    reputation: 'Master craftsmen upholding authentic traditional formulas for flower pots and ground chakkars.',
+    specialties: ['Special Flower Pots No. 1', 'Silver Sparklers', 'Zamin Chakkars Big'],
+    rating: '4.8 / 5.0 (Certified Partner)'
+  },
+  {
+    id: 'sunshine-fireworks',
+    name: 'Sunshine Fireworks',
+    fullName: 'Sunshine Fireworks & Green Pyros',
+    logo: 'assets/images/brand-sunshine.svg',
+    isImage: true,
+    origin: 'Sivakasi & Dehradun Hub',
+    tagline: 'CSIR-NEERI Certified Green Crackers',
+    reputation: 'Leader in low-smoke, barium-free eco-friendly fireworks with QR code traceability and child safety.',
+    specialties: ['100% Green Gift Hampers', 'Low-Smoke Sparklers', 'Eco Tri-Color Fountains'],
+    rating: '5.0 / 5.0 (Green Certified)'
+  },
+  {
+    id: 'son-india',
+    name: 'Son India',
+    fullName: 'Son India Fireworks (P) Ltd.',
+    logo: 'assets/images/brand-sonindia.svg',
+    isImage: true,
+    origin: 'Sivakasi, Tamil Nadu',
+    tagline: 'Pride of Indian Festival Beats',
+    reputation: 'Celebrated for thunderous sound decibels, long rhythmic festival ladi garlands, and bomb rockets.',
+    specialties: ['5000 Wala Heavy Garland', '1000 Wala Ladi', 'Apollo Mega Bomb Rockets'],
+    rating: '4.8 / 5.0 (Certified Partner)'
+  }
+];
+
+// ============================================================================
+// ADMIN STORAGE & PERSISTENCE HELPER METHODS
+// ============================================================================
+
+window.getStoredProducts = function () {
+  try {
+    const raw = localStorage.getItem('at_admin_products');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        window.FIREWORKS_PRODUCTS = parsed;
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.error('Failed to load admin products from storage:', e);
+  }
+  // Fallback to default products and persist
+  window.saveStoredProducts(window.DEFAULT_FIREWORKS_PRODUCTS);
+  return window.DEFAULT_FIREWORKS_PRODUCTS;
+};
+
+window.saveStoredProducts = function (productsList) {
+  try {
+    localStorage.setItem('at_admin_products', JSON.stringify(productsList));
+    window.FIREWORKS_PRODUCTS = productsList;
+    window.dispatchEvent(new CustomEvent('productsUpdated', { detail: { products: productsList } }));
+  } catch (e) {
+    console.error('Failed to save admin products:', e);
+  }
+};
+
+window.resetToDefaultProducts = function () {
+  window.saveStoredProducts(window.DEFAULT_FIREWORKS_PRODUCTS);
+  return window.DEFAULT_FIREWORKS_PRODUCTS;
+};
+
+// Website Global Settings Persistence
+window.getSiteSettings = function () {
+  const defaultSettings = {
+    announcement: 'SPECIAL FESTIVE WHOLESALE DEALS • 23, Mohabewala Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun • Call: +91 9837081321 / +91 8630615934',
+    ashishPhone: '919837081321',
+    yuvrajPhone: '918630615934',
+    address: '23, Mohabewala, Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun - 248007, Uttarakhand',
+    bgVideoEnabled: true,
+    bgVideoUrl: 'assets/videos/fireworks-intro.mp4'
+  };
+
+  try {
+    const raw = localStorage.getItem('at_site_settings');
+    if (raw) {
+      return Object.assign({}, defaultSettings, JSON.parse(raw));
+    }
+  } catch (e) {}
+
+  return defaultSettings;
+};
+
+window.saveSiteSettings = function (newSettings) {
+  try {
+    localStorage.setItem('at_site_settings', JSON.stringify(newSettings));
+    window.dispatchEvent(new CustomEvent('settingsUpdated', { detail: { settings: newSettings } }));
+    window.applySiteSettings();
+  } catch (e) {
+    console.error('Failed to save settings:', e);
+  }
+};
+
+window.applySiteSettings = function () {
+  const settings = window.getSiteSettings();
+  
+  // Update announcement bar if present
+  const banner = document.getElementById('siteAnnouncementBanner');
+  if (banner && settings.announcement) {
+    banner.innerHTML = `<span>${settings.announcement}</span>`;
+  }
+
+  // Update background video visibility
+  const bgVidContainer = document.querySelector('.bg-video-container');
+  if (bgVidContainer) {
+    bgVidContainer.style.display = settings.bgVideoEnabled ? 'block' : 'none';
+  }
+};
+
+// Auto-run on script load
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.getStoredProducts();
+    window.applySiteSettings();
+  });
+}

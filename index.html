@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ashish Traders Fireworks (A&T) | Dehradun's Premier Fireworks Wholesale & Retail Hub</title>
+  <meta name="description" content="Authorized distributor of India's top Sivakasi fireworks in Dehradun. Shop Cock Brand, Ravindra, Sonny, Mercury, Supreme, Vel's, Sunshine Green & Son India with direct WhatsApp ordering.">
+  <meta name="theme-color" content="#07080d">
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css?v=4.0">
+</head>
+<body class="bg-[#07080d] text-slate-100 antialiased selection:bg-amber-500 selection:text-black">
+
+  <!-- ==========================================================================
+       PERMANENT BACKGROUND VIDEO & AMBIENT CANVAS (Strictly Fixed Behind Content)
+       ========================================================================== -->
+  <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -999; overflow: hidden; pointer-events: none;">
+    <video src="assets/videos/fireworks-intro.mp4" autoplay muted playsinline loop style="width: 100%; height: 100%; object-fit: cover; opacity: 0.4; filter: brightness(0.8);"></video>
+    <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(7,8,13,0.5) 0%, rgba(7,8,13,0.92) 100%);"></div>
+  </div>
+
+  <canvas id="bgFireworksCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -998; pointer-events: none; opacity: 0.65;"></canvas>
+
+  <!-- ==========================================================================
+       TOP ANNOUNCEMENT BANNER (At the absolute top of the page)
+       ========================================================================== -->
+  <div id="siteAnnouncementBanner" class="bg-gradient-to-r from-amber-600 via-red-600 to-amber-600 text-black py-1.5 px-4 text-xs sm:text-sm font-bold tracking-wide text-center flex items-center justify-center gap-3 relative z-30 shadow-md">
+    <span>SPECIAL FESTIVE WHOLESALE DEALS</span>
+    <span class="hidden md:inline">•</span>
+    <span>23, Mohabewala Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun</span>
+    <span>•</span>
+    <span>Call: +91 9837081321 / +91 8630615934</span>
+  </div>
+
+  <!-- ==========================================================================
+       MAIN NAVIGATION BAR (Clean & Silent)
+       ========================================================================== -->
+  <nav class="sticky top-0 z-50 glass-nav transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo & Name -->
+        <a href="index.html" class="flex items-center gap-3 group">
+          <div class="relative flex-shrink-0">
+            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Fireworks" class="w-12 h-12 rounded-full border border-amber-400 object-cover group-hover:scale-105 transition-transform shadow-lg">
+            <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#07080d]"></span>
+          </div>
+          <div>
+            <div class="font-display font-black text-lg md:text-xl text-gold-gradient tracking-wide leading-tight">
+              ASHISH TRADERS
+            </div>
+            <div class="text-[10px] tracking-[0.25em] text-slate-400 font-bold uppercase">
+              FIREWORKS • DEHRADUN
+            </div>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links (Updated) -->
+        <div class="hidden lg:flex items-center gap-7 text-sm font-medium">
+          <a href="index.html" class="text-amber-400 font-bold transition-colors">Home</a>
+          <a href="brands.html" class="text-slate-300 hover:text-amber-400 transition-colors flex items-center gap-1.5">
+            <span>Brands & Products</span>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded border border-amber-500/30">8 Brands</span>
+          </a>
+          <a href="about.html" class="text-slate-300 hover:text-amber-400 transition-colors">About Us</a>
+          <a href="contact.html" class="text-slate-300 hover:text-amber-400 transition-colors">Contact Showroom</a>
+          <a href="admin.html" class="text-xs px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black font-semibold transition-all">Admin Panel</a>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3">
+          <!-- Inquiry Estimate Cart Button -->
+          <button class="open-cart-btn relative btn-gold py-2 px-4 text-xs font-bold flex items-center gap-2 shadow-lg">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span>Estimate Cart</span>
+            <span class="cart-count-badge w-5 h-5 rounded-full bg-red-600 text-white font-bold text-[10px] items-center justify-center shadow-lg" style="display:none;">0</span>
+          </button>
+
+          <!-- Mobile Menu Toggle -->
+          <button id="mobileMenuBtn" class="lg:hidden text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800" aria-label="Open navigation menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-slate-950/98 border-b border-slate-800 px-6 py-4 space-y-3">
+      <a href="index.html" class="block font-bold text-amber-400 py-2">Home</a>
+      <a href="brands.html" class="block text-slate-300 hover:text-amber-400 py-2">Brands & Products (8 Brands)</a>
+      <a href="about.html" class="block text-slate-300 hover:text-amber-400 py-2">About Us & Safety</a>
+      <a href="contact.html" class="block text-slate-300 hover:text-amber-400 py-2">Contact Showroom</a>
+      <a href="admin.html" class="block text-amber-400 font-bold py-2">Admin Panel</a>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       HERO SECTION WITH SEAMLESS BACKGROUND VIDEO VISIBILITY
+       ========================================================================== -->
+  <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden py-20 px-4">
+    <!-- Hero Subtle Radial Glow (Lets background fireworks video shine through clearly) -->
+    <div class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#07080d_90%)] pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto text-center">
+      <!-- Tagline Pill -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs md:text-sm font-semibold mb-6 backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span>What we think, we become • Uttarakhand's Trusted Fireworks Destination</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-6 leading-tight">
+        LIGHT UP YOUR CELEBRATIONS WITH <br class="hidden sm:inline">
+        <span class="text-gold-gradient drop-shadow-[0_0_40px_rgba(255,179,0,0.5)]">ASHISH TRADERS</span> <br>
+        <span class="text-fire-gradient text-3xl sm:text-5xl md:text-6xl font-extrabold">FIREWORKS (A&T)</span>
+      </h1>
+
+      <p class="text-base sm:text-xl text-slate-300 max-w-3xl mx-auto mb-10 font-normal leading-relaxed">
+        Direct factory distribution of 100% genuine Sivakasi fireworks in Dehradun. 
+        Authorized hub for <span class="text-amber-300 font-semibold">Cock Brand, Ravindra, Sonny, Mercury, Supreme, Vel's, Sunshine & Son India</span>. 
+        Wholesale crates & retail family festival packages with instant WhatsApp quotation.
+      </p>
+
+      <!-- Action Buttons (Pointing to brands.html) -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+        <a href="brands.html" class="btn-gold text-base px-8 py-3.5 shadow-2xl flex items-center gap-2">
+          <span>Shop by Brands & Products</span>
+          <span class="text-xs">&rarr;</span>
+        </a>
+
+        <a href="https://wa.me/919837081321?text=Hello%20Ashish%20Chopra%20Ji%2C%20I%20want%20to%20inquire%20about%20fireworks%20wholesale%20rates%20in%20Dehradun." target="_blank" class="btn-outline-gold text-base px-6 py-3.5 flex items-center gap-2">
+          <span>WhatsApp Quick Inquiry</span>
+        </a>
+      </div>
+
+      <!-- Quick Trust Indicators -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto pt-6 border-t border-slate-800/80 text-left">
+        <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+          <div class="text-[11px] text-amber-400 font-bold uppercase">Factory Direct</div>
+          <div class="text-sm font-bold text-slate-200">100% Sivakasi Origin</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+          <div class="text-[11px] text-emerald-400 font-bold uppercase">Eco Standard</div>
+          <div class="text-sm font-bold text-slate-200">PESO Green Certified</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+          <div class="text-[11px] text-blue-400 font-bold uppercase">Supply Model</div>
+          <div class="text-sm font-bold text-slate-200">Wholesale & Retail</div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+          <div class="text-[11px] text-purple-400 font-bold uppercase">Showroom</div>
+          <div class="text-sm font-bold text-slate-200">Mohabewala, Dehradun</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       PARTNER BRANDS INFINITE MARQUEE SLIDER
+       ========================================================================== -->
+  <section class="py-10 bg-slate-950/90 border-y border-amber-500/20 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 mb-4 text-center">
+      <span class="text-xs font-bold uppercase tracking-[0.2em] text-amber-400">Authorized Channel Distributor for 8 Iconic Brands • Click Brand to View Products</span>
+    </div>
+
+    <div class="marquee-container">
+      <div class="marquee-content flex items-center gap-8 sm:gap-12">
+        <a href="brands.html?brand=Cock%20Brand" class="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all flex-shrink-0">
+          <img src="assets/images/brand-cock.jpg" class="w-10 h-10 rounded-full object-cover" alt="Cock Brand">
+          <span class="font-bold text-sm tracking-wide text-slate-200">COCK BRAND</span>
+        </a>
+        <a href="brands.html?brand=Ravindra%20Fireworks" class="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all flex-shrink-0">
+          <img src="assets/images/brand-ravindra.jpg" class="w-10 h-10 rounded-full object-cover" alt="Ravindra Fireworks">
+          <span class="font-bold text-sm tracking-wide text-slate-200">RAVINDRA</span>
+        </a>
+        <a href="brands.html?brand=Sonny%20Fireworks" class="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all flex-shrink-0">
+          <img src="assets/images/brand-sonny.jpg" class="w-10 h-10 rounded-full object-cover" alt="Sonny Fireworks">
+          <span class="font-bold text-sm tracking-wide text-slate-200">SONNY FIREWORKS</span>
+        </a>
+        <a href="brands.html?brand=Mercury%20Fireworks" class="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all flex-shrink-0">
+          <img src="assets/images/brand-mercury.jpg" class="w-10 h-10 rounded-full object-cover" alt="Mercury Fireworks">
+          <span class="font-bold text-sm tracking-wide text-slate-200">MERCURY</span>
+        </a>
+        <a href="brands.html?brand=Supreme%20Fireworks" class="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all flex-shrink-0">
+          <img src="assets/images/brand-supreme.svg" class="w-10 h-10 rounded-full object-cover" alt="Supreme Fireworks">
+          <span class="font-bold text-sm tracking-wide text-slate-200">SUPREME</span>
+        </a>
+        <a href="brands.html?brand=Vel's%20Fireworks" class="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all flex-shrink-0">
+          <img src="assets/images/brand-vels.svg" class="w-10 h-10 rounded-full object-cover" alt="Vel's Fireworks">
+          <span class="font-bold text-sm tracking-wide text-slate-200">VEL'S FIREWORKS</span>
+        </a>
+        <a href="brands.html?brand=Sunshine%20Fireworks" class="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all flex-shrink-0">
+          <img src="assets/images/brand-sunshine.svg" class="w-10 h-10 rounded-full object-cover" alt="Sunshine Fireworks">
+          <span class="font-bold text-sm tracking-wide text-slate-200">SUNSHINE (GREEN)</span>
+        </a>
+        <a href="brands.html?brand=Son%20India" class="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition-all flex-shrink-0">
+          <img src="assets/images/brand-sonindia.svg" class="w-10 h-10 rounded-full object-cover" alt="Son India">
+          <span class="font-bold text-sm tracking-wide text-slate-200">SON INDIA</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FEATURED CATEGORIES & BESTSELLERS (With Realistic Packaging Images)
+       ========================================================================== -->
+  <section class="py-20 px-4 max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <div>
+        <span class="badge-brand mb-2">2026 Festive Collection</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-slate-100">
+          POPULAR CELEBRATION CRACKERS
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base mt-1">Handpicked high-altitude sky shots, sparkling fountains & safe family sparklers.</p>
+      </div>
+      <a href="brands.html" class="text-amber-400 hover:text-amber-300 font-bold text-sm flex items-center gap-1">
+        <span>View Full Store & Brands &rarr;</span>
+      </a>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- Card 1: 240 Sky Shots -->
+      <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all">
+        <div>
+          <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
+            <img src="assets/images/cock-skyshots-240.jpg" alt="Grand 240 Sky Shots" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-red-600 text-white font-bold text-xs uppercase shadow-md">Bestseller</span>
+            <span class="absolute bottom-2 right-2 badge-eco">Green Approved</span>
+          </div>
+          <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Cock Brand</div>
+          <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">Grand 240 Sky Shots Celestial Fiesta</h3>
+          <p class="text-xs text-slate-400 mb-4">Continuous 3-minute royal aerial barrage with multi-color palms & crackling willow.</p>
+        </div>
+        <div>
+          <div class="flex items-baseline justify-between mb-3">
+            <div>
+              <span class="text-xl font-extrabold text-amber-400">₹3,499</span>
+              <span class="text-xs line-through text-slate-500 ml-1.5">₹4,200</span>
+            </div>
+            <span class="text-[11px] text-slate-400">1 Heavy Cake</span>
+          </div>
+          <button onclick="window.cart.addItem('CB-SK-240', 1)" class="btn-gold w-full text-xs py-2.5 font-bold">
+            <span>Add to Cart</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 2: Golden Sparklers -->
+      <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all">
+        <div>
+          <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
+            <img src="assets/images/cock-sparklers-giant.jpg" alt="50cm Mega Sparklers" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-amber-600 text-white font-bold text-xs uppercase shadow-md">Long Burning</span>
+            <span class="absolute bottom-2 right-2 badge-eco">Low Smoke</span>
+          </div>
+          <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Cock Brand</div>
+          <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">Cock Brand 50cm Mega Giant Golden Sparklers</h3>
+          <p class="text-xs text-slate-400 mb-4">Extra-long burning rods lasting over 3 minutes with radiant golden shower effects.</p>
+        </div>
+        <div>
+          <div class="flex items-baseline justify-between mb-3">
+            <div>
+              <span class="text-xl font-extrabold text-amber-400">₹240</span>
+              <span class="text-xs line-through text-slate-500 ml-1.5">₹320</span>
+            </div>
+            <span class="text-[11px] text-slate-400">5 Giant Rods</span>
+          </div>
+          <button onclick="window.cart.addItem('CB-SP-050', 1)" class="btn-gold w-full text-xs py-2.5 font-bold">
+            <span>Add to Cart</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 3: Flower Pots Anaar -->
+      <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all">
+        <div>
+          <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
+            <img src="assets/images/flower-pot-anaar.jpg" alt="Flower Pots Anaar" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-purple-600 text-white font-bold text-xs uppercase shadow-md">Festive Classic</span>
+            <span class="absolute bottom-2 right-2 badge-eco">Green Approved</span>
+          </div>
+          <div class="text-xs text-amber-400 font-bold uppercase tracking-wider mb-1">Cock Brand</div>
+          <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">Royal Koti Special Flower Pots (Anaar)</h3>
+          <p class="text-xs text-slate-400 mb-4">Towering 15-foot golden shower fountain with silver sparks and zero toxic sulfur smoke.</p>
+        </div>
+        <div>
+          <div class="flex items-baseline justify-between mb-3">
+            <div>
+              <span class="text-xl font-extrabold text-amber-400">₹320</span>
+              <span class="text-xs line-through text-slate-500 ml-1.5">₹420</span>
+            </div>
+            <span class="text-[11px] text-slate-400">1 Box (5 Pots)</span>
+          </div>
+          <button onclick="window.cart.addItem('CB-FP-005', 1)" class="btn-gold w-full text-xs py-2.5 font-bold">
+            <span>Add to Cart</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 4: Green Hamper Box -->
+      <div class="glass-panel p-5 flex flex-col justify-between border-slate-800 hover:border-amber-500/50 transition-all">
+        <div>
+          <div class="relative rounded-xl overflow-hidden mb-4 aspect-square bg-slate-900">
+            <img src="assets/images/diwali-gift-hamper.jpg" alt="Green Hamper Box" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-2 left-2 px-2.5 py-1 rounded-full bg-emerald-600 text-white font-bold text-xs uppercase shadow-md">Complete Combo</span>
+            <span class="absolute bottom-2 right-2 badge-eco">100% Green</span>
+          </div>
+          <div class="text-xs text-emerald-400 font-bold uppercase tracking-wider mb-1">Sunshine Fireworks</div>
+          <h3 class="font-bold text-base text-slate-100 leading-snug mb-2">Green Cracker Family Gift Hamper</h3>
+          <p class="text-xs text-slate-400 mb-4">Complete luxury family pack with sparklers, anaars, chakkars, and aerial sky shots.</p>
+        </div>
+        <div>
+          <div class="flex items-baseline justify-between mb-3">
+            <div>
+              <span class="text-xl font-extrabold text-amber-400">₹2,499</span>
+              <span class="text-xs line-through text-slate-500 ml-1.5">₹3,200</span>
+            </div>
+            <span class="text-[11px] text-slate-400">35 Items Pack</span>
+          </div>
+          <button onclick="window.cart.addItem('SS-HM-001', 1)" class="btn-gold w-full text-xs py-2.5 font-bold">
+            <span>Add to Cart</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ABOUT ASHISH TRADERS SNAPSHOT & BUSINESS INFORMATION
+       ========================================================================== -->
+  <section class="py-20 px-4 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="badge-brand mb-3">About Ashish Traders (A&T)</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-slate-100 mb-6">
+          DEHRADUN'S PREMIER PYROTECHNICS WHOLESALE & RETAIL HUB
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
+          Established in the heart of <span class="text-amber-300 font-semibold">Mohabewala Industrial Area, Dehradun</span>, Ashish Traders Fireworks (A&T) is managed by <span class="text-white font-semibold">Ashish Chopra</span> and <span class="text-white font-semibold">Yuvraj Chopra</span>.
+        </p>
+        <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
+          Under our motto <strong class="text-amber-400">"What we think, we become"</strong>, we provide 100% authorized, direct factory stock from the pyrotechnics capital of India—Sivakasi. We eliminate unnecessary middlemen to guarantee the sharpest wholesale and retail prices throughout Dehradun, Rishikesh, Haridwar, and Uttarakhand.
+        </p>
+
+        <!-- Official Paper Details List -->
+        <div class="glass-panel p-6 mb-6 space-y-4 text-sm border-slate-800">
+          <div>
+            <div class="text-xs uppercase text-slate-400 font-semibold mb-0.5">Showroom & Warehouse Address</div>
+            <div class="text-slate-200 font-medium">23, Mohabewala, Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun - 248007, Uttarakhand</div>
+          </div>
+          <div class="pt-3 border-t border-slate-800/80">
+            <div class="text-xs uppercase text-slate-400 font-semibold mb-0.5">Direct Owner Contacts</div>
+            <div class="text-slate-300">
+              <a href="tel:+919837081321" class="text-amber-400 hover:underline font-bold">Ashish Chopra: +91 9837081321</a> &bull; 
+              <a href="tel:+918630615934" class="text-amber-400 hover:underline font-bold">Yuvraj Chopra: +91 8630615934</a>
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-800/80">
+            <div class="text-xs uppercase text-slate-400 font-semibold mb-0.5">Official Email</div>
+            <div><a href="mailto:Ashishtradersfireworks@gmail.com" class="text-amber-400 hover:underline">Ashishtradersfireworks@gmail.com</a></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="brands.html" class="btn-gold text-sm py-2.5 px-6">Explore All 8 Brands & Products</a>
+          <a href="contact.html" class="btn-outline-gold text-sm py-2.5 px-6">Showroom Directions & Map</a>
+        </div>
+      </div>
+
+      <!-- Showroom Visual Feature -->
+      <div class="relative">
+        <div class="glass-panel p-6 relative z-10 border-amber-500/40">
+          <img src="assets/images/ashish-traders-logo.jpg" alt="Ashish Traders Crest" class="w-32 h-32 rounded-full mx-auto mb-6 border-2 border-amber-400 shadow-2xl object-cover">
+          <h3 class="font-display font-black text-2xl text-center text-gold-gradient mb-2">ASHISH TRADERS FIREWORKS</h3>
+          <p class="text-xs text-center text-slate-300 max-w-md mx-auto mb-6">
+            Authorized Sivakasi Direct Wholesaler • Uttarakhand PESO Compliant • Green Crackers with CSIR-NEERI Verification QR
+          </p>
+
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+              <div class="text-amber-400 font-black text-lg">8 Iconic</div>
+              <div class="text-[11px] text-slate-400">Partner Brands</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+              <div class="text-emerald-400 font-black text-lg">100% Green</div>
+              <div class="text-[11px] text-slate-400">PESO Certified</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="bg-black text-slate-400 pt-16 pb-12 border-t border-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-12">
+        
+        <!-- Brand Info -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Logo" class="w-10 h-10 rounded-full border border-amber-400 object-cover">
+            <div>
+              <div class="font-display font-black text-white text-base">ASHISH TRADERS</div>
+              <div class="text-[10px] text-amber-400 font-bold tracking-widest uppercase">FIREWORKS • A&T</div>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            "What we think, we become." Uttarakhand's reliable wholesale and retail fireworks distributor. Sivakasi direct pricing for weddings, Diwali, corporate events & temples.
+          </p>
+          <div class="text-xs text-slate-300 font-semibold space-y-1">
+            <div>Ashish Chopra: <a href="tel:+919837081321" class="text-amber-400 hover:underline">+91 9837081321</a></div>
+            <div>Yuvraj Chopra: <a href="tel:+918630615934" class="text-amber-400 hover:underline">+91 8630615934</a></div>
+          </div>
+        </div>
+
+        <!-- Quick Navigation -->
+        <div>
+          <h3 class="font-bold text-white text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2.5">Quick Links</h3>
+          <ul class="space-y-2 text-xs">
+            <li><a href="index.html" class="hover:text-amber-400 transition-colors">Home Page</a></li>
+            <li><a href="brands.html" class="hover:text-amber-400 transition-colors">Brands & Products Store</a></li>
+            <li><a href="about.html" class="hover:text-amber-400 transition-colors">About Us & Safety Guidelines</a></li>
+            <li><a href="contact.html" class="hover:text-amber-400 transition-colors">Contact Showroom</a></li>
+          </ul>
+        </div>
+
+        <!-- Showroom Address -->
+        <div>
+          <h3 class="font-bold text-white text-sm uppercase tracking-wider mb-4 border-l-2 border-amber-500 pl-2.5">Dehradun Showroom</h3>
+          <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+            23, Mohabewala, Ind. Area,<br>
+            Near Ford Showroom, Saharanpur Road,<br>
+            Dehradun - 248007, Uttarakhand.
+          </p>
+          <div class="text-xs mb-3">
+            <span class="text-slate-500">Email:</span><br>
+            <a href="mailto:Ashishtradersfireworks@gmail.com" class="text-amber-400 hover:underline">Ashishtradersfireworks@gmail.com</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div>
+          &copy; 2026 Ashish Traders Fireworks (A&T). All Rights Reserved. Mohabewala, Dehradun.
+        </div>
+        <div class="flex items-center gap-4">
+          <span>PESO Approved Green Crackers</span>
+          <span>•</span>
+          <span>Barium-Free Formulations</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       CART & ESTIMATE SLIDE-OUT DRAWER
+       ========================================================================== -->
+  <div id="cartOverlay" class="cart-overlay"></div>
+  <aside id="cartDrawer" class="cart-drawer">
+    <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+      <div>
+        <div class="flex items-center gap-2">
+          <h3 class="font-bold text-base text-slate-100">Festive Estimate Cart</h3>
+          <span id="cartTotalItemsCount" class="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold">0 items</span>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-0.5">Review items & send direct order to WhatsApp</p>
+      </div>
+      <button id="closeCartBtn" class="text-slate-400 hover:text-white p-2 text-2xl leading-none transition-colors">&times;</button>
+    </div>
+
+    <!-- Customer Details Form -->
+    <div class="p-4 bg-slate-900/70 border-b border-slate-800 space-y-2.5">
+      <div class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Your Details (Sent with WhatsApp Order):</div>
+      <div class="grid grid-cols-2 gap-2">
+        <input id="cartCustomerName" type="text" placeholder="Your Name" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+        <input id="cartCustomerCity" type="text" placeholder="City / Area" value="Dehradun" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+      </div>
+    </div>
+
+    <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+
+    <div id="cartEmptyState" class="flex-1 flex flex-col items-center justify-center p-8 text-center" style="display:none;">
+      <h4 class="font-bold text-slate-300 text-sm mb-1">Your estimate list is empty</h4>
+      <p class="text-xs text-slate-500 mb-4">Add sky shots, sparklers, and flowerpots to build your personalized WhatsApp quote.</p>
+      <a href="brands.html" onclick="window.cart.closeDrawer()" class="btn-gold text-xs py-2 px-4">Browse Brands & Products</a>
+    </div>
+
+    <div id="cartActions" class="p-5 border-t border-slate-800 bg-slate-950 space-y-3">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
+        <div>
+          <span class="text-xs text-slate-400 block">Estimated Order Total:</span>
+          <span class="text-[10px] text-emerald-400">Direct Factory Price</span>
+        </div>
+        <span id="cartTotalAmount" class="text-2xl font-black text-amber-400">₹0</span>
+      </div>
+      <div class="space-y-2 pt-1">
+        <a id="cartWaAshish" href="#" target="_blank" class="btn-gold w-full text-xs sm:text-sm py-3 px-4 text-center flex items-center justify-center gap-2 shadow-lg">
+          <span>Send Order to Ashish Chopra (WhatsApp)</span>
+        </a>
+        <a id="cartWaYuvraj" href="#" target="_blank" class="btn-outline-gold w-full text-xs py-2.5 px-4 text-center flex items-center justify-center gap-2">
+          <span>Send Order to Yuvraj Chopra (WhatsApp)</span>
+        </a>
+        <button onclick="window.cart.clear()" class="w-full text-center text-xs text-slate-500 hover:text-red-400 py-1 transition-colors">
+          Clear Entire List
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Core Scripts (Silent, No video intro, No sound) -->
+  <script src="assets/js/fireworks-canvas.js"></script>
+  <script src="assets/js/products-data.js"></script>
+  <script src="assets/js/cart-inquiry.js"></script>
+
+  <script>
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const menu = document.getElementById('mobileMenu');
+    if (menuBtn && menu) {
+      menuBtn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    }
+  </script>
+</body>
+</html>
