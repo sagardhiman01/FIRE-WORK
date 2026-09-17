@@ -552,7 +552,8 @@
       };
 
       // Try server save first
-      fetch('/api/review/submit', {
+      const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
+      fetch(`${apiBase}/api/review/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newRev)

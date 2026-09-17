@@ -48,14 +48,20 @@ function writeJsonFile(filename, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
 }
 
+function setCorsHeaders(res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Access-Control-Private-Network', 'true');
+}
+
 const server = http.createServer((req, res) => {
+  setCorsHeaders(res);
+  console.log(`[${new Date().toLocaleTimeString()}] ${req.method} ${req.url}`);
+
   // CORS Preflight
   if (req.method === 'OPTIONS') {
-    res.writeHead(204, {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': '*'
-    });
+    res.writeHead(204);
     return res.end();
   }
 
@@ -72,7 +78,6 @@ const server = http.createServer((req, res) => {
     };
     res.writeHead(200, {
       'Content-Type': 'application/json; charset=utf-8',
-      'Access-Control-Allow-Origin': '*',
       'Cache-Control': 'no-cache, no-store, must-revalidate'
     });
     return res.end(JSON.stringify(data));
@@ -89,21 +94,18 @@ const server = http.createServer((req, res) => {
         const payload = JSON.parse(body);
         const allowedTypes = ['products', 'brands', 'reviews', 'gallery', 'settings'];
         if (!payload.type || !allowedTypes.includes(payload.type)) {
-          res.writeHead(400, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+          res.writeHead(400, { 'Content-Type': 'application/json' });
           return res.end(JSON.stringify({ success: false, error: 'Invalid data type' }));
         }
 
         writeJsonFile(`${payload.type}.json`, payload.data);
         console.log(`[Admin Save] Saved ${payload.type}.json (${Array.isArray(payload.data) ? payload.data.length + ' items' : 'object'}) to disk.`);
 
-        res.writeHead(200, {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        });
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, type: payload.type }));
       } catch (err) {
         console.error('Save error:', err);
-        res.writeHead(500, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: false, error: err.message }));
       }
     });
@@ -120,7 +122,7 @@ const server = http.createServer((req, res) => {
       try {
         const payload = JSON.parse(body);
         if (!payload.name || !payload.review) {
-          res.writeHead(400, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+          res.writeHead(400, { 'Content-Type': 'application/json' });
           return res.end(JSON.stringify({ success: false, error: 'Name and review are required' }));
         }
 
@@ -141,15 +143,13 @@ const server = http.createServer((req, res) => {
 
         existing.unshift(newRev);
         writeJsonFile('reviews.json', existing);
+        console.log(`[Review Submit] Added review from ${newRev.name} (${newRev.city})`);
 
-        res.writeHead(200, {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        });
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, review: newRev }));
       } catch (err) {
         console.error('Review submit error:', err);
-        res.writeHead(500, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: false, error: err.message }));
       }
     });
@@ -159,7 +159,7 @@ const server = http.createServer((req, res) => {
   // ==========================================================================
   // DIRECT FILE UPLOAD ENDPOINT: POST /api/upload?filename=xyz.jpg
   // ==========================================================================
-  if (req.method === 'POST' && req.url.startsWith('/api/upload')) {
+  if (req.method === 'POST' && req.url.startsWith('/api/upload') && !req.url.startsWith('/api/upload-base64')) {
     try {
       const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost:5500'}`);
       let originalFilename = urlObj.searchParams.get('filename') || ('upload_' + Date.now() + '.jpg');
@@ -176,36 +176,80 @@ const server = http.createServer((req, res) => {
 
       writeStream.on('finish', () => {
         const publicRelativePath = `assets/uploads/${uniqueFilename}`;
-        res.writeHead(200, {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        });
+        const size = fs.statSync(targetFilePath).size;
+        console.log(`[Direct Upload] Saved ${publicRelativePath} (${size} bytes) to disk.`);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
           success: true,
           filePath: publicRelativePath,
           filename: uniqueFilename,
-          size: fs.statSync(targetFilePath).size
+          size: size
         }));
       });
 
       writeStream.on('error', (err) => {
         console.error('Upload stream error:', err);
-        res.writeHead(500, {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        });
+        res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: false, error: err.message }));
       });
 
       return;
     } catch (err) {
       console.error('Upload handling error:', err);
-      res.writeHead(500, {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      });
+      res.writeHead(500, { 'Content-Type': 'application/json' });
       return res.end(JSON.stringify({ success: false, error: err.message }));
     }
+  }
+
+  // ==========================================================================
+  // BASE64 FILE UPLOAD ENDPOINT: POST /api/upload-base64
+  // ==========================================================================
+  if (req.method === 'POST' && req.url.startsWith('/api/upload-base64')) {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        if (!payload.base64) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          return res.end(JSON.stringify({ success: false, error: 'No base64 data provided' }));
+        }
+
+        const matches = payload.base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+        let ext = '.jpg';
+        let buffer;
+        if (matches && matches.length === 3) {
+          const mime = matches[1].toLowerCase();
+          if (mime.includes('png')) ext = '.png';
+          else if (mime.includes('webp')) ext = '.webp';
+          else if (mime.includes('gif')) ext = '.gif';
+          buffer = Buffer.from(matches[2], 'base64');
+        } else {
+          buffer = Buffer.from(payload.base64, 'base64');
+        }
+
+        const cleanBase = (payload.filename || 'photo').replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9_-]/g, '_');
+        const uniqueFilename = `${Date.now()}_${cleanBase}${ext}`;
+        const targetFilePath = path.join(UPLOAD_DIR, uniqueFilename);
+
+        fs.writeFileSync(targetFilePath, buffer);
+        const publicRelativePath = `assets/uploads/${uniqueFilename}`;
+        console.log(`[Base64 Upload] Saved ${publicRelativePath} (${buffer.length} bytes) to disk.`);
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          filePath: publicRelativePath,
+          filename: uniqueFilename,
+          size: buffer.length
+        }));
+      } catch (err) {
+        console.error('Base64 upload error:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
   }
 
   // ==========================================================================

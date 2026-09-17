@@ -832,41 +832,70 @@
       if (!file) return '';
 
       if (statusEl) {
-        statusEl.innerHTML = `<span class="text-amber-400 animate-pulse">⏳ Uploading ${file.name}...</span>`;
+        statusEl.innerHTML = `<span class="text-amber-400 animate-pulse">⏳ Optimizing & uploading ${file.name}...</span>`;
       }
 
-      // Try uploading to Node backend /api/upload
+      const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
+
+      // 1. Try Direct binary upload to /api/upload
       try {
-        const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+        const res = await fetch(`${apiBase}/api/upload?filename=${encodeURIComponent(file.name)}`, {
           method: 'POST',
           body: file
         });
-        const data = await res.json();
-        if (data && data.success && data.filePath) {
-          if (statusEl) {
-            statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Uploaded: ${data.filename}</span>`;
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.success && data.filePath) {
+            if (statusEl) {
+              statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Uploaded: ${data.filename}</span>`;
+            }
+            if (typeof onDone === 'function') onDone(data.filePath);
+            return data.filePath;
           }
-          if (typeof onDone === 'function') onDone(data.filePath);
-          return data.filePath;
         }
       } catch (err) {
-        console.warn('Backend upload unavailable, using instant DataURL fallback:', err);
+        console.warn('Backend direct upload failed, trying compressed upload...', err.message);
       }
 
-      // Fallback to FileReader Base64 Data URL (guaranteed offline/standalone support)
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const base64Url = e.target.result;
-          if (statusEl) {
-            statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Loaded: ${file.name}</span>`;
+      // 2. Compress image via Canvas (~50-80KB)
+      let compressedDataUrl = '';
+      if (window.compressImageToDataUrl) {
+        compressedDataUrl = await window.compressImageToDataUrl(file, 1200, 0.75);
+      } else {
+        compressedDataUrl = await new Promise((res) => {
+          const reader = new FileReader();
+          reader.onload = e => res(e.target.result);
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // 3. Try Base64 Upload to /api/upload-base64
+      try {
+        const b64Res = await fetch(`${apiBase}/api/upload-base64`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: file.name, base64: compressedDataUrl })
+        });
+        if (b64Res.ok) {
+          const b64Data = await b64Res.json();
+          if (b64Data && b64Data.success && b64Data.filePath) {
+            if (statusEl) {
+              statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Uploaded: ${b64Data.filename}</span>`;
+            }
+            if (typeof onDone === 'function') onDone(b64Data.filePath);
+            return b64Data.filePath;
           }
-          if (typeof onDone === 'function') onDone(base64Url);
-          resolve(base64Url);
-        };
-        reader.onerror = () => resolve('');
-        reader.readAsDataURL(file);
-      });
+        }
+      } catch (err) {
+        console.warn('Backend base64 upload failed, using safe offline compressed DataURL:', err.message);
+      }
+
+      // 4. Safe offline fallback: compressed data URL fits in localStorage without quota error!
+      if (statusEl) {
+        statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Loaded: ${file.name}</span>`;
+      }
+      if (typeof onDone === 'function') onDone(compressedDataUrl);
+      return compressedDataUrl;
     }
 
     // TAB NAVIGATION
@@ -1419,7 +1448,7 @@
         <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
           <div>
             <div class="h-36 rounded-lg overflow-hidden bg-slate-900 relative mb-3">
-              <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+              <img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src='assets/images/cock-skyshots-240.jpg';" class="w-full h-full object-cover">
               <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-bold text-amber-400 border border-amber-500/30">
                 ${item.category}
               </span>

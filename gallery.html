@@ -525,7 +525,7 @@
 
     window.uploadModalGalleryPhoto = async function(input) {
       const file = (input && input.files) ? input.files[0] : input;
-      if (!file) return;
+      if (!file) return '';
 
       modalSelectedFile = file;
 
@@ -548,33 +548,65 @@
         titleInput.value = rawName.charAt(0).toUpperCase() + rawName.slice(1);
       }
 
-      // Background upload
+      // Background upload status
       const statusEl = document.getElementById('modalGalUploadStatus');
-      if (statusEl) statusEl.innerHTML = '<span class="text-amber-400 animate-pulse">⏳ Uploading...</span>';
-      
+      if (statusEl) statusEl.innerHTML = '<span class="text-amber-400 animate-pulse">⏳ Optimizing & uploading photo...</span>';
+
+      const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
+
+      // 1. Try Direct binary upload to /api/upload
       try {
-        const res = await fetch(`/api/upload?filename=${encodeURIComponent(file.name)}`, {
+        const res = await fetch(`${apiBase}/api/upload?filename=${encodeURIComponent(file.name)}`, {
           method: 'POST',
           body: file
         });
-        const data = await res.json();
-        if (data && data.success && data.filePath) {
-          document.getElementById('modalGalImageUrl').value = data.filePath;
-          if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
-          return data.filePath;
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.success && data.filePath) {
+            document.getElementById('modalGalImageUrl').value = data.filePath;
+            if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
+            return data.filePath;
+          }
         }
-      } catch (err) {}
+      } catch (err) {
+        console.warn('Direct upload failed, trying compressed upload...', err.message);
+      }
 
-      // Fallback base64
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          document.getElementById('modalGalImageUrl').value = e.target.result;
-          if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
-          resolve(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      });
+      // 2. Compress image using Canvas (~50-80KB)
+      let compressedDataUrl = '';
+      if (window.compressImageToDataUrl) {
+        compressedDataUrl = await window.compressImageToDataUrl(file, 1200, 0.75);
+      } else {
+        compressedDataUrl = await new Promise((res) => {
+          const reader = new FileReader();
+          reader.onload = e => res(e.target.result);
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // 3. Try Base64 Upload to /api/upload-base64
+      try {
+        const b64Res = await fetch(`${apiBase}/api/upload-base64`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: file.name, base64: compressedDataUrl })
+        });
+        if (b64Res.ok) {
+          const b64Data = await b64Res.json();
+          if (b64Data && b64Data.success && b64Data.filePath) {
+            document.getElementById('modalGalImageUrl').value = b64Data.filePath;
+            if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
+            return b64Data.filePath;
+          }
+        }
+      } catch (err) {
+        console.warn('Base64 upload to server failed, using local compressed data URL:', err.message);
+      }
+
+      // 4. Safe offline fallback: compressed data URL fits in localStorage without quota error!
+      document.getElementById('modalGalImageUrl').value = compressedDataUrl;
+      if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish (Offline Safe)</span>`;
+      return compressedDataUrl;
     };
 
     window.handlePublicGallerySubmit = async function(e) {
@@ -593,11 +625,15 @@
       const caption = (capText ? capText.value : '').trim();
 
       if (modalSelectedFile && (!image || image.startsWith('blob:'))) {
-        btn.disabled = true;
-        btn.innerHTML = '<span>⏳ Saving Upload...</span>';
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '<span>⏳ Saving Upload...</span>';
+        }
         image = await uploadModalGalleryPhoto(modalSelectedFile);
-        btn.disabled = false;
-        btn.innerHTML = '<span>Publish to Gallery</span><span>&rarr;</span>';
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<span>Publish to Gallery</span><span>&rarr;</span>';
+        }
       }
 
       if (!image) {
@@ -636,9 +672,10 @@
       setTimeout(() => {
         closeGalleryUploadModal();
         clearModalGalPreview();
-        document.getElementById('publicGalleryUploadForm').reset();
+        const form = document.getElementById('publicGalleryUploadForm');
+        if (form) form.reset();
         if (statusEl) statusEl.innerHTML = '';
-      }, 900);
+      }, 700);
     };
 
     // Wire drag and drop on modal dropzone

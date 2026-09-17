@@ -643,21 +643,78 @@ window.BRANDS_INFO = [
 
 window.DEFAULT_BRANDS_INFO = JSON.parse(JSON.stringify(window.BRANDS_INFO));
 
+// Universal API Base URL resolver
+window.getApiBaseUrl = function () {
+  if (typeof window === 'undefined') return '';
+  if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5500')) {
+    return 'http://localhost:5500';
+  }
+  return '';
+};
+
+// Client-Side Smart Image Compressor (Max 1200px, 0.75 JPEG, ~50-80KB)
+window.compressImageToDataUrl = function (fileOrBlob, maxWidth = 1200, quality = 0.75) {
+  return new Promise((resolve) => {
+    if (!fileOrBlob) return resolve('');
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = new Image();
+      img.onload = function () {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth || height > maxWidth) {
+          if (width > height) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxWidth) / height);
+            height = maxWidth;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        try {
+          const compressed = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressed);
+        } catch (err) {
+          resolve(e.target.result);
+        }
+      };
+      img.onerror = function () {
+        resolve(e.target.result);
+      };
+      img.src = e.target.result;
+    };
+    reader.onerror = function () {
+      resolve('');
+    };
+    reader.readAsDataURL(fileOrBlob);
+  });
+};
+
 // Server Sync Helper
 window.syncDataToServer = function (type, data) {
   try {
-    fetch('/api/save', {
+    const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
+    return fetch(`${apiBase}/api/save`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type, data })
     }).then(res => res.json()).then(resData => {
-      if (resData.success) {
+      if (resData && resData.success) {
         console.log(`[Persistence Engine] Successfully saved ${type} to server disk.`);
       }
+      return resData;
     }).catch(err => {
       console.warn(`[Persistence Engine] Server save skipped (offline/standalone mode):`, err.message);
+      return null;
     });
-  } catch (e) {}
+  } catch (e) {
+    return Promise.resolve(null);
+  }
 };
 
 window.getStoredBrands = function () {
@@ -965,7 +1022,8 @@ window.applySiteSettings = function () {
 
 // Global Server Data Hydration Engine
 window.syncDataFromServer = function (onComplete) {
-  fetch('/api/data')
+  const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
+  fetch(`${apiBase}/api/data`)
     .then(res => {
       if (!res.ok) throw new Error('Network response was not ok');
       return res.json();
@@ -977,11 +1035,14 @@ window.syncDataFromServer = function (onComplete) {
 
       // Products
       if (Array.isArray(data.products) && data.products.length > 0) {
-        localStorage.setItem('at_admin_products', JSON.stringify(data.products));
-        window.FIREWORKS_PRODUCTS = data.products;
+        const local = window.getStoredProducts();
+        const serverIds = new Set(data.products.map(p => p.id));
+        const unsynced = (Array.isArray(local) ? local : []).filter(p => !serverIds.has(p.id));
+        const merged = unsynced.length > 0 ? [...unsynced, ...data.products] : data.products;
+        localStorage.setItem('at_admin_products', JSON.stringify(merged));
+        window.FIREWORKS_PRODUCTS = merged;
         hasUpdates = true;
       } else {
-        // First run seed
         window.syncDataToServer('products', window.DEFAULT_FIREWORKS_PRODUCTS);
       }
 
@@ -996,15 +1057,28 @@ window.syncDataFromServer = function (onComplete) {
 
       // Reviews
       if (Array.isArray(data.reviews) && data.reviews.length > 0) {
-        localStorage.setItem('at_admin_reviews', JSON.stringify(data.reviews));
+        const local = window.getStoredReviews();
+        const serverIds = new Set(data.reviews.map(r => r.id));
+        const unsynced = (Array.isArray(local) ? local : []).filter(r => !serverIds.has(r.id));
+        const merged = unsynced.length > 0 ? [...unsynced, ...data.reviews] : data.reviews;
+        localStorage.setItem('at_admin_reviews', JSON.stringify(merged));
         hasUpdates = true;
       } else {
         window.syncDataToServer('reviews', window.DEFAULT_REVIEWS);
       }
 
-      // Gallery
+      // Gallery: Merge local and server so user photos are NEVER overwritten!
       if (Array.isArray(data.gallery) && data.gallery.length > 0) {
-        localStorage.setItem('at_admin_gallery', JSON.stringify(data.gallery));
+        const local = window.getStoredGallery();
+        const serverIds = new Set(data.gallery.map(g => g.id));
+        const unsynced = (Array.isArray(local) ? local : []).filter(g => !serverIds.has(g.id));
+        if (unsynced.length > 0) {
+          const merged = [...unsynced, ...data.gallery];
+          localStorage.setItem('at_admin_gallery', JSON.stringify(merged));
+          window.syncDataToServer('gallery', merged);
+        } else {
+          localStorage.setItem('at_admin_gallery', JSON.stringify(data.gallery));
+        }
         hasUpdates = true;
       } else {
         window.syncDataToServer('gallery', window.DEFAULT_GALLERY);
