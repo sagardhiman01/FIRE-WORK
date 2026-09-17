@@ -901,6 +901,13 @@ window.saveStoredReviews = function (reviewsList) {
 
 window.DEFAULT_GALLERY = [
   {
+    id: 'gal-1789673624189',
+    title: 'Fresh Festive Fireworks Stock',
+    category: 'Warehouse & Stock',
+    image: 'assets/uploads/1789673624189_WhatsApp_Image_2026-09-17_at_03_11_09.jpeg',
+    caption: 'Fresh Sivakasi fireworks arrival and showroom displays at Ashish Traders Mohabewala Dehradun warehouse.'
+  },
+  {
     id: 'gal-1',
     title: 'Cock Brand 240 Sky Shots Stocking',
     category: 'Warehouse & Stock',
@@ -949,7 +956,11 @@ window.getStoredGallery = function () {
     const raw = localStorage.getItem('at_admin_gallery');
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        // Clean out any obsolete test IDs
+        const cleaned = parsed.filter(g => g && g.image && !g.id.startsWith('gal-test-') && !g.image.includes('verify_direct'));
+        if (cleaned.length > 0) return cleaned;
+      }
     }
   } catch (e) {}
   return window.DEFAULT_GALLERY;
@@ -1163,16 +1174,12 @@ window.syncDataFromServer = function (onComplete) {
 
       // Gallery: Merge local and server so user photos are NEVER overwritten!
       if (Array.isArray(data.gallery) && data.gallery.length > 0) {
+        const validServerGallery = data.gallery.filter(g => g && g.image && !g.id.startsWith('gal-test-') && !g.image.includes('verify_direct'));
         const local = window.getStoredGallery();
-        const serverIds = new Set(data.gallery.map(g => g.id));
-        const unsynced = (Array.isArray(local) ? local : []).filter(g => !serverIds.has(g.id));
-        if (unsynced.length > 0) {
-          const merged = [...unsynced, ...data.gallery];
-          localStorage.setItem('at_admin_gallery', JSON.stringify(merged));
-          window.syncDataToServer('gallery', merged);
-        } else {
-          localStorage.setItem('at_admin_gallery', JSON.stringify(data.gallery));
-        }
+        const serverIds = new Set(validServerGallery.map(g => g.id));
+        const unsynced = (Array.isArray(local) ? local : []).filter(g => !serverIds.has(g.id) && !g.id.startsWith('gal-test-') && !g.image.includes('verify_direct'));
+        const finalGallery = unsynced.length > 0 ? [...unsynced, ...validServerGallery] : validServerGallery;
+        localStorage.setItem('at_admin_gallery', JSON.stringify(finalGallery));
         hasUpdates = true;
       } else {
         window.syncDataToServer('gallery', window.DEFAULT_GALLERY);
@@ -1199,7 +1206,21 @@ window.syncDataFromServer = function (onComplete) {
       if (typeof onComplete === 'function') onComplete();
     })
     .catch(err => {
-      // In offline / static preview, apply from localStorage
+      // In offline / static preview or if API route fails, fallback to direct data/gallery.json fetch
+      fetch('data/gallery.json')
+        .then(r => {
+          if (!r.ok) throw new Error('Static fetch failed');
+          return r.json();
+        })
+        .then(gal => {
+          if (Array.isArray(gal) && gal.length > 0) {
+            const valid = gal.filter(g => g && g.image && !g.id.startsWith('gal-test-') && !g.image.includes('verify_direct'));
+            localStorage.setItem('at_admin_gallery', JSON.stringify(valid));
+            window.dispatchEvent(new CustomEvent('galleryUpdated', { detail: { gallery: valid } }));
+          }
+        })
+        .catch(() => {});
+
       window.applySiteSettings();
       if (typeof onComplete === 'function') onComplete();
     });
