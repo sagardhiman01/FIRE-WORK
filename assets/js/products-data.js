@@ -807,10 +807,14 @@ window.getStoredGallery = function () {
 window.saveStoredGallery = function (galleryList) {
   try {
     localStorage.setItem('at_admin_gallery', JSON.stringify(galleryList));
+  } catch (e) {
+    console.warn('localStorage gallery quota warning:', e);
+  }
+  try {
     window.syncDataToServer('gallery', galleryList);
     window.dispatchEvent(new CustomEvent('galleryUpdated', { detail: { gallery: galleryList } }));
   } catch (e) {
-    console.error('Failed to save gallery:', e);
+    console.error('Failed to sync gallery to server:', e);
   }
 };
 
