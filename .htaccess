@@ -1,0 +1,18 @@
+# =============================================================================
+# Ashish Traders Fireworks - URL Rewrite Rules for Hostinger
+# Maps Node.js-style /api/... endpoints to PHP files
+# =============================================================================
+
+RewriteEngine On
+
+# API endpoint rewrites: /api/data -> /api/data.php
+RewriteRule ^api/data$ api/data.php [L,QSA]
+RewriteRule ^api/save$ api/save.php [L,QSA]
+RewriteRule ^api/upload$ api/upload.php [L,QSA]
+RewriteRule ^api/upload-base64$ api/upload-base64.php [L,QSA]
+RewriteRule ^api/review/submit$ api/review-submit.php [L,QSA]
+
+# Set max upload size
+php_value upload_max_filesize 10M
+php_value post_max_size 12M
+php_value max_execution_time 30

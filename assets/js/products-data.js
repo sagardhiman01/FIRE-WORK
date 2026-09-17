@@ -642,14 +642,108 @@ window.BRANDS_INFO = [
 // ============================================================================
 
 window.DEFAULT_BRANDS_INFO = JSON.parse(JSON.stringify(window.BRANDS_INFO));
-
 // Universal API Base URL resolver
+// On localhost:5500 -> use Node.js endpoints (/api/data, /api/upload, /api/save)
+// On Hostinger/live -> use PHP endpoints (/api/data.php, /api/upload.php, /api/save.php)
 window.getApiBaseUrl = function () {
   if (typeof window === 'undefined') return '';
   if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5500')) {
     return 'http://localhost:5500';
   }
   return '';
+};
+
+// Detect if we're on live hosting (Hostinger/PHP) or local Node.js
+window.isLiveHosting = function () {
+  if (typeof window === 'undefined') return false;
+  const host = window.location.hostname || '';
+  const port = window.location.port || '';
+  // If not localhost/127.0.0.1 or if no port (standard HTTP/HTTPS), assume live hosting
+  if (host !== 'localhost' && host !== '127.0.0.1' && !host.startsWith('192.168.')) return true;
+  if (!port && window.location.protocol !== 'file:') return true;
+  return false;
+};
+
+// Build correct API URL based on environment (Node.js vs PHP)
+window.getApiUrl = function (endpoint) {
+  const isLive = window.isLiveHosting();
+  const apiBase = window.getApiBaseUrl();
+
+  // Map Node.js endpoints to PHP endpoints for live hosting
+  const phpMap = {
+    '/api/data':           '/api/data.php',
+    '/api/save':           '/api/save.php',
+    '/api/upload':         '/api/upload.php',
+    '/api/upload-base64':  '/api/upload-base64.php',
+    '/api/review/submit':  '/api/review-submit.php'
+  };
+
+  if (isLive && phpMap[endpoint]) {
+    return phpMap[endpoint];
+  }
+  return apiBase + endpoint;
+};
+
+// Universal file upload function (works on both Node.js and PHP backends)
+window.uploadFileToBackend = async function (file, statusMsg) {
+  if (!file) return '';
+
+  const isLive = window.isLiveHosting();
+
+  // Method 1: Try multipart FormData upload (works on PHP)
+  try {
+    const formData = new FormData();
+    formData.append('photo', file);
+    const uploadUrl = window.getApiUrl('/api/upload') + (isLive ? '' : '?filename=' + encodeURIComponent(file.name));
+    
+    const res = await fetch(uploadUrl, {
+      method: 'POST',
+      body: isLive ? formData : file
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success && data.filePath) {
+        console.log('[Upload Engine] Direct upload success:', data.filePath);
+        return data.filePath;
+      }
+    }
+  } catch (err) {
+    console.warn('[Upload Engine] Direct upload failed:', err.message);
+  }
+
+  // Method 2: Try base64 compressed upload
+  let compressedDataUrl = '';
+  if (window.compressImageToDataUrl) {
+    compressedDataUrl = await window.compressImageToDataUrl(file, 1200, 0.75);
+  } else {
+    compressedDataUrl = await new Promise((res) => {
+      const reader = new FileReader();
+      reader.onload = e => res(e.target.result);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  try {
+    const b64Url = window.getApiUrl('/api/upload-base64');
+    const b64Res = await fetch(b64Url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filename: file.name, base64: compressedDataUrl })
+    });
+    if (b64Res.ok) {
+      const b64Data = await b64Res.json();
+      if (b64Data && b64Data.success && b64Data.filePath) {
+        console.log('[Upload Engine] Base64 upload success:', b64Data.filePath);
+        return b64Data.filePath;
+      }
+    }
+  } catch (err) {
+    console.warn('[Upload Engine] Base64 upload failed:', err.message);
+  }
+
+  // Method 3: Offline fallback - return compressed data URL
+  console.warn('[Upload Engine] All server uploads failed, using offline compressed data URL');
+  return compressedDataUrl;
 };
 
 // Client-Side Smart Image Compressor (Max 1200px, 0.75 JPEG, ~50-80KB)
@@ -695,11 +789,11 @@ window.compressImageToDataUrl = function (fileOrBlob, maxWidth = 1200, quality =
   });
 };
 
-// Server Sync Helper
+// Server Sync Helper (auto-detects Node.js vs PHP backend)
 window.syncDataToServer = function (type, data) {
   try {
-    const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
-    return fetch(`${apiBase}/api/save`, {
+    const saveUrl = window.getApiUrl('/api/save');
+    return fetch(saveUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type, data })
@@ -1022,8 +1116,8 @@ window.applySiteSettings = function () {
 
 // Global Server Data Hydration Engine
 window.syncDataFromServer = function (onComplete) {
-  const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
-  fetch(`${apiBase}/api/data`)
+  const dataUrl = window.getApiUrl ? window.getApiUrl('/api/data') : '/api/data';
+  fetch(dataUrl)
     .then(res => {
       if (!res.ok) throw new Error('Network response was not ok');
       return res.json();

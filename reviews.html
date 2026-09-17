@@ -551,9 +551,9 @@
         verified: true
       };
 
-      // Try server save first
-      const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
-      fetch(`${apiBase}/api/review/submit`, {
+      // Try server save first (works with both Node.js and Hostinger PHP)
+      const submitUrl = window.getApiUrl ? window.getApiUrl('/api/review/submit') : ((window.getApiBaseUrl ? window.getApiBaseUrl() : '') + '/api/review/submit');
+      fetch(submitUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newRev)

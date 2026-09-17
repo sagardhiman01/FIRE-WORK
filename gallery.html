@@ -552,58 +552,25 @@
       const statusEl = document.getElementById('modalGalUploadStatus');
       if (statusEl) statusEl.innerHTML = '<span class="text-amber-400 animate-pulse">⏳ Optimizing & uploading photo...</span>';
 
-      const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
+      // Use universal upload function (works on both Node.js local and Hostinger PHP)
+      const savedPath = await (window.uploadFileToBackend ? window.uploadFileToBackend(file) : '');
 
-      // 1. Try Direct binary upload to /api/upload
-      try {
-        const res = await fetch(`${apiBase}/api/upload?filename=${encodeURIComponent(file.name)}`, {
-          method: 'POST',
-          body: file
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.success && data.filePath) {
-            document.getElementById('modalGalImageUrl').value = data.filePath;
-            if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
-            return data.filePath;
-          }
-        }
-      } catch (err) {
-        console.warn('Direct upload failed, trying compressed upload...', err.message);
+      if (savedPath && !savedPath.startsWith('data:')) {
+        // Server upload succeeded
+        document.getElementById('modalGalImageUrl').value = savedPath;
+        if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
+        return savedPath;
       }
 
-      // 2. Compress image using Canvas (~50-80KB)
-      let compressedDataUrl = '';
-      if (window.compressImageToDataUrl) {
-        compressedDataUrl = await window.compressImageToDataUrl(file, 1200, 0.75);
-      } else {
-        compressedDataUrl = await new Promise((res) => {
-          const reader = new FileReader();
-          reader.onload = e => res(e.target.result);
-          reader.readAsDataURL(file);
-        });
+      // Offline/compressed fallback
+      if (savedPath) {
+        document.getElementById('modalGalImageUrl').value = savedPath;
+        if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish (Offline Safe)</span>`;
+        return savedPath;
       }
 
-      // 3. Try Base64 Upload to /api/upload-base64
-      try {
-        const b64Res = await fetch(`${apiBase}/api/upload-base64`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filename: file.name, base64: compressedDataUrl })
-        });
-        if (b64Res.ok) {
-          const b64Data = await b64Res.json();
-          if (b64Data && b64Data.success && b64Data.filePath) {
-            document.getElementById('modalGalImageUrl').value = b64Data.filePath;
-            if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
-            return b64Data.filePath;
-          }
-        }
-      } catch (err) {
-        console.warn('Base64 upload to server failed, using local compressed data URL:', err.message);
-      }
-
-      // 4. Safe offline fallback: compressed data URL fits in localStorage without quota error!
+      // Last resort fallback
+      const compressedDataUrl = window.compressImageToDataUrl ? await window.compressImageToDataUrl(file, 1200, 0.75) : '';
       document.getElementById('modalGalImageUrl').value = compressedDataUrl;
       if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish (Offline Safe)</span>`;
       return compressedDataUrl;

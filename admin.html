@@ -827,7 +827,7 @@
     let brandFilter = 'ALL';
     let stockFilter = 'ALL';
 
-    // UNIVERSAL DIRECT FILE UPLOAD HANDLER
+    // UNIVERSAL DIRECT FILE UPLOAD HANDLER (works on both Node.js and Hostinger PHP)
     async function uploadFileToServer(file, statusEl, onDone) {
       if (!file) return '';
 
@@ -835,67 +835,39 @@
         statusEl.innerHTML = `<span class="text-amber-400 animate-pulse">⏳ Optimizing & uploading ${file.name}...</span>`;
       }
 
-      const apiBase = window.getApiBaseUrl ? window.getApiBaseUrl() : '';
+      // Use the universal upload function from products-data.js
+      const savedPath = await (window.uploadFileToBackend ? window.uploadFileToBackend(file) : '');
 
-      // 1. Try Direct binary upload to /api/upload
-      try {
-        const res = await fetch(`${apiBase}/api/upload?filename=${encodeURIComponent(file.name)}`, {
-          method: 'POST',
-          body: file
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.success && data.filePath) {
-            if (statusEl) {
-              statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Uploaded: ${data.filename}</span>`;
-            }
-            if (typeof onDone === 'function') onDone(data.filePath);
-            return data.filePath;
-          }
+      if (savedPath && !savedPath.startsWith('data:')) {
+        // Server upload succeeded
+        if (statusEl) {
+          const name = savedPath.split('/').pop();
+          statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Uploaded: ${name}</span>`;
         }
-      } catch (err) {
-        console.warn('Backend direct upload failed, trying compressed upload...', err.message);
+        if (typeof onDone === 'function') onDone(savedPath);
+        return savedPath;
       }
 
-      // 2. Compress image via Canvas (~50-80KB)
-      let compressedDataUrl = '';
-      if (window.compressImageToDataUrl) {
-        compressedDataUrl = await window.compressImageToDataUrl(file, 1200, 0.75);
-      } else {
-        compressedDataUrl = await new Promise((res) => {
-          const reader = new FileReader();
-          reader.onload = e => res(e.target.result);
-          reader.readAsDataURL(file);
-        });
-      }
-
-      // 3. Try Base64 Upload to /api/upload-base64
-      try {
-        const b64Res = await fetch(`${apiBase}/api/upload-base64`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filename: file.name, base64: compressedDataUrl })
-        });
-        if (b64Res.ok) {
-          const b64Data = await b64Res.json();
-          if (b64Data && b64Data.success && b64Data.filePath) {
-            if (statusEl) {
-              statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Uploaded: ${b64Data.filename}</span>`;
-            }
-            if (typeof onDone === 'function') onDone(b64Data.filePath);
-            return b64Data.filePath;
-          }
+      // Offline fallback (compressed data URL)
+      if (savedPath) {
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Loaded: ${file.name}</span>`;
         }
-      } catch (err) {
-        console.warn('Backend base64 upload failed, using safe offline compressed DataURL:', err.message);
+        if (typeof onDone === 'function') onDone(savedPath);
+        return savedPath;
       }
 
-      // 4. Safe offline fallback: compressed data URL fits in localStorage without quota error!
-      if (statusEl) {
-        statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Loaded: ${file.name}</span>`;
-      }
-      if (typeof onDone === 'function') onDone(compressedDataUrl);
-      return compressedDataUrl;
+      // Last resort: raw FileReader
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Loaded: ${file.name}</span>`;
+          if (typeof onDone === 'function') onDone(e.target.result);
+          resolve(e.target.result);
+        };
+        reader.onerror = () => resolve('');
+        reader.readAsDataURL(file);
+      });
     }
 
     // TAB NAVIGATION
