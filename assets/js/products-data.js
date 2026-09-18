@@ -970,6 +970,13 @@ window.saveStoredReviews = function (reviewsList) {
 
 window.DEFAULT_GALLERY = [
   {
+    id: 'gal-224977',
+    title: 'Fresh Sivakasi Stock Arrival',
+    category: 'Warehouse & Stock',
+    image: 'assets/uploads/1789717219197_download.jpeg',
+    caption: 'Fresh wholesale stock arrival from direct Sivakasi manufacturers at Ashish Traders Mohabewala Dehradun warehouse.'
+  },
+  {
     id: 'gal-1789673624189',
     title: 'Fresh Festive Fireworks Stock',
     category: 'Warehouse & Stock',

@@ -3,353 +3,464 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Festive Fireworks Gallery | Ashish Traders (A&T) Dehradun</title>
-  <meta name="description" content="Explore our authentic Sivakasi fireworks gallery, showroom displays, warehouse crates, and celebration moments at Ashish Traders Fireworks in Dehradun.">
-  <meta name="theme-color" content="#07080d">
-
-  <!-- Google Fonts & Tailwind CDN -->
+  <title>Fireworks Gallery & Live Stock | Ashish Traders Dehradun</title>
+  <meta name="description" content="Explore live showroom displays, Sivakasi warehouse arrivals, and festive celebration fireworks at Ashish Traders, Mohabewala Dehradun. Wholesale and retail firecrackers.">
+  <meta name="keywords" content="fireworks gallery, crackers photos dehradun, sivakasi fireworks warehouse, ashish traders mohabewala, diwali crackers wholesale">
+  
+  <!-- Tailwind CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --gold-primary: #f59e0b;
+      --gold-light: #fbbf24;
+      --gold-dark: #d97706;
+      --bg-dark: #030712;
+      --bg-card: #0f172a;
+    }
 
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
 
-  <!-- Core Stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css?v=5.0">
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
+    }
+
+    /* Luxury Glows and Gradients */
+    .text-gold-gradient {
+      background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .border-gold-glow {
+      border-color: rgba(245, 158, 11, 0.4);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(245, 158, 11, 0.45);
+      box-shadow: 0 12px 30px -10px rgba(245, 158, 11, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+      color: #030712;
+      font-weight: 700;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #fde047 0%, #fbbf24 50%, #f59e0b 100%);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-gold {
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fbbf24;
+      background: rgba(245, 158, 11, 0.05);
+      transition: all 0.25s ease;
+    }
+
+    .btn-outline-gold:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: #fbbf24;
+      color: #ffffff;
+    }
+
+    /* Lightbox modal animation */
+    .lightbox-modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Image zoom on hover */
+    .img-zoom {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover .img-zoom {
+      transform: scale(1.08);
+    }
+
+    /* Floating buttons */
+    .floating-btn {
+      position: fixed;
+      right: 20px;
+      z-index: 40;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      transition: transform 0.25s ease;
+    }
+
+    .floating-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .floating-wa {
+      bottom: 84px;
+      background-color: #25D366;
+      color: white;
+    }
+
+    .floating-call {
+      bottom: 20px;
+      background-color: #f59e0b;
+      color: #030712;
+    }
+
+    /* Cart drawer styles */
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      background: #090d16;
+      z-index: 50;
+      transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 35px rgba(0, 0, 0, 0.7);
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .cart-drawer.open {
+      right: 0;
+    }
+
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 45;
+      display: none;
+    }
+
+    .cart-overlay.open {
+      display: block;
+    }
+  </style>
 </head>
-<body class="bg-[#07080d] text-slate-100 antialiased selection:bg-amber-500 selection:text-black min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col justify-between">
 
-  <!-- Permanent Background Video / Photo Container -->
-  <div id="bgMediaContainer" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -999; overflow: hidden; pointer-events: none;">
-    <video src="assets/videos/fireworks-intro.mp4" autoplay muted playsinline loop style="width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: brightness(0.8);"></video>
-    <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(7,8,13,0.5) 0%, rgba(7,8,13,0.92) 100%);"></div>
-  </div>
+  <!-- Background Animated Fireworks Canvas -->
+  <canvas id="fireworksCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-  <canvas id="bgFireworksCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -998; pointer-events: none; opacity: 0.65;"></canvas>
-
-  <!-- Top Announcement Banner -->
-  <div id="siteAnnouncementBanner" class="bg-gradient-to-r from-amber-600 via-red-600 to-amber-600 text-black py-1.5 px-4 text-xs sm:text-sm font-bold tracking-wide text-center flex items-center justify-center gap-3 relative z-30 shadow-md">
-    <span>SPECIAL FESTIVE WHOLESALE DEALS • 23, Mohabewala Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun • Call: +91 9837081321 / +91 8630615934</span>
-  </div>
-
-  <!-- Navigation Bar -->
-  <nav class="sticky top-0 z-50 glass-nav">
+  <!-- =========================================================================
+       HEADER / NAVBAR
+       ========================================================================= -->
+  <header class="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
-        <!-- Logo -->
-        <a href="index.html" class="flex items-center gap-3 group">
-          <div class="relative flex-shrink-0">
-            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Fireworks" class="site-company-logo w-12 h-12 rounded-full border border-amber-400 object-cover group-hover:scale-105 transition-transform shadow-lg">
-            <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#07080d]"></span>
+        <!-- Logo & Brand Title -->
+        <a href="index.html" class="flex items-center gap-3.5 group">
+          <div class="relative w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400/80 shadow-lg group-hover:border-amber-300 transition-colors">
+            <img src="assets/images/ashish-traders-logo.jpg" alt="Ashish Traders Logo" class="w-full h-full object-cover">
           </div>
           <div>
-            <div class="font-display font-black text-lg md:text-xl text-gold-gradient tracking-wide leading-tight">
+            <div class="font-cinzel text-lg sm:text-xl font-bold tracking-wider text-gold-gradient leading-tight">
               ASHISH TRADERS
             </div>
-            <div class="text-[10px] tracking-[0.25em] text-slate-400 font-bold uppercase">
-              FIREWORKS • DEHRADUN
+            <div class="text-[10px] tracking-widest text-slate-400 font-semibold uppercase">
+              FIREWORKS • SIVAKASI WHOLESALE
             </div>
           </div>
         </a>
 
-        <!-- Desktop Links -->
-        <div class="hidden lg:flex items-center gap-7 text-sm font-medium">
-          <a href="index.html" class="text-slate-300 hover:text-amber-400 transition-colors">Home</a>
-          <a href="brands.html" class="text-slate-300 hover:text-amber-400 transition-colors">Brands & Products</a>
-          <a href="reviews.html" class="text-slate-300 hover:text-amber-400 transition-colors">Reviews</a>
-          <a href="gallery.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Gallery</a>
-          <a href="about.html" class="text-slate-300 hover:text-amber-400 transition-colors">About Us</a>
-          <a href="contact.html" class="text-slate-300 hover:text-amber-400 transition-colors">Contact Showroom</a>
-          <a href="admin.html" class="text-xs px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black font-semibold transition-all">Admin Panel</a>
-        </div>
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-1.5 lg:gap-2 text-xs font-semibold uppercase tracking-wider">
+          <a href="index.html" class="px-3 py-2 text-slate-300 hover:text-amber-400 transition-colors rounded-lg hover:bg-slate-900/60">Home</a>
+          <a href="brands.html" class="px-3 py-2 text-slate-300 hover:text-amber-400 transition-colors rounded-lg hover:bg-slate-900/60">Brands & Catalog</a>
+          <a href="gallery.html" class="px-3 py-2 text-amber-400 bg-amber-500/10 border border-amber-500/30 rounded-lg font-bold">Gallery</a>
+          <a href="about.html" class="px-3 py-2 text-slate-300 hover:text-amber-400 transition-colors rounded-lg hover:bg-slate-900/60">About Us</a>
+          <a href="reviews.html" class="px-3 py-2 text-slate-300 hover:text-amber-400 transition-colors rounded-lg hover:bg-slate-900/60">Customer Reviews</a>
+          <a href="contact.html" class="px-3 py-2 text-slate-300 hover:text-amber-400 transition-colors rounded-lg hover:bg-slate-900/60">Contact</a>
+        </nav>
 
-        <!-- Right Cart & Hamburger -->
-        <div class="flex items-center gap-3">
-          <button class="open-cart-btn relative btn-gold py-2 px-4 text-xs font-bold flex items-center gap-2 shadow-lg">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-            <span>Estimate Cart</span>
-            <span class="cart-count-badge w-5 h-5 rounded-full bg-red-600 text-white font-bold text-[10px] items-center justify-center shadow-lg" style="display:none;">0</span>
+        <!-- Right Side: Add Photo Button + Cart Trigger + Mobile Toggle -->
+        <div class="flex items-center gap-2.5 sm:gap-3">
+          <!-- Add Photo to Gallery Button -->
+          <button onclick="openUploadModal()" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold btn-gold shadow-md">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <span>Add Photo</span>
           </button>
 
-          <button id="mobileMenuBtn" class="lg:hidden text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800" aria-label="Open menu">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <!-- Wholesale Inquiry Cart Trigger -->
+          <button onclick="window.cart && window.cart.openDrawer()" class="relative p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-400/50 transition-colors text-slate-200" title="Wholesale Estimate Cart">
+            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-amber-500 text-black text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+          </button>
+
+          <!-- Mobile Hamburger Menu Button -->
+          <button id="mobileMenuBtn" class="md:hidden p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white" aria-label="Toggle Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Mobile Drawer -->
-    <div id="mobileMenu" class="hidden lg:hidden bg-slate-950/98 border-b border-slate-800 px-6 py-4 space-y-3">
-      <a href="index.html" class="block text-slate-300 hover:text-amber-400 py-2">Home</a>
-      <a href="brands.html" class="block text-slate-300 hover:text-amber-400 py-2">Brands & Products</a>
-      <a href="reviews.html" class="block text-slate-300 hover:text-amber-400 py-2">Customer Reviews</a>
-      <a href="gallery.html" class="block font-bold text-amber-400 py-2">Gallery</a>
-      <a href="about.html" class="block text-slate-300 hover:text-amber-400 py-2">About Us</a>
-      <a href="contact.html" class="block text-slate-300 hover:text-amber-400 py-2">Contact Showroom</a>
-      <a href="admin.html" class="block text-amber-400 font-bold py-2">Admin Panel</a>
-    </div>
-  </nav>
-
-  <!-- Page Header -->
-  <header class="pt-12 pb-8 px-4 text-center relative overflow-hidden bg-gradient-to-b from-amber-500/10 via-slate-900/40 to-transparent">
-    <div class="max-w-4xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase mb-4 tracking-wider">
-        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-        <span>Visual Showcase • Mohabewala Showroom & Warehouse</span>
-      </div>
-      <h1 class="font-display text-3xl sm:text-5xl md:text-6xl font-black text-gold-gradient mb-3">
-        FESTIVE FIREWORKS GALLERY
-      </h1>
-      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-        Browse fresh wholesale arrivals, Sivakasi master display packaging, warehouse stocking, and sparkling celebration moments across Dehradun and Uttarakhand.
-      </p>
-
-      <!-- Direct Add Photo Action Buttons -->
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <button onclick="openGalleryUploadModal()" class="btn-gold text-xs sm:text-sm py-2.5 px-6 font-bold shadow-xl flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 transition-all">
-          <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-          <span>Add Photo to Gallery</span>
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-800 bg-slate-950/95 px-4 pt-3 pb-5 space-y-2">
+      <a href="index.html" class="block px-3 py-2 text-sm text-slate-300 hover:text-amber-400 rounded-lg">Home</a>
+      <a href="brands.html" class="block px-3 py-2 text-sm text-slate-300 hover:text-amber-400 rounded-lg">Brands & Catalog</a>
+      <a href="gallery.html" class="block px-3 py-2 text-sm text-amber-400 bg-amber-500/10 font-bold rounded-lg">Fireworks Gallery</a>
+      <a href="about.html" class="block px-3 py-2 text-sm text-slate-300 hover:text-amber-400 rounded-lg">About Us</a>
+      <a href="reviews.html" class="block px-3 py-2 text-sm text-slate-300 hover:text-amber-400 rounded-lg">Customer Reviews</a>
+      <a href="contact.html" class="block px-3 py-2 text-sm text-slate-300 hover:text-amber-400 rounded-lg">Contact Us</a>
+      <div class="pt-2">
+        <button onclick="openUploadModal()" class="w-full py-2.5 rounded-xl text-xs font-bold btn-gold text-center flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          <span>Upload Photo to Gallery</span>
         </button>
-        <a href="admin.html" class="px-4 py-2.5 rounded-full bg-slate-900/90 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition-all">
-          Manage Company Catalog &rarr;
-        </a>
       </div>
     </div>
   </header>
 
-  <!-- Filter Buttons & Quick Add -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-    <div class="flex items-center justify-center gap-2 flex-wrap" id="galleryCategoryFilters">
-      <button onclick="filterGallery('ALL')" class="gallery-cat-btn active px-4 py-2 rounded-full bg-amber-500 text-black text-xs font-bold transition-all" data-cat="ALL">All Photos</button>
-      <button onclick="filterGallery('Warehouse & Stock')" class="gallery-cat-btn px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-medium transition-all" data-cat="Warehouse & Stock">Warehouse & Stock</button>
-      <button onclick="filterGallery('Showroom Displays')" class="gallery-cat-btn px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-medium transition-all" data-cat="Showroom Displays">Showroom Displays</button>
-      <button onclick="filterGallery('Celebrations & Lights')" class="gallery-cat-btn px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-medium transition-all" data-cat="Celebrations & Lights">Celebrations & Lights</button>
-      <button onclick="filterGallery('Customer Moments')" class="gallery-cat-btn px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white text-xs font-medium transition-all" data-cat="Customer Moments">Customer Moments</button>
-      <button onclick="openGalleryUploadModal()" class="px-3.5 py-2 rounded-full bg-amber-500/10 border border-amber-500/40 text-amber-400 hover:bg-amber-500 hover:text-black text-xs font-bold transition-all flex items-center gap-1">
-        <span>+ Add Photo</span>
-      </button>
-    </div>
-  </section>
+  <!-- =========================================================================
+       HERO SECTION
+       ========================================================================= -->
+  <main class="relative z-10 flex-1">
+    <section class="relative pt-12 pb-8 sm:pt-16 sm:pb-12 text-center px-4 max-w-5xl mx-auto">
+      
+      <!-- Live Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold mb-4 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="w-2 h-2 rounded-full bg-emerald-500 -ml-3"></span>
+        <span>DIRECT SIVAKASI FACTORY ARRIVALS</span>
+        <span class="text-slate-500">•</span>
+        <span id="headerPhotoCounter" class="text-white font-mono font-bold">8 Photos</span>
+      </div>
 
-  <!-- Gallery Photos Grid -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
-    <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Dynamically generated from getStoredGallery() -->
-    </div>
+      <!-- Main Headline -->
+      <h1 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
+        LIVE SHOWROOM & <span class="text-gold-gradient">STOCK GALLERY</span>
+      </h1>
 
-    <!-- Empty State -->
-    <div id="emptyGalleryNotice" class="hidden text-center py-16 bg-slate-900/50 rounded-2xl border border-slate-800 p-8">
-      <h3 class="text-lg font-bold text-slate-300 mb-2">No photos found in this category</h3>
-      <p class="text-xs text-slate-500 mb-4">Photos can be added anytime through the Admin Panel.</p>
-      <button onclick="filterGallery('ALL')" class="btn-gold text-xs py-2 px-4">View All Photos</button>
-    </div>
+      <!-- Subtitle -->
+      <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-8">
+        Real warehouse stock arrivals, festive celebration showcases, and genuine packaging displays from our Mohabewala Dehradun wholesale hub.
+      </p>
+
+      <!-- Action Bar: Filter Buttons + Add Photo Button on mobile -->
+      <div class="flex flex-wrap items-center justify-center gap-2 max-w-3xl mx-auto pb-4">
+        <button onclick="setFilter('ALL')" data-cat="ALL" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-black shadow-md transition-all">
+          All Photos
+        </button>
+        <button onclick="setFilter('Warehouse & Stock')" data-cat="Warehouse & Stock" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-amber-400/40 hover:text-white transition-all">
+          Warehouse & Stock
+        </button>
+        <button onclick="setFilter('Showroom Displays')" data-cat="Showroom Displays" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-amber-400/40 hover:text-white transition-all">
+          Showroom Displays
+        </button>
+        <button onclick="setFilter('Celebrations & Lights')" data-cat="Celebrations & Lights" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-amber-400/40 hover:text-white transition-all">
+          Celebrations & Lights
+        </button>
+
+        <!-- Direct Upload Button for Mobile -->
+        <button onclick="openUploadModal()" class="sm:hidden px-4 py-2 rounded-xl text-xs font-bold btn-gold flex items-center gap-1.5 shadow">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          <span>Upload</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         GALLERY GRID SECTION
+         ========================================================================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+      
+      <!-- Gallery Grid Container -->
+      <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Dynamically rendered via renderGalleryCards() -->
+      </div>
+
+      <!-- Empty State (hidden by default) -->
+      <div id="galleryEmptyNotice" class="hidden text-center py-16 bg-slate-900/40 rounded-2xl border border-slate-800 max-w-md mx-auto">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl">
+          🎆
+        </div>
+        <h3 class="text-base font-bold text-white mb-1">No Photos in this Category</h3>
+        <p class="text-xs text-slate-400 mb-4">Be the first to upload a photo to this category.</p>
+        <button onclick="openUploadModal()" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold inline-flex items-center gap-1.5">
+          <span>Upload Photo Now</span>
+        </button>
+      </div>
+
+    </section>
   </main>
 
-  <!-- Interactive Lightbox Modal -->
-  <div id="galleryLightbox" class="lightbox-modal">
-    <div class="relative max-w-4xl w-full bg-slate-950 border border-amber-500/40 rounded-2xl overflow-hidden shadow-2xl flex flex-col">
-      <button id="closeLightboxBtn" class="absolute top-4 right-4 z-20 text-slate-400 hover:text-white bg-slate-900/80 rounded-full w-9 h-9 flex items-center justify-center text-xl font-bold transition-colors">&times;</button>
-      <div class="max-h-[70vh] bg-black flex items-center justify-center overflow-hidden">
-        <img id="lightboxImg" src="" alt="" class="w-full h-full object-contain">
-      </div>
-      <div class="p-6 bg-slate-950 border-t border-slate-800">
-        <div class="flex items-center gap-2 mb-1.5">
-          <span id="lightboxCategory" class="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30"></span>
-        </div>
-        <h3 id="lightboxTitle" class="text-lg font-bold text-white mb-1"></h3>
-        <p id="lightboxCaption" class="text-xs text-slate-400 leading-relaxed"></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================================================
-       DIRECT ADD PHOTO TO GALLERY MODAL (FOR IMMEDIATE LIVE UPLOAD)
-       ========================================================================== -->
-  <div id="galleryUploadModalOverlay" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-panel max-w-lg w-full rounded-2xl border border-amber-500/40 p-6 sm:p-8 shadow-2xl relative">
-      <button onclick="closeGalleryUploadModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold p-1">
+  <!-- =========================================================================
+       INTERACTIVE FULLSCREEN LIGHTBOX MODAL
+       ========================================================================= -->
+  <div id="photoLightbox" class="lightbox-modal fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6" onclick="handleLightboxBackdrop(event)">
+    <div class="relative max-w-4xl w-full bg-slate-950 border border-amber-500/30 rounded-2xl overflow-hidden shadow-2xl flex flex-col" onclick="event.stopPropagation()">
+      
+      <!-- Close Button -->
+      <button onclick="closeLightbox()" class="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-slate-900/80 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-700 flex items-center justify-center text-xl font-bold transition-colors">
         &times;
       </button>
 
-      <div class="text-left mb-5">
-        <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">Visual Showcase</span>
-        <h3 class="font-display font-black text-2xl text-white">Add Photo to Gallery</h3>
-        <p class="text-xs text-slate-400 mt-1">Select a photo from your phone/PC or enter an image link — it will appear immediately on this page.</p>
+      <!-- Image Display Area -->
+      <div class="relative max-h-[70vh] bg-black flex items-center justify-center overflow-hidden">
+        <img id="lightboxImage" src="" alt="" class="w-full h-full object-contain max-h-[70vh]">
+        
+        <!-- Category Pill on Image -->
+        <div class="absolute top-4 left-4 z-10">
+          <span id="lightboxCategory" class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-amber-300 border border-amber-400/30">
+            Category
+          </span>
+        </div>
       </div>
 
-      <form id="publicGalleryUploadForm" class="space-y-4 text-left" onsubmit="handlePublicGallerySubmit(event); return false;">
-        <!-- Dropzone -->
+      <!-- Content / Caption Bar -->
+      <div class="p-5 sm:p-6 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div onclick="document.getElementById('modalGalFileInput').click()" 
-               id="modalGalDropzone"
-               class="upload-dropzone p-5 rounded-xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-1.5 cursor-pointer border border-dashed border-slate-700 hover:border-amber-400 transition-colors">
-            <input type="file" id="modalGalFileInput" accept="image/*" class="hidden" onchange="uploadModalGalleryPhoto(this)">
-            <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center pointer-events-none">
+          <h3 id="lightboxTitle" class="font-cinzel text-lg sm:text-xl font-bold text-white mb-1">Photo Title</h3>
+          <p id="lightboxCaption" class="text-xs text-slate-400 max-w-xl leading-relaxed">Photo description</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a id="lightboxWaBtn" href="#" target="_blank" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 whitespace-nowrap shadow">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Inquire on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       DIRECT ADD PHOTO MODAL
+       ========================================================================= -->
+  <div id="uploadModal" class="lightbox-modal fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4" onclick="handleUploadBackdrop(event)">
+    <div class="relative max-w-lg w-full bg-slate-950 border border-amber-500/40 rounded-2xl p-6 sm:p-7 shadow-2xl" onclick="event.stopPropagation()">
+      
+      <!-- Close Button -->
+      <button onclick="closeUploadModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold p-1 leading-none">
+        &times;
+      </button>
+
+      <!-- Modal Header -->
+      <div class="mb-5 text-left">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-1">Direct Upload</span>
+        <h3 class="font-cinzel text-xl sm:text-2xl font-black text-white">Add Photo to Gallery</h3>
+        <p class="text-xs text-slate-400 mt-1">Upload a photo from your Phone or PC. It will save to the server and appear on this gallery instantly.</p>
+      </div>
+
+      <!-- Upload Form -->
+      <form id="uploadForm" class="space-y-4 text-left" onsubmit="handleUploadSubmit(event)">
+        
+        <!-- Drag & Drop / File Input Box -->
+        <div>
+          <div id="dropzoneBox" onclick="document.getElementById('fileInput').click()" class="p-5 rounded-xl bg-slate-900/90 border border-dashed border-slate-700 hover:border-amber-400 transition-colors text-center cursor-pointer flex flex-col items-center justify-center gap-2">
+            <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileSelect(this)">
+            <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
-            <span class="font-bold text-xs text-white block pointer-events-none">Click or Drag to Upload Photo</span>
-            <span class="text-[10px] text-slate-400 block pointer-events-none">JPG, PNG, WEBP from Device</span>
-            <div id="modalGalUploadStatus" class="text-[11px] font-semibold"></div>
+            <div class="text-xs font-bold text-white">Click or Drag & Drop Photo Here</div>
+            <div class="text-[10px] text-slate-400">JPG, PNG, WEBP, GIF (Max 10MB)</div>
+            <div id="uploadStatusText" class="text-[11px] font-semibold"></div>
           </div>
 
-          <!-- Thumbnail preview -->
-          <div id="modalGalPreviewBox" class="hidden mt-2.5 p-2.5 bg-slate-950 border border-amber-500/30 rounded-xl flex items-center gap-3">
-            <img id="modalGalPreviewImg" src="" alt="Preview" class="w-14 h-14 object-cover rounded-lg border border-slate-700">
+          <!-- Selected Preview Thumbnail -->
+          <div id="uploadPreviewBox" class="hidden mt-3 p-3 rounded-xl bg-slate-900 border border-amber-500/30 flex items-center gap-3">
+            <img id="uploadPreviewImg" src="" alt="Thumbnail" class="w-12 h-12 object-cover rounded-lg border border-slate-700">
             <div class="flex-1 min-w-0">
-              <p id="modalGalPreviewName" class="text-xs font-bold text-white truncate">Photo selected</p>
-              <p class="text-[10px] text-emerald-400 font-medium">✓ Ready to publish</p>
-              <button type="button" onclick="clearModalGalPreview()" class="text-[10px] text-red-400 hover:text-red-300 font-semibold underline">Remove</button>
+              <p id="uploadPreviewName" class="text-xs font-bold text-white truncate">photo.jpg</p>
+              <p class="text-[10px] text-emerald-400 font-medium">✓ Ready to upload</p>
             </div>
+            <button type="button" onclick="clearUploadSelection()" class="text-xs text-red-400 hover:text-red-300 font-semibold px-2 py-1">Remove</button>
           </div>
         </div>
 
+        <!-- Photo Title Input -->
         <div>
-          <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Photo Title</label>
-          <input type="text" id="modalGalTitle" placeholder="e.g. Mohabewala Warehouse Fresh Stock Arrival" 
-                 class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Photo Title *</label>
+          <input type="text" id="photoTitleInput" placeholder="e.g. Sivakasi Cock Brand 240 Sky Shots Arrival" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Category *</label>
-            <select id="modalGalCategory" 
-                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
-              <option value="Warehouse & Stock">Warehouse & Stock</option>
-              <option value="Showroom Displays">Showroom Displays</option>
-              <option value="Celebrations & Lights">Celebrations & Lights</option>
-              <option value="Customer Moments">Customer Moments</option>
-            </select>
-          </div>
-          <div>
-            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Or Image Path / URL</label>
-            <input type="text" id="modalGalImageUrl" placeholder="assets/images/... or https://" 
-                   class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
-          </div>
-        </div>
-
+        <!-- Category Dropdown -->
         <div>
-          <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">Caption / Description</label>
-          <textarea id="modalGalCaption" rows="2" placeholder="Write a short description..." 
-                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Category *</label>
+          <select id="photoCategorySelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            <option value="Warehouse & Stock">Warehouse & Stock</option>
+            <option value="Showroom Displays">Showroom Displays</option>
+            <option value="Celebrations & Lights">Celebrations & Lights</option>
+            <option value="Sky Shots & Cakes">Sky Shots & Cakes</option>
+          </select>
         </div>
 
-        <div id="modalGalSubmitStatus" class="text-xs text-center font-semibold"></div>
+        <!-- Caption / Details Textarea -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Caption / Description (Optional)</label>
+          <textarea id="photoCaptionInput" rows="2" placeholder="Brief note about the stock, manufacturer, or festival occasion..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400 resize-none"></textarea>
+        </div>
 
-        <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
-          <button type="button" onclick="closeGalleryUploadModal()" class="px-4 py-2 rounded-xl bg-slate-900 text-xs font-semibold text-slate-400 hover:text-white">
+        <!-- Submit Buttons -->
+        <div class="pt-2 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeUploadModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
             Cancel
           </button>
-          <button type="submit" id="btnPublishGalleryModal" class="btn-gold px-6 py-2.5 text-xs font-bold shadow-lg flex items-center gap-2">
+          <button type="submit" id="btnPublishPhoto" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold shadow flex items-center gap-2">
             <span>Publish to Gallery</span>
             <span>&rarr;</span>
           </button>
         </div>
+
       </form>
     </div>
   </div>
 
-  <!-- Floating Actions (WhatsApp & Phone Call) -->
-  <div class="floating-actions-container">
-    <a href="https://wa.me/919837081321?text=Hello%20Ashish%20Chopra%20Ji%2C%20I%20saw%20your%20fireworks%20gallery%20and%20would%20like%20to%20inquire%20about%20rates." target="_blank" class="floating-action-btn floating-btn-wa" title="Chat on WhatsApp" aria-label="WhatsApp">
-      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-    </a>
-    <a href="tel:+919837081321" class="floating-action-btn floating-btn-call" title="Call Showroom" aria-label="Call">
-      <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
-    </a>
-  </div>
+  <!-- =========================================================================
+       FLOATING ACTIONS (WhatsApp & Phone Call)
+       ========================================================================= -->
+  <a href="https://wa.me/919837081321?text=Hello%20Ashish%20Chopra%20Ji%2C%20I%20saw%20your%20fireworks%20gallery%20and%20would%20like%20to%20inquire%20about%20rates." target="_blank" class="floating-btn floating-wa" title="WhatsApp Chat" aria-label="WhatsApp">
+    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </a>
 
-  <!-- Footer -->
-  <footer class="bg-slate-950 border-t border-slate-900 pt-16 pb-12 mt-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12">
-        
-        <div>
-          <div class="flex items-center gap-3 mb-4">
-            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Logo" class="site-company-logo w-10 h-10 rounded-full border border-amber-400 object-cover">
-            <div>
-              <div class="font-display font-black text-base text-gold-gradient">ASHISH TRADERS</div>
-              <div class="text-[9px] tracking-widest text-slate-400 uppercase font-bold">FIREWORKS • DEHRADUN</div>
-            </div>
-          </div>
-          <p class="text-xs text-slate-400 leading-relaxed mb-5">
-            Dehradun's authorized direct factory distributor for 8 leading Sivakasi fireworks manufacturers. Supplying wholesale and retail customers across Uttarakhand.
-          </p>
+  <a href="tel:+919837081321" class="floating-btn floating-call" title="Call Showroom" aria-label="Call">
+    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+  </a>
 
-          <!-- Social Media Icons (IG, FB, WhatsApp) -->
-          <div class="flex items-center gap-3">
-            <a href="https://instagram.com" target="_blank" class="social-icon-btn" title="Follow on Instagram" aria-label="Instagram">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-            </a>
-            <a href="https://facebook.com" target="_blank" class="social-icon-btn" title="Follow on Facebook" aria-label="Facebook">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M9 8H6v4h3v12h5V12h3.642L18 8h-4V6.333C14 5.374 14.5 5 15.688 5H18V0h-3.812C10.74 0 9 1.579 9 4.615V8z"/></svg>
-            </a>
-            <a href="https://wa.me/919837081321" target="_blank" class="social-icon-btn" title="Contact on WhatsApp" aria-label="WhatsApp">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <div>
-          <h4 class="text-xs font-bold text-slate-100 uppercase tracking-wider mb-4">Quick Navigation</h4>
-          <ul class="space-y-2 text-xs">
-            <li><a href="index.html" class="text-slate-400 hover:text-amber-400">Home</a></li>
-            <li><a href="brands.html" class="text-slate-400 hover:text-amber-400">Brands & Products</a></li>
-            <li><a href="gallery.html" class="text-amber-400 font-semibold">Festive Gallery</a></li>
-            <li><a href="about.html" class="text-slate-400 hover:text-amber-400">About Showroom</a></li>
-            <li><a href="contact.html" class="text-slate-400 hover:text-amber-400">Contact & Directions</a></li>
-            <li><a href="admin.html" class="text-slate-400 hover:text-amber-400">Admin Panel</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="text-xs font-bold text-slate-100 uppercase tracking-wider mb-4">Partner Brands</h4>
-          <ul class="space-y-2 text-xs text-slate-400">
-            <li>Cock Brand (Sri Kaliswari)</li>
-            <li>Ravindra Fireworks</li>
-            <li>Sonny Fireworks Industries</li>
-            <li>Mercury Fireworks Sivakasi</li>
-            <li>Supreme Fireworks</li>
-            <li>Vel's Fireworks</li>
-            <li>Sunshine Green Crackers</li>
-            <li>Son India Fireworks</li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="text-xs font-bold text-slate-100 uppercase tracking-wider mb-4">Direct Contacts</h4>
-          <div class="text-xs mb-3">
-            <span class="text-slate-500">Ashish Chopra:</span><br>
-            <a href="tel:+919837081321" class="text-amber-400 font-bold hover:underline">+91 9837081321</a>
-          </div>
-          <div class="text-xs mb-3">
-            <span class="text-slate-500">Yuvraj Chopra:</span><br>
-            <a href="tel:+918630615934" class="text-amber-400 font-bold hover:underline">+91 8630615934</a>
-          </div>
-          <div class="text-xs">
-            <span class="text-slate-500">Warehouse Address:</span><br>
-            <span class="text-slate-300">23, Mohabewala Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun - 248007</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-        <div>&copy; 2026 Ashish Traders Fireworks (A&T). All Rights Reserved. Mohabewala, Dehradun.</div>
-        <div class="flex items-center gap-4">
-          <span>PESO Approved Green Crackers</span>
-          <span>•</span>
-          <span>Barium-Free Formulations</span>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Slide-out Cart Drawer -->
-  <div id="cartOverlay" class="cart-overlay"></div>
+  <!-- =========================================================================
+       CART DRAWER & OVERLAY (Connected with cart-inquiry.js)
+       ========================================================================= -->
+  <div id="cartOverlay" class="cart-overlay" onclick="window.cart && window.cart.closeDrawer()"></div>
   <aside id="cartDrawer" class="cart-drawer">
     <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
       <div>
@@ -359,11 +470,11 @@
         </div>
         <p class="text-[11px] text-slate-400 mt-0.5">Review items & send wholesale inquiry</p>
       </div>
-      <button id="closeCartBtn" class="text-slate-400 hover:text-white p-2 text-2xl leading-none transition-colors">&times;</button>
+      <button onclick="window.cart && window.cart.closeDrawer()" class="text-slate-400 hover:text-white p-2 text-2xl leading-none">&times;</button>
     </div>
 
-    <div class="p-4 bg-slate-900/70 border-b border-slate-800 space-y-2.5">
-      <div class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Your Details (Sent with Inquiry):</div>
+    <div class="p-4 bg-slate-900/70 border-b border-slate-800 space-y-2">
+      <div class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Your Details:</div>
       <div class="grid grid-cols-2 gap-2">
         <input id="cartCustomerName" type="text" placeholder="Your Name" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
         <input id="cartCustomerCity" type="text" placeholder="City / Area" value="Dehradun" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
@@ -374,318 +485,516 @@
 
     <div id="cartEmptyState" class="flex-1 flex flex-col items-center justify-center p-8 text-center" style="display:none;">
       <h4 class="font-bold text-slate-300 text-sm mb-1">Your estimate list is empty</h4>
-      <p class="text-xs text-slate-500 mb-4">Add products from our brand store to request wholesale quotation.</p>
-      <a href="brands.html" onclick="window.cart.closeDrawer()" class="btn-gold text-xs py-2 px-4">Browse Brands & Products</a>
+      <p class="text-xs text-slate-500 mb-4">Browse our catalog to select wholesale products.</p>
+      <a href="brands.html" class="btn-gold text-xs py-2 px-4 rounded-xl">Browse Catalog</a>
     </div>
 
     <div id="cartActions" class="p-5 border-t border-slate-800 bg-slate-950 space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
-        <div>
-          <span class="text-xs text-slate-400 block">Wholesale Rate Status:</span>
-          <span class="text-[10px] text-emerald-400">Direct Factory Sivakasi Rates</span>
-        </div>
+        <span class="text-xs text-slate-400">Wholesale Sivakasi Rates:</span>
         <span id="cartTotalAmount" class="text-base font-black text-amber-400">Quote on Request</span>
       </div>
-      <div class="space-y-2 pt-1">
-        <a id="cartWaAshish" href="#" target="_blank" class="btn-gold w-full text-xs sm:text-sm py-3 px-4 text-center flex items-center justify-center gap-2 shadow-lg">
-          <span>Send Inquiry to Ashish Chopra (WhatsApp)</span>
-        </a>
-        <a id="cartWaYuvraj" href="#" target="_blank" class="btn-outline-gold w-full text-xs py-2.5 px-4 text-center flex items-center justify-center gap-2">
-          <span>Send Inquiry to Yuvraj Chopra (WhatsApp)</span>
-        </a>
-        <button onclick="window.cart.clear()" class="w-full text-center text-xs text-slate-500 hover:text-red-400 py-1 transition-colors">
-          Clear Entire List
-        </button>
-      </div>
+      <a id="cartWaAshish" href="#" target="_blank" class="btn-gold w-full text-xs py-3 px-4 text-center flex items-center justify-center gap-2 rounded-xl shadow-lg font-bold">
+        <span>Send Inquiry to Ashish Chopra (WhatsApp)</span>
+      </a>
+      <a id="cartWaYuvraj" href="#" target="_blank" class="btn-outline-gold w-full text-xs py-2.5 px-4 text-center flex items-center justify-center gap-2 rounded-xl font-bold">
+        <span>Send Inquiry to Yuvraj Chopra (WhatsApp)</span>
+      </a>
+      <button onclick="window.cart && window.cart.clear()" class="w-full text-center text-xs text-slate-500 hover:text-red-400 py-1 transition-colors">
+        Clear Entire List
+      </button>
     </div>
   </aside>
 
-  <!-- Scripts -->
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="bg-slate-950 border-t border-slate-900 pt-12 pb-8 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-900">
+        
+        <!-- Col 1: Brand Info -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-3">
+            <img src="assets/images/ashish-traders-logo.jpg" alt="A&T Logo" class="w-9 h-9 rounded-full border border-amber-400/80 object-cover">
+            <div>
+              <span class="font-cinzel font-bold text-sm text-gold-gradient block">ASHISH TRADERS</span>
+              <span class="text-[9px] uppercase tracking-widest text-slate-500">FIREWORKS • DEHRADUN</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 max-w-md leading-relaxed mb-3">
+            Authorized wholesale & retail distributor for 8 leading Sivakasi firecracker manufacturers across Uttarakhand. Genuine PESO approved green crackers.
+          </p>
+          <div class="text-[11px] text-amber-400/80 font-mono">
+            📍 Mohabewala Industrial Area, Saharanpur Road, Dehradun, Uttarakhand
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div>
+          <div class="font-bold text-white text-xs uppercase tracking-wider mb-3">Quick Navigation</div>
+          <ul class="space-y-1.5">
+            <li><a href="index.html" class="hover:text-amber-400 transition-colors">Home Page</a></li>
+            <li><a href="brands.html" class="hover:text-amber-400 transition-colors">Brands & Catalog</a></li>
+            <li><a href="gallery.html" class="text-amber-400 font-bold">Fireworks Gallery</a></li>
+            <li><a href="reviews.html" class="hover:text-amber-400 transition-colors">Customer Reviews</a></li>
+            <li><a href="admin.html" class="hover:text-amber-400 transition-colors">Admin Portal</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Contact Directly -->
+        <div>
+          <div class="font-bold text-white text-xs uppercase tracking-wider mb-3">Direct Contact</div>
+          <ul class="space-y-2">
+            <li><span class="text-slate-500 block text-[10px]">Proprietor:</span> <strong class="text-white">Ashish Chopra</strong> (<a href="tel:+919837081321" class="text-amber-400 hover:underline">+91 98370 81321</a>)</li>
+            <li><span class="text-slate-500 block text-[10px]">Operations:</span> <strong class="text-white">Yuvraj Chopra</strong> (<a href="tel:+919760081321" class="text-amber-400 hover:underline">+91 97600 81321</a>)</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500">
+        <div>© 2026 Ashish Traders Fireworks. All Rights Reserved.</div>
+        <div class="mt-2 sm:mt-0">Dehradun Wholesale Sivakasi Fireworks Hub</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       SCRIPTS: products-data.js + fireworks-canvas.js + cart-inquiry.js
+       ========================================================================= -->
   <script src="assets/js/fireworks-canvas.js"></script>
   <script src="assets/js/products-data.js?v=6.0"></script>
   <script src="assets/js/cart-inquiry.js"></script>
 
+  <!-- =========================================================================
+       BULLETPROOF GALLERY LOGIC
+       ========================================================================= -->
   <script>
-    let activeCat = 'ALL';
+    // Global Gallery State
+    let currentGalleryData = [];
+    let currentFilterCategory = 'ALL';
+    let selectedUploadFile = null;
 
-    function renderGallery() {
-      const gallery = window.getStoredGallery ? window.getStoredGallery() : [];
-      const container = document.getElementById('galleryGrid');
-      const emptyNotice = document.getElementById('emptyGalleryNotice');
-      if (!container) return;
+    // Default High-Quality Fallback Images
+    const FALLBACK_IMAGE = 'assets/images/cock-skyshots-240.jpg';
 
-      const filtered = activeCat === 'ALL' ? gallery : gallery.filter(item => item.category === activeCat);
+    // -------------------------------------------------------------------------
+    // 1. DATA HYDRATION: TRIPLE-REDUNDANT FETCHING
+    // -------------------------------------------------------------------------
+    async function loadGalleryData() {
+      // Step A: Load synchronous baseline (DEFAULT_GALLERY or localStorage) immediately
+      if (window.getStoredGallery) {
+        currentGalleryData = window.getStoredGallery();
+      } else if (window.DEFAULT_GALLERY) {
+        currentGalleryData = window.DEFAULT_GALLERY;
+      }
+      renderGalleryCards();
+
+      // Step B: Direct Cache-Busted Fetch from data/gallery.json (Works on ALL servers)
+      try {
+        const timestamp = Date.now();
+        const res = await fetch('data/gallery.json?_t=' + timestamp);
+        if (res.ok) {
+          const freshData = await res.json();
+          if (Array.isArray(freshData) && freshData.length > 0) {
+            // Filter out any broken test items
+            const cleaned = freshData.filter(item => item && item.image && !item.id.startsWith('gal-test-'));
+            if (cleaned.length > 0) {
+              currentGalleryData = cleaned;
+              // Update local cache
+              try { localStorage.setItem('at_admin_gallery', JSON.stringify(cleaned)); } catch(e){}
+              renderGalleryCards();
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('[Gallery Engine] Direct static JSON fetch skipped:', err.message);
+      }
+
+      // Step C: Trigger Global Server Sync if available
+      if (window.syncDataFromServer) {
+        window.syncDataFromServer(() => {
+          if (window.getStoredGallery) {
+            currentGalleryData = window.getStoredGallery();
+            renderGalleryCards();
+          }
+        });
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. CARD RENDERING ENGINE
+    // -------------------------------------------------------------------------
+    function renderGalleryCards() {
+      const grid = document.getElementById('galleryGrid');
+      const emptyNotice = document.getElementById('galleryEmptyNotice');
+      const counterEl = document.getElementById('headerPhotoCounter');
+      if (!grid) return;
+
+      const items = Array.isArray(currentGalleryData) ? currentGalleryData : [];
+      
+      // Update badge count
+      if (counterEl) {
+        counterEl.textContent = `${items.length} Photos`;
+      }
+
+      // Filter
+      const filtered = currentFilterCategory === 'ALL' 
+        ? items 
+        : items.filter(item => item.category === currentFilterCategory);
 
       if (filtered.length === 0) {
-        container.innerHTML = '';
+        grid.innerHTML = '';
         if (emptyNotice) emptyNotice.classList.remove('hidden');
         return;
       }
+
       if (emptyNotice) emptyNotice.classList.add('hidden');
 
-      container.innerHTML = filtered.map(item => `
-        <div class="gallery-card group cursor-pointer flex flex-col justify-between" onclick="openLightbox('${item.id}')">
-          <div class="relative h-64 overflow-hidden bg-slate-950">
-            <img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src='assets/images/cock-skyshots-240.jpg';" class="w-full h-full object-cover">
-            <div class="absolute top-3 left-3 z-10">
-              <span class="px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-amber-400/30 text-[10px] font-bold text-amber-300">
-                ${item.category}
-              </span>
+      grid.innerHTML = filtered.map((item, index) => {
+        // Safe values
+        const title = escapeHtml(item.title || 'Sivakasi Fireworks Stock');
+        const category = escapeHtml(item.category || 'Warehouse & Stock');
+        const caption = escapeHtml(item.caption || 'Authentic Sivakasi fireworks arrival at our Dehradun warehouse.');
+        const imgSrc = item.image || FALLBACK_IMAGE;
+
+        return `
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer group" onclick="openLightbox('${escapeHtml(item.id)}')">
+            
+            <!-- Image Frame -->
+            <div class="relative h-60 overflow-hidden bg-slate-950">
+              <img src="${imgSrc}" 
+                   alt="${title}" 
+                   onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" 
+                   class="img-zoom w-full h-full object-cover">
+              
+              <!-- Category Badge -->
+              <div class="absolute top-3 left-3 z-10">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-950/80 backdrop-blur-md text-amber-300 border border-amber-400/30">
+                  ${category}
+                </span>
+              </div>
+
+              <!-- Gradient overlay on bottom of image -->
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+              
+              <!-- Hover Zoom Icon Indicator -->
+              <div class="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-1 group-hover:translate-y-0">
+                <span class="w-8 h-8 rounded-full bg-amber-500 text-black flex items-center justify-center font-bold shadow-lg">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                </span>
+              </div>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-            <div class="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span class="w-8 h-8 rounded-full bg-amber-500 text-black flex items-center justify-center font-bold shadow-lg">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
-              </span>
+
+            <!-- Card Content Details -->
+            <div class="p-5 flex-1 flex flex-col justify-between bg-slate-950/60 border-t border-slate-850">
+              <div>
+                <h3 class="font-bold text-sm sm:text-base text-white group-hover:text-amber-400 transition-colors line-clamp-1 mb-1.5">
+                  ${title}
+                </h3>
+                <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                  ${caption}
+                </p>
+              </div>
+              
+              <div class="pt-3.5 mt-3.5 border-t border-slate-800/70 flex items-center justify-between text-[11px]">
+                <span class="text-amber-400/90 font-semibold group-hover:text-amber-300 flex items-center gap-1">
+                  <span>View Full Photo</span>
+                  <span>&rarr;</span>
+                </span>
+                <span class="text-slate-500 text-[10px]">Verified Stock</span>
+              </div>
             </div>
+
           </div>
-          <div class="p-5 flex-1 flex flex-col justify-between bg-slate-900/60 border-t border-slate-800">
-            <div>
-              <h3 class="font-bold text-base text-white group-hover:text-amber-400 transition-colors mb-1.5">
-                ${item.title}
-              </h3>
-              <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                ${item.caption || ''}
-              </p>
-            </div>
-            <div class="pt-3 mt-3 border-t border-slate-800/80 text-[11px] text-amber-400/90 font-semibold flex items-center gap-1">
-              <span>View Full Photo</span> &rarr;
-            </div>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
-    function filterGallery(cat) {
-      activeCat = cat;
-      document.querySelectorAll('.gallery-cat-btn').forEach(btn => {
-        if (btn.dataset.cat === cat) {
-          btn.classList.add('active', 'bg-amber-500', 'text-black', 'font-bold');
-          btn.classList.remove('bg-slate-900', 'text-slate-300');
+    // -------------------------------------------------------------------------
+    // 3. CATEGORY FILTERING
+    // -------------------------------------------------------------------------
+    function setFilter(category) {
+      currentFilterCategory = category;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.cat === category) {
+          btn.className = 'filter-btn px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-black shadow-md transition-all';
         } else {
-          btn.classList.remove('active', 'bg-amber-500', 'text-black', 'font-bold');
-          btn.classList.add('bg-slate-900', 'text-slate-300');
+          btn.className = 'filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900/90 text-slate-300 border border-slate-800 hover:border-amber-400/40 hover:text-white transition-all';
         }
       });
-      renderGallery();
+      renderGalleryCards();
     }
 
-    function openLightbox(id) {
-      const gallery = window.getStoredGallery ? window.getStoredGallery() : [];
-      const item = gallery.find(g => g.id === id);
+    // -------------------------------------------------------------------------
+    // 4. LIGHTBOX HANDLER
+    // -------------------------------------------------------------------------
+    function openLightbox(itemId) {
+      const item = currentGalleryData.find(g => g.id === itemId);
       if (!item) return;
 
-      document.getElementById('lightboxImg').src = item.image;
-      document.getElementById('lightboxCategory').textContent = item.category;
-      document.getElementById('lightboxTitle').textContent = item.title;
-      document.getElementById('lightboxCaption').textContent = item.caption || '';
-      document.getElementById('galleryLightbox').classList.add('open');
+      const modal = document.getElementById('photoLightbox');
+      const img = document.getElementById('lightboxImage');
+      const cat = document.getElementById('lightboxCategory');
+      const title = document.getElementById('lightboxTitle');
+      const caption = document.getElementById('lightboxCaption');
+      const waBtn = document.getElementById('lightboxWaBtn');
+
+      img.src = item.image || FALLBACK_IMAGE;
+      img.onerror = function() { this.src = FALLBACK_IMAGE; };
+      cat.textContent = item.category || 'Warehouse & Stock';
+      title.textContent = item.title || 'Sivakasi Fireworks Stock';
+      caption.textContent = item.caption || '';
+
+      const waMsg = encodeURIComponent(`Hello Ashish Ji, I am inquiring about this item from your gallery: ${item.title} (${item.category}). What are the wholesale rates and minimum crate quantities?`);
+      waBtn.href = `https://wa.me/919837081321?text=${waMsg}`;
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
 
-    document.getElementById('closeLightboxBtn').addEventListener('click', () => {
-      document.getElementById('galleryLightbox').classList.remove('open');
-    });
+    function closeLightbox() {
+      const modal = document.getElementById('photoLightbox');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
 
-    document.getElementById('galleryLightbox').addEventListener('click', (e) => {
-      if (e.target.id === 'galleryLightbox') {
-        document.getElementById('galleryLightbox').classList.remove('open');
+    function handleLightboxBackdrop(e) {
+      if (e.target.id === 'photoLightbox') {
+        closeLightbox();
       }
-    });
+    }
 
-    // ----------------------------------------------------
-    // GALLERY DIRECT UPLOAD MODAL LOGIC
-    // ----------------------------------------------------
-    let modalSelectedFile = null;
+    // -------------------------------------------------------------------------
+    // 5. UPLOAD MODAL & FILE PROCESSING
+    // -------------------------------------------------------------------------
+    function openUploadModal() {
+      const modal = document.getElementById('uploadModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
 
-    window.openGalleryUploadModal = function() {
-      const modal = document.getElementById('galleryUploadModalOverlay');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+    function closeUploadModal() {
+      const modal = document.getElementById('uploadModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      clearUploadSelection();
+    }
+
+    function handleUploadBackdrop(e) {
+      if (e.target.id === 'uploadModal') {
+        closeUploadModal();
       }
-    };
+    }
 
-    window.closeGalleryUploadModal = function() {
-      const modal = document.getElementById('galleryUploadModalOverlay');
-      if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-      }
-    };
+    function clearUploadSelection() {
+      selectedUploadFile = null;
+      document.getElementById('fileInput').value = '';
+      document.getElementById('uploadPreviewBox').classList.add('hidden');
+      document.getElementById('uploadStatusText').innerHTML = '';
+      document.getElementById('uploadForm').reset();
+    }
 
-    window.clearModalGalPreview = function() {
-      modalSelectedFile = null;
-      document.getElementById('modalGalImageUrl').value = '';
-      document.getElementById('modalGalFileInput').value = '';
-      const box = document.getElementById('modalGalPreviewBox');
-      if (box) box.classList.add('hidden');
-      const statusEl = document.getElementById('modalGalUploadStatus');
-      if (statusEl) statusEl.innerHTML = '';
-    };
-
-    window.uploadModalGalleryPhoto = async function(input) {
+    function handleFileSelect(input) {
       const file = (input && input.files) ? input.files[0] : input;
-      if (!file) return '';
+      if (!file) return;
 
-      modalSelectedFile = file;
+      selectedUploadFile = file;
 
-      // Show preview thumbnail
-      const previewBox = document.getElementById('modalGalPreviewBox');
-      const previewImg = document.getElementById('modalGalPreviewImg');
-      const previewName = document.getElementById('modalGalPreviewName');
-      if (previewBox && previewImg) {
-        try {
-          previewImg.src = URL.createObjectURL(file);
-        } catch(e) {}
-        if (previewName) previewName.textContent = file.name;
-        previewBox.classList.remove('hidden');
+      // Show instant preview
+      const previewBox = document.getElementById('uploadPreviewBox');
+      const previewImg = document.getElementById('uploadPreviewImg');
+      const previewName = document.getElementById('uploadPreviewName');
+
+      try {
+        previewImg.src = URL.createObjectURL(file);
+      } catch(e) {}
+      previewName.textContent = file.name;
+      previewBox.classList.remove('hidden');
+
+      // Auto-generate clean title if field is empty
+      const titleInput = document.getElementById('photoTitleInput');
+      if (!titleInput.value.trim()) {
+        const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        titleInput.value = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
       }
+    }
 
-      // Auto-title
-      const titleInput = document.getElementById('modalGalTitle');
-      if (titleInput && !titleInput.value.trim()) {
-        const rawName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
-        titleInput.value = rawName.charAt(0).toUpperCase() + rawName.slice(1);
-      }
-
-      // Background upload status
-      const statusEl = document.getElementById('modalGalUploadStatus');
-      if (statusEl) statusEl.innerHTML = '<span class="text-amber-400 animate-pulse">⏳ Optimizing & uploading photo...</span>';
-
-      // Use universal upload function (works on both Node.js local and Hostinger PHP)
-      const savedPath = await (window.uploadFileToBackend ? window.uploadFileToBackend(file) : '');
-
-      if (savedPath && !savedPath.startsWith('data:')) {
-        // Server upload succeeded
-        document.getElementById('modalGalImageUrl').value = savedPath;
-        if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish</span>`;
-        return savedPath;
-      }
-
-      // Offline/compressed fallback
-      if (savedPath) {
-        document.getElementById('modalGalImageUrl').value = savedPath;
-        if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish (Offline Safe)</span>`;
-        return savedPath;
-      }
-
-      // Last resort fallback
-      const compressedDataUrl = window.compressImageToDataUrl ? await window.compressImageToDataUrl(file, 1200, 0.75) : '';
-      document.getElementById('modalGalImageUrl').value = compressedDataUrl;
-      if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Ready to publish (Offline Safe)</span>`;
-      return compressedDataUrl;
-    };
-
-    window.handlePublicGallerySubmit = async function(e) {
+    // Submit handler
+    async function handleUploadSubmit(e) {
       if (e && e.preventDefault) e.preventDefault();
 
-      const btn = document.getElementById('btnPublishGalleryModal');
-      const statusEl = document.getElementById('modalGalSubmitStatus');
-      const titleInput = document.getElementById('modalGalTitle');
-      const catSelect = document.getElementById('modalGalCategory');
-      const urlInput = document.getElementById('modalGalImageUrl');
-      const capText = document.getElementById('modalGalCaption');
+      const btn = document.getElementById('btnPublishPhoto');
+      const statusText = document.getElementById('uploadStatusText');
+      const titleInput = document.getElementById('photoTitleInput');
+      const categorySelect = document.getElementById('photoCategorySelect');
+      const captionInput = document.getElementById('photoCaptionInput');
 
-      let image = (urlInput ? urlInput.value : '').trim();
-      let title = (titleInput ? titleInput.value : '').trim();
-      const category = (catSelect ? catSelect.value : '') || 'Warehouse & Stock';
-      const caption = (capText ? capText.value : '').trim();
-
-      if (modalSelectedFile && (!image || image.startsWith('blob:'))) {
-        if (btn) {
-          btn.disabled = true;
-          btn.innerHTML = '<span>⏳ Saving Upload...</span>';
-        }
-        image = await uploadModalGalleryPhoto(modalSelectedFile);
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = '<span>Publish to Gallery</span><span>&rarr;</span>';
-        }
-      }
-
-      if (!image) {
-        if (statusEl) statusEl.innerHTML = '<span class="text-red-400 font-bold">⚠️ Please choose a photo from device or enter image URL.</span>';
-        alert('Please choose a photo from your device or enter an image URL / path first.');
+      if (!selectedUploadFile) {
+        alert('Please choose or drag a photo file from your device first.');
         return;
       }
 
+      const title = titleInput.value.trim();
+      const category = categorySelect.value;
+      const caption = captionInput.value.trim();
+
       if (!title) {
-        if (modalSelectedFile && modalSelectedFile.name) {
-          const rawName = modalSelectedFile.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
-          title = rawName.charAt(0).toUpperCase() + rawName.slice(1);
-        } else {
-          title = `${category} Showcase`;
-        }
+        alert('Please enter a photo title.');
+        titleInput.focus();
+        return;
       }
 
+      // Show uploading state
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ Uploading...</span>';
+      statusText.innerHTML = '<span class="text-amber-400 animate-pulse">⏳ Uploading to server...</span>';
+
+      let savedImagePath = '';
+
+      // Upload using universal uploader
+      try {
+        if (window.uploadFileToBackend) {
+          savedImagePath = await window.uploadFileToBackend(selectedUploadFile);
+        } else {
+          // Fallback direct base64
+          savedImagePath = await new Promise((res) => {
+            const reader = new FileReader();
+            reader.onload = ev => res(ev.target.result);
+            reader.readAsDataURL(selectedUploadFile);
+          });
+        }
+      } catch(err) {
+        console.error('Upload failed:', err);
+      }
+
+      if (!savedImagePath) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Publish to Gallery</span><span>&rarr;</span>';
+        statusText.innerHTML = '<span class="text-red-400">❌ Upload failed. Please try again.</span>';
+        return;
+      }
+
+      // Create new gallery item
       const newItem = {
         id: 'gal-' + Date.now().toString().slice(-6),
-        title,
-        category,
-        image,
-        caption
+        title: title,
+        category: category,
+        image: savedImagePath,
+        caption: caption || 'Fresh wholesale stock arrival from direct Sivakasi manufacturers at Ashish Traders Mohabewala Dehradun warehouse.'
       };
 
-      const gallery = window.getStoredGallery ? window.getStoredGallery() : [];
-      gallery.unshift(newItem);
+      // Add to current gallery
+      currentGalleryData.unshift(newItem);
+
+      // Save to localStorage
       if (window.saveStoredGallery) {
-        window.saveStoredGallery(gallery);
+        window.saveStoredGallery(currentGalleryData);
+      } else {
+        try { localStorage.setItem('at_admin_gallery', JSON.stringify(currentGalleryData)); } catch(e){}
       }
 
-      renderGallery();
+      // Sync to server save.php
+      if (window.syncDataToServer) {
+        window.syncDataToServer('gallery', currentGalleryData);
+      } else {
+        // Direct POST to api/save.php
+        try {
+          fetch('api/save.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'gallery', data: currentGalleryData })
+          });
+        } catch(e){}
+      }
 
-      if (statusEl) statusEl.innerHTML = '<span class="text-emerald-400 font-bold">✅ Photo added to Gallery successfully!</span>';
+      // Re-render
+      renderGalleryCards();
 
+      statusText.innerHTML = '<span class="text-emerald-400 font-bold">✅ Photo published successfully!</span>';
       setTimeout(() => {
-        closeGalleryUploadModal();
-        clearModalGalPreview();
-        const form = document.getElementById('publicGalleryUploadForm');
-        if (form) form.reset();
-        if (statusEl) statusEl.innerHTML = '';
+        closeUploadModal();
+        btn.disabled = false;
+        btn.innerHTML = '<span>Publish to Gallery</span><span>&rarr;</span>';
       }, 700);
-    };
+    }
 
-    // Wire drag and drop on modal dropzone
-    document.addEventListener('DOMContentLoaded', () => {
-      const dropzone = document.getElementById('modalGalDropzone');
-      if (dropzone) {
-        ['dragenter', 'dragover'].forEach(eventName => {
-          dropzone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            dropzone.classList.add('border-amber-400', 'bg-amber-500/10');
-          }, false);
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-          dropzone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            dropzone.classList.remove('border-amber-400', 'bg-amber-500/10');
-          }, false);
-        });
-        dropzone.addEventListener('drop', (e) => {
-          const dt = e.dataTransfer;
-          const files = dt ? dt.files : null;
-          if (files && files.length > 0) {
-            uploadModalGalleryPhoto(files[0]);
-          }
+    // -------------------------------------------------------------------------
+    // 6. DRAG AND DROP SETUP
+    // -------------------------------------------------------------------------
+    function setupDragAndDrop() {
+      const dropzone = document.getElementById('dropzoneBox');
+      if (!dropzone) return;
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.add('border-amber-400', 'bg-amber-500/10');
         }, false);
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropzone.classList.remove('border-amber-400', 'bg-amber-500/10');
+        }, false);
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt ? dt.files : null;
+        if (files && files.length > 0) {
+          handleFileSelect(files[0]);
+        }
+      }, false);
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. KEYBOARD NAVIGATION & EVENTS
+    // -------------------------------------------------------------------------
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeUploadModal();
       }
     });
 
-    window.addEventListener('galleryUpdated', renderGallery);
-    document.addEventListener('DOMContentLoaded', () => {
-      renderGallery();
-      if (window.syncDataFromServer) {
-        window.syncDataFromServer(() => renderGallery());
-      }
-    });
-
+    // Mobile menu toggle
     const menuBtn = document.getElementById('mobileMenuBtn');
     const menu = document.getElementById('mobileMenu');
     if (menuBtn && menu) {
       menuBtn.addEventListener('click', () => menu.classList.toggle('hidden'));
     }
+
+    // Listen for gallery updates
+    window.addEventListener('galleryUpdated', () => {
+      if (window.getStoredGallery) {
+        currentGalleryData = window.getStoredGallery();
+        renderGalleryCards();
+      }
+    });
+
+    // Helper: HTML Escaping
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // -------------------------------------------------------------------------
+    // INITIALIZATION
+    // -------------------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      setupDragAndDrop();
+      loadGalleryData();
+    });
   </script>
 </body>
 </html>

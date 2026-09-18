@@ -52,6 +52,24 @@ if (!in_array($payload['type'], $allowedTypes)) {
 
 $type = $payload['type'];
 $data = $payload['data'];
+$dataDir = __DIR__ . '/../data/';
+$filePath = $dataDir . $type . '.json';
+
+// Safeguard: Never wipe out an existing non-empty file if client sends an empty array by mistake
+if (is_array($data) && count($data) === 0 && empty($payload['allowEmpty'])) {
+    if (file_exists($filePath) && filesize($filePath) > 10) {
+        $existingContent = json_decode(file_get_contents($filePath), true);
+        $count = is_array($existingContent) ? count($existingContent) : 0;
+        echo json_encode([
+            'success' => true,
+            'type' => $type,
+            'info' => "Kept existing {$count} items (empty payload ignored for safety)",
+            'protected' => true
+        ]);
+        exit;
+    }
+}
+
 $sqlSuccess = false;
 
 // 1. Save to Production SQL Database (if connected)
@@ -76,13 +94,11 @@ if (Database::getConnection()) {
 }
 
 // 2. Also save to JSON file as persistent disk backup
-$dataDir = __DIR__ . '/../data/';
 if (!is_dir($dataDir)) {
     @mkdir($dataDir, 0777, true);
 }
 @chmod($dataDir, 0777);
 
-$filePath = $dataDir . $type . '.json';
 $jsonData = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 $jsonSuccess = (@file_put_contents($filePath, $jsonData) !== false);
 
