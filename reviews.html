@@ -591,6 +591,17 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderReviews();
 
+      // Direct cache-busting fetch from data/reviews.json
+      fetch('data/reviews.json?_t=' + Date.now())
+        .then(r => r.json())
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            try { localStorage.setItem('at_admin_reviews', JSON.stringify(data)); } catch(e){}
+            renderReviews();
+          }
+        })
+        .catch(() => {});
+
       if (window.syncDataFromServer) {
         window.syncDataFromServer(() => renderReviews());
       }

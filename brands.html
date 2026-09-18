@@ -392,6 +392,28 @@
       renderProducts();
       setupEventListeners();
 
+      // Direct cache-busting fetch for products and brands from static JSON
+      Promise.all([
+        fetch('data/products.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/brands.json?_t=' + Date.now()).then(r => r.json()).catch(() => null)
+      ]).then(([prods, brs]) => {
+        let updated = false;
+        if (Array.isArray(prods) && prods.length > 0) {
+          window.FIREWORKS_PRODUCTS = prods;
+          try { localStorage.setItem('at_admin_products', JSON.stringify(prods)); } catch(e){}
+          updated = true;
+        }
+        if (Array.isArray(brs) && brs.length > 0) {
+          window.BRANDS_INFO = brs;
+          try { localStorage.setItem('at_admin_brands', JSON.stringify(brs)); } catch(e){}
+          updated = true;
+        }
+        if (updated) {
+          renderBrandsSelector();
+          renderProducts();
+        }
+      });
+
       if (window.syncDataFromServer) {
         window.syncDataFromServer(() => {
           renderBrandsSelector();

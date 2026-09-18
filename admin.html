@@ -894,6 +894,38 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadAllAdminData();
       setupEventListeners();
+
+      // Direct cache-busting fetch for all collections
+      Promise.all([
+        fetch('data/products.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/brands.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/gallery.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/reviews.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/settings.json?_t=' + Date.now()).then(r => r.json()).catch(() => null)
+      ]).then(([prods, brs, gal, revs, setts]) => {
+        if (Array.isArray(prods) && prods.length > 0) {
+          currentAdminProducts = prods;
+          try { localStorage.setItem('at_admin_products', JSON.stringify(prods)); } catch(e){}
+        }
+        if (Array.isArray(brs) && brs.length > 0) {
+          currentAdminBrands = brs;
+          try { localStorage.setItem('at_admin_brands', JSON.stringify(brs)); } catch(e){}
+        }
+        if (Array.isArray(gal) && gal.length > 0) {
+          const cleaned = gal.filter(g => g && g.image && !g.id.startsWith('gal-test-'));
+          currentAdminGallery = cleaned;
+          try { localStorage.setItem('at_admin_gallery', JSON.stringify(cleaned)); } catch(e){}
+        }
+        if (Array.isArray(revs) && revs.length > 0) {
+          currentAdminReviews = revs;
+          try { localStorage.setItem('at_admin_reviews', JSON.stringify(revs)); } catch(e){}
+        }
+        if (setts && typeof setts === 'object') {
+          try { localStorage.setItem('at_site_settings', JSON.stringify(setts)); } catch(e){}
+        }
+        loadAllAdminData();
+      });
+
       if (window.syncDataFromServer) {
         window.syncDataFromServer(() => loadAllAdminData());
       }
