@@ -69,6 +69,39 @@ const server = http.createServer((req, res) => {
   const cleanPath = urlObj.pathname.toLowerCase();
 
   // ==========================================================================
+  // DATABASE & SERVER DIAGNOSTIC HEALTH CHECK: GET /api/db-test or /api/db-test.php
+  // ==========================================================================
+  if (req.method === 'GET' && (cleanPath === '/api/db-test' || cleanPath === '/api/db-test.php')) {
+    const report = {
+      timestamp: new Date().toISOString(),
+      server: 'Node.js Local Server (' + process.version + ')',
+      mode: 'JSON Disk Storage (Local Development)',
+      endpoints: {
+        '/api/data': 'Active',
+        '/api/data.php': 'Active',
+        '/api/save': 'Active',
+        '/api/save.php': 'Active',
+        '/api/upload': 'Active',
+        '/api/upload.php': 'Active',
+        '/api/upload-base64': 'Active'
+      },
+      counts: {
+        products: (readJsonFile('products.json') || []).length,
+        brands: (readJsonFile('brands.json') || []).length,
+        gallery: (readJsonFile('gallery.json') || []).length,
+        reviews: (readJsonFile('reviews.json') || []).length,
+        settings: Object.keys(readJsonFile('settings.json') || {}).length
+      },
+      status: 'OK'
+    };
+    res.writeHead(200, {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0'
+    });
+    return res.end(JSON.stringify(report, null, 2));
+  }
+
+  // ==========================================================================
   // GET ALL PERSISTENT DATA: GET /api/data or /api/data.php
   // ==========================================================================
   if (req.method === 'GET' && (cleanPath === '/api/data' || cleanPath === '/api/data.php')) {

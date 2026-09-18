@@ -1,6 +1,6 @@
 <?php
 // =============================================================================
-// Ashish Traders Fireworks - Save Data API (PHP for Hostinger / Shared Hosting)
+// Ashish Traders Fireworks - Save Data API (Production SQL & JSON Dual-Sync)
 // Endpoint: POST /api/save.php
 // =============================================================================
 
@@ -26,11 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$dataDir = __DIR__ . '/../data/';
-if (!is_dir($dataDir)) {
-    @mkdir($dataDir, 0777, true);
-}
-@chmod($dataDir, 0777);
+require_once __DIR__ . '/db.php';
 
 $rawInput = file_get_contents('php://input');
 $payload = json_decode($rawInput, true);
@@ -48,22 +44,58 @@ if (!in_array($payload['type'], $allowedTypes)) {
     exit;
 }
 
-$filePath = $dataDir . $payload['type'] . '.json';
-$jsonData = json_encode($payload['data'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+$type = $payload['type'];
+$data = $payload['data'];
+$sqlSuccess = false;
 
-if (@file_put_contents($filePath, $jsonData) !== false) {
-    @chmod($filePath, 0666);
-    $count = is_array($payload['data']) ? count($payload['data']) . ' items' : 'object';
-    echo json_encode(['success' => true, 'type' => $payload['type'], 'info' => "Saved {$count}"]);
-} else {
-    // Retry with forced permissions
+// 1. Save to Production SQL Database (if connected)
+if (Database::getConnection()) {
+    switch ($type) {
+        case 'products':
+            $sqlSuccess = Database::saveProducts($data);
+            break;
+        case 'brands':
+            $sqlSuccess = Database::saveBrands($data);
+            break;
+        case 'gallery':
+            $sqlSuccess = Database::saveGallery($data);
+            break;
+        case 'reviews':
+            $sqlSuccess = Database::saveReviews($data);
+            break;
+        case 'settings':
+            $sqlSuccess = Database::saveSettings($data);
+            break;
+    }
+}
+
+// 2. Also save to JSON file as persistent disk backup
+$dataDir = __DIR__ . '/../data/';
+if (!is_dir($dataDir)) {
+    @mkdir($dataDir, 0777, true);
+}
+@chmod($dataDir, 0777);
+
+$filePath = $dataDir . $type . '.json';
+$jsonData = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+$jsonSuccess = (@file_put_contents($filePath, $jsonData) !== false);
+
+if (!$jsonSuccess) {
     @chmod($dataDir, 0777);
     @chmod($filePath, 0666);
-    if (@file_put_contents($filePath, $jsonData) !== false) {
-        $count = is_array($payload['data']) ? count($payload['data']) . ' items' : 'object';
-        echo json_encode(['success' => true, 'type' => $payload['type'], 'info' => "Saved {$count}"]);
-    } else {
-        http_response_code(500);
-        echo json_encode(['success' => false, 'error' => 'Failed to write data file. Please verify write permissions on data/ folder.']);
-    }
+    $jsonSuccess = (@file_put_contents($filePath, $jsonData) !== false);
+}
+
+if ($sqlSuccess || $jsonSuccess) {
+    $count = is_array($data) ? count($data) . ' items' : 'object';
+    $storage = $sqlSuccess ? ($jsonSuccess ? 'SQL Database & JSON File' : 'SQL Database') : 'JSON File';
+    echo json_encode([
+        'success' => true,
+        'type'    => $type,
+        'storage' => $storage,
+        'info'    => "Saved {$count} to {$storage}"
+    ]);
+} else {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Failed to write data to database or file']);
 }

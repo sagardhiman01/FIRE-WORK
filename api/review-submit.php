@@ -1,6 +1,6 @@
 <?php
 // =============================================================================
-// Ashish Traders Fireworks - Review Submit API (PHP for Hostinger / Shared Hosting)
+// Ashish Traders Fireworks - Review Submit API (SQL Database & JSON Dual-Sync)
 // Endpoint: POST /api/review-submit.php
 // =============================================================================
 
@@ -26,11 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$dataDir = __DIR__ . '/../data/';
-if (!is_dir($dataDir)) {
-    @mkdir($dataDir, 0777, true);
-}
-@chmod($dataDir, 0777);
+require_once __DIR__ . '/db.php';
 
 $rawInput = file_get_contents('php://input');
 $payload = json_decode($rawInput, true);
@@ -39,17 +35,6 @@ if (!$payload || empty($payload['name']) || empty($payload['review'])) {
     http_response_code(400);
     echo json_encode(['success' => false, 'error' => 'Name and review are required']);
     exit;
-}
-
-// Read existing reviews
-$reviewsFile = $dataDir . 'reviews.json';
-$existing = [];
-if (file_exists($reviewsFile)) {
-    $content = @file_get_contents($reviewsFile);
-    if ($content !== false) {
-        $decoded = json_decode($content, true);
-        if (is_array($decoded)) $existing = $decoded;
-    }
 }
 
 $newRev = [
@@ -62,20 +47,42 @@ $newRev = [
     'verified' => true
 ];
 
+// 1. Insert into SQL Database (if connected)
+$sqlSuccess = false;
+if (Database::getConnection()) {
+    $sqlSuccess = Database::insertSingleReview($newRev);
+}
+
+// 2. Also save to JSON file as disk backup
+$dataDir = __DIR__ . '/../data/';
+if (!is_dir($dataDir)) {
+    @mkdir($dataDir, 0777, true);
+}
+@chmod($dataDir, 0777);
+
+$reviewsFile = $dataDir . 'reviews.json';
+$existing = [];
+if (file_exists($reviewsFile)) {
+    $content = @file_get_contents($reviewsFile);
+    if ($content !== false) {
+        $decoded = json_decode($content, true);
+        if (is_array($decoded)) $existing = $decoded;
+    }
+}
 array_unshift($existing, $newRev);
 
 $jsonData = json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-if (@file_put_contents($reviewsFile, $jsonData) !== false) {
-    @chmod($reviewsFile, 0666);
-    echo json_encode(['success' => true, 'review' => $newRev]);
-} else {
-    // Retry with chmod
+$jsonSuccess = (@file_put_contents($reviewsFile, $jsonData) !== false);
+
+if (!$jsonSuccess) {
     @chmod($dataDir, 0777);
     @chmod($reviewsFile, 0666);
-    if (@file_put_contents($reviewsFile, $jsonData) !== false) {
-        echo json_encode(['success' => true, 'review' => $newRev]);
-    } else {
-        http_response_code(500);
-        echo json_encode(['success' => false, 'error' => 'Failed to save review to disk']);
-    }
+    $jsonSuccess = (@file_put_contents($reviewsFile, $jsonData) !== false);
+}
+
+if ($sqlSuccess || $jsonSuccess) {
+    echo json_encode(['success' => true, 'review' => $newRev]);
+} else {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Failed to save review']);
 }

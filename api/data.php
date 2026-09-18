@@ -1,6 +1,6 @@
 <?php
 // =============================================================================
-// Ashish Traders Fireworks - Read All Data API (PHP for Hostinger / Shared Hosting)
+// Ashish Traders Fireworks - Read All Data API (Production SQL & JSON Fallback)
 // Endpoint: GET /api/data.php
 // =============================================================================
 
@@ -20,6 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+require_once __DIR__ . '/db.php';
+
+// Method 1: Try Production SQL Database
+$sqlData = Database::getAllData();
+if ($sqlData !== null && is_array($sqlData['products']) && count($sqlData['products']) > 0) {
+    echo json_encode($sqlData, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// Method 2: JSON File Fallback
 $dataDir = __DIR__ . '/../data/';
 
 function readJsonFile($filename) {

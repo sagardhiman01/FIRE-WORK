@@ -1,0 +1,13 @@
+{
+  "name": "ashish-traders-fireworks",
+  "version": "1.0.0",
+  "description": "Ashish Traders Fireworks Official Web Portal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["fireworks", "sivakasi", "dehradun"],
+  "author": "Ashish Traders",
+  "license": "ISC"
+}
