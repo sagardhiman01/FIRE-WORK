@@ -36,9 +36,24 @@ if (!is_dir($uploadDir)) {
 // Allowed extensions
 $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
 
-// Method 1: Multipart Form Data ($_FILES['photo'])
-if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-    $file = $_FILES['photo'];
+// Method 1: Multipart Form Data (accepts 'photo', 'image', 'file', or any form field)
+$file = null;
+if (!empty($_FILES)) {
+    if (isset($_FILES['photo']) && is_array($_FILES['photo']) && isset($_FILES['photo']['error'])) {
+        $file = $_FILES['photo'];
+    } elseif (isset($_FILES['image']) && is_array($_FILES['image']) && isset($_FILES['image']['error'])) {
+        $file = $_FILES['image'];
+    } elseif (isset($_FILES['file']) && is_array($_FILES['file']) && isset($_FILES['file']['error'])) {
+        $file = $_FILES['file'];
+    } else {
+        $first = reset($_FILES);
+        if (is_array($first) && isset($first['error'])) {
+            $file = $first;
+        }
+    }
+}
+
+if ($file && $file['error'] === UPLOAD_ERR_OK) {
     $originalName = basename($file['name']);
     $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
     if (empty($ext)) $ext = 'jpg';
@@ -104,8 +119,8 @@ if (!empty($rawInput)) {
 }
 
 // If upload error code exists in $_FILES, give helpful message
-if (isset($_FILES['photo']) && $_FILES['photo']['error'] !== UPLOAD_ERR_OK) {
-    $err = $_FILES['photo']['error'];
+if ($file && $file['error'] !== UPLOAD_ERR_OK) {
+    $err = $file['error'];
     $msg = 'Upload error (code ' . $err . ')';
     if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE) {
         $msg = 'File exceeds maximum upload size allowed by server.';

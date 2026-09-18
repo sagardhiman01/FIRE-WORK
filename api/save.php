@@ -29,18 +29,24 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/db.php';
 
 $rawInput = file_get_contents('php://input');
+// Strip UTF-8 BOM if present
+$rawInput = preg_replace('/^\xEF\xBB\xBF/', '', trim($rawInput));
 $payload = json_decode($rawInput, true);
 
 if (!$payload || empty($payload['type'])) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Invalid payload']);
+    $jsonErr = json_last_error_msg();
+    echo json_encode([
+        'success' => false,
+        'error' => 'Invalid JSON payload' . ($jsonErr !== 'No error' ? (': ' . $jsonErr) : '')
+    ]);
     exit;
 }
 
 $allowedTypes = ['products', 'brands', 'reviews', 'gallery', 'settings'];
 if (!in_array($payload['type'], $allowedTypes)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Invalid data type']);
+    echo json_encode(['success' => false, 'error' => 'Invalid data type: ' . htmlspecialchars($payload['type'])]);
     exit;
 }
 

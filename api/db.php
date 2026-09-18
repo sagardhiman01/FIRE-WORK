@@ -10,6 +10,15 @@ ini_set('display_errors', '0');
 class Database {
     private static $pdo = null;
     private static $initialized = false;
+    private static $lastError = null;
+
+    public static function getLastError() {
+        return self::$lastError;
+    }
+
+    public static function getConfig() {
+        return self::loadConfig();
+    }
 
     public static function getConnection() {
         if (self::$pdo !== null) {
@@ -20,6 +29,7 @@ class Database {
 
         // If no database name configured, return null for JSON fallback
         if (empty($config['DB_NAME'])) {
+            self::$lastError = 'DB_NAME is empty. Configure api/config.php or .env';
             return null;
         }
 
@@ -46,6 +56,7 @@ class Database {
 
             return self::$pdo;
         } catch (PDOException $e) {
+            self::$lastError = $e->getMessage();
             error_log('[DB Error] Connection failed: ' . $e->getMessage());
             return null;
         }

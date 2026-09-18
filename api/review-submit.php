@@ -29,11 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/db.php';
 
 $rawInput = file_get_contents('php://input');
+// Strip UTF-8 BOM if present
+$rawInput = preg_replace('/^\xEF\xBB\xBF/', '', trim($rawInput));
 $payload = json_decode($rawInput, true);
 
 if (!$payload || empty($payload['name']) || empty($payload['review'])) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Name and review are required']);
+    $jsonErr = json_last_error_msg();
+    echo json_encode([
+        'success' => false,
+        'error' => (!$payload && $jsonErr !== 'No error') ? ('Invalid JSON: ' . $jsonErr) : 'Name and review are required'
+    ]);
     exit;
 }
 

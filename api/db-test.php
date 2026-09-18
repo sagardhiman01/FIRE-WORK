@@ -34,6 +34,20 @@ $report = [
     ]
 ];
 
+$config = Database::getConfig();
+$isConfigured = !empty($config['DB_NAME']);
+$configFileExists = file_exists(__DIR__ . '/config.php');
+$envFileExists = file_exists(__DIR__ . '/../.env');
+
+$report['database_status']['config_source'] = [
+    'api_config_php_exists' => $configFileExists,
+    'dot_env_exists'        => $envFileExists,
+    'configured_db_host'    => !empty($config['DB_HOST']) ? $config['DB_HOST'] : 'localhost',
+    'configured_db_name'    => !empty($config['DB_NAME']) ? $config['DB_NAME'] : '(none)',
+    'configured_db_user'    => !empty($config['DB_USER']) ? $config['DB_USER'] : '(none)',
+    'has_password'          => !empty($config['DB_PASS'])
+];
+
 $pdo = Database::getConnection();
 
 if ($pdo) {
@@ -62,8 +76,13 @@ if ($pdo) {
         $report['message'] = 'Database connected but query failed: ' . $e->getMessage();
     }
 } else {
+    $report['database_status']['configured'] = $isConfigured;
+    $report['database_status']['connected'] = false;
+    $report['database_status']['error'] = Database::getLastError();
     $report['success'] = true;
-    $report['message'] = 'No SQL credentials configured or connection failed. System running safely in JSON disk storage mode.';
+    $report['message'] = $isConfigured 
+        ? ('SQL configured but connection failed: ' . Database::getLastError())
+        : 'No SQL credentials configured. System running safely in JSON disk storage mode.';
     
     // Check JSON files
     $dataDir = __DIR__ . '/../data/';
