@@ -591,6 +591,10 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderReviews();
 
+      if (window.syncDataFromServer) {
+        window.syncDataFromServer(() => renderReviews());
+      }
+
       const searchInput = document.getElementById('reviewsSearchInput');
       if (searchInput) {
         searchInput.addEventListener('input', (e) => {

@@ -65,10 +65,13 @@ const server = http.createServer((req, res) => {
     return res.end();
   }
 
+  const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost:5500'}`);
+  const cleanPath = urlObj.pathname.toLowerCase();
+
   // ==========================================================================
-  // GET ALL PERSISTENT DATA: GET /api/data
+  // GET ALL PERSISTENT DATA: GET /api/data or /api/data.php
   // ==========================================================================
-  if (req.method === 'GET' && req.url === '/api/data') {
+  if (req.method === 'GET' && (cleanPath === '/api/data' || cleanPath === '/api/data.php')) {
     const data = {
       products: readJsonFile('products.json'),
       brands: readJsonFile('brands.json'),
@@ -78,15 +81,17 @@ const server = http.createServer((req, res) => {
     };
     res.writeHead(200, {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-cache, no-store, must-revalidate'
+      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+      'Pragma': 'no-cache',
+      'Expires': '0'
     });
     return res.end(JSON.stringify(data));
   }
 
   // ==========================================================================
-  // SAVE PERSISTENT DATA: POST /api/save
+  // SAVE PERSISTENT DATA: POST /api/save or /api/save.php
   // ==========================================================================
-  if (req.method === 'POST' && req.url === '/api/save') {
+  if (req.method === 'POST' && (cleanPath === '/api/save' || cleanPath === '/api/save.php')) {
     let body = '';
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {
@@ -113,9 +118,9 @@ const server = http.createServer((req, res) => {
   }
 
   // ==========================================================================
-  // SUBMIT REVIEW ENDPOINT: POST /api/review/submit
+  // SUBMIT REVIEW ENDPOINT: POST /api/review/submit or /api/review-submit.php
   // ==========================================================================
-  if (req.method === 'POST' && req.url === '/api/review/submit') {
+  if (req.method === 'POST' && (cleanPath === '/api/review/submit' || cleanPath === '/api/review-submit.php')) {
     let body = '';
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {
@@ -157,54 +162,9 @@ const server = http.createServer((req, res) => {
   }
 
   // ==========================================================================
-  // DIRECT FILE UPLOAD ENDPOINT: POST /api/upload?filename=xyz.jpg
+  // BASE64 FILE UPLOAD ENDPOINT: POST /api/upload-base64 or /api/upload-base64.php
   // ==========================================================================
-  if (req.method === 'POST' && req.url.startsWith('/api/upload') && !req.url.startsWith('/api/upload-base64')) {
-    try {
-      const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost:5500'}`);
-      let originalFilename = urlObj.searchParams.get('filename') || ('upload_' + Date.now() + '.jpg');
-      
-      // Clean filename
-      const ext = path.extname(originalFilename).toLowerCase() || '.jpg';
-      const cleanBase = path.basename(originalFilename, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-      const uniqueFilename = `${Date.now()}_${cleanBase}${ext}`;
-      const targetFilePath = path.join(UPLOAD_DIR, uniqueFilename);
-
-      const writeStream = fs.createWriteStream(targetFilePath);
-
-      req.pipe(writeStream);
-
-      writeStream.on('finish', () => {
-        const publicRelativePath = `assets/uploads/${uniqueFilename}`;
-        const size = fs.statSync(targetFilePath).size;
-        console.log(`[Direct Upload] Saved ${publicRelativePath} (${size} bytes) to disk.`);
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({
-          success: true,
-          filePath: publicRelativePath,
-          filename: uniqueFilename,
-          size: size
-        }));
-      });
-
-      writeStream.on('error', (err) => {
-        console.error('Upload stream error:', err);
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: false, error: err.message }));
-      });
-
-      return;
-    } catch (err) {
-      console.error('Upload handling error:', err);
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ success: false, error: err.message }));
-    }
-  }
-
-  // ==========================================================================
-  // BASE64 FILE UPLOAD ENDPOINT: POST /api/upload-base64
-  // ==========================================================================
-  if (req.method === 'POST' && req.url.startsWith('/api/upload-base64')) {
+  if (req.method === 'POST' && (cleanPath.startsWith('/api/upload-base64') || cleanPath.startsWith('/api/upload-base64.php'))) {
     let body = '';
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {
@@ -250,6 +210,51 @@ const server = http.createServer((req, res) => {
       }
     });
     return;
+  }
+
+  // ==========================================================================
+  // DIRECT FILE UPLOAD ENDPOINT: POST /api/upload or /api/upload.php?filename=xyz.jpg
+  // ==========================================================================
+  if (req.method === 'POST' && (cleanPath === '/api/upload' || cleanPath === '/api/upload.php')) {
+    try {
+      const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost:5500'}`);
+      let originalFilename = urlObj.searchParams.get('filename') || ('upload_' + Date.now() + '.jpg');
+      
+      // Clean filename
+      const ext = path.extname(originalFilename).toLowerCase() || '.jpg';
+      const cleanBase = path.basename(originalFilename, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+      const uniqueFilename = `${Date.now()}_${cleanBase}${ext}`;
+      const targetFilePath = path.join(UPLOAD_DIR, uniqueFilename);
+
+      const writeStream = fs.createWriteStream(targetFilePath);
+
+      req.pipe(writeStream);
+
+      writeStream.on('finish', () => {
+        const publicRelativePath = `assets/uploads/${uniqueFilename}`;
+        const size = fs.statSync(targetFilePath).size;
+        console.log(`[Direct Upload] Saved ${publicRelativePath} (${size} bytes) to disk.`);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          success: true,
+          filePath: publicRelativePath,
+          filename: uniqueFilename,
+          size: size
+        }));
+      });
+
+      writeStream.on('error', (err) => {
+        console.error('Upload stream error:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      });
+
+      return;
+    } catch (err) {
+      console.error('Upload handling error:', err);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ success: false, error: err.message }));
+    }
   }
 
   // ==========================================================================

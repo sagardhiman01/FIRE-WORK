@@ -1,13 +1,19 @@
 <?php
 // =============================================================================
-// Ashish Traders Fireworks - Review Submit API (PHP for Hostinger Shared Hosting)
+// Ashish Traders Fireworks - Review Submit API (PHP for Hostinger / Shared Hosting)
 // Endpoint: POST /api/review-submit.php
 // =============================================================================
+
+error_reporting(0);
+ini_set('display_errors', '0');
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: *');
 header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-cache, no-store, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
@@ -22,8 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $dataDir = __DIR__ . '/../data/';
 if (!is_dir($dataDir)) {
-    mkdir($dataDir, 0755, true);
+    @mkdir($dataDir, 0777, true);
 }
+@chmod($dataDir, 0777);
 
 $rawInput = file_get_contents('php://input');
 $payload = json_decode($rawInput, true);
@@ -38,9 +45,11 @@ if (!$payload || empty($payload['name']) || empty($payload['review'])) {
 $reviewsFile = $dataDir . 'reviews.json';
 $existing = [];
 if (file_exists($reviewsFile)) {
-    $content = file_get_contents($reviewsFile);
-    $decoded = json_decode($content, true);
-    if (is_array($decoded)) $existing = $decoded;
+    $content = @file_get_contents($reviewsFile);
+    if ($content !== false) {
+        $decoded = json_decode($content, true);
+        if (is_array($decoded)) $existing = $decoded;
+    }
 }
 
 $newRev = [
@@ -56,9 +65,17 @@ $newRev = [
 array_unshift($existing, $newRev);
 
 $jsonData = json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-if (file_put_contents($reviewsFile, $jsonData) !== false) {
+if (@file_put_contents($reviewsFile, $jsonData) !== false) {
+    @chmod($reviewsFile, 0666);
     echo json_encode(['success' => true, 'review' => $newRev]);
 } else {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Failed to save review']);
+    // Retry with chmod
+    @chmod($dataDir, 0777);
+    @chmod($reviewsFile, 0666);
+    if (@file_put_contents($reviewsFile, $jsonData) !== false) {
+        echo json_encode(['success' => true, 'review' => $newRev]);
+    } else {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => 'Failed to save review to disk']);
+    }
 }

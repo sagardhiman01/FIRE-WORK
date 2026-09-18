@@ -642,12 +642,11 @@ window.BRANDS_INFO = [
 // ============================================================================
 
 window.DEFAULT_BRANDS_INFO = JSON.parse(JSON.stringify(window.BRANDS_INFO));
-// Universal API Base URL resolver
-// On localhost:5500 -> use Node.js endpoints (/api/data, /api/upload, /api/save)
-// On Hostinger/live -> use PHP endpoints (/api/data.php, /api/upload.php, /api/save.php)
+// Universal API Base URL & Path resolver
+// Resolves correctly on localhost:5500, Hostinger PHP, and nested subfolders
 window.getApiBaseUrl = function () {
   if (typeof window === 'undefined') return '';
-  if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '5500')) {
+  if (window.location.protocol === 'file:') {
     return 'http://localhost:5500';
   }
   return '';
@@ -658,47 +657,117 @@ window.isLiveHosting = function () {
   if (typeof window === 'undefined') return false;
   const host = window.location.hostname || '';
   const port = window.location.port || '';
-  // If not localhost/127.0.0.1 or if no port (standard HTTP/HTTPS), assume live hosting
+  // If not localhost/127.0.0.1, assume live web hosting
   if (host !== 'localhost' && host !== '127.0.0.1' && !host.startsWith('192.168.')) return true;
   if (!port && window.location.protocol !== 'file:') return true;
   return false;
 };
 
-// Build correct API URL based on environment (Node.js vs PHP)
+// Build correct API URL based on current page directory (works in root & subfolders)
 window.getApiUrl = function (endpoint) {
-  const isLive = window.isLiveHosting();
-  const apiBase = window.getApiBaseUrl();
+  if (typeof window === 'undefined') return endpoint;
 
-  // Map Node.js endpoints to PHP endpoints for live hosting
-  const phpMap = {
-    '/api/data':           '/api/data.php',
-    '/api/save':           '/api/save.php',
-    '/api/upload':         '/api/upload.php',
-    '/api/upload-base64':  '/api/upload-base64.php',
-    '/api/review/submit':  '/api/review-submit.php'
-  };
+  // Compute directory path where current page is located (e.g. '/' or '/subfolder/')
+  let currentPath = window.location.pathname || '/';
+  let basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+  if (!basePath.endsWith('/')) basePath += '/';
 
-  if (isLive && phpMap[endpoint]) {
-    return phpMap[endpoint];
+  // If running locally via file://, redirect to localhost:5500
+  if (window.location.protocol === 'file:') {
+    const ep = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
+    return 'http://localhost:5500' + ep;
   }
-  return apiBase + endpoint;
+
+  const cleanEndpoint = endpoint.replace(/^\//, ''); // e.g. "api/data"
+
+  // On PHP hosting or production, use .php files directly
+  const isPhpHost = window.isLiveHosting();
+  if (isPhpHost) {
+    const phpMap = {
+      'api/data':           'api/data.php',
+      'api/save':           'api/save.php',
+      'api/upload':         'api/upload.php',
+      'api/upload-base64':  'api/upload-base64.php',
+      'api/review/submit':  'api/review-submit.php'
+    };
+    const mapped = phpMap[cleanEndpoint] || cleanEndpoint;
+    return basePath + mapped;
+  }
+
+  return basePath + cleanEndpoint;
+};
+
+// Client-Side Smart Image Compressor to Blob (Max 1600px, 0.82 JPEG, ~120-250KB)
+// Prevents exceeding PHP upload_max_filesize and post_max_size on shared hosting
+window.compressImageToBlob = function (fileOrBlob, maxWidth = 1600, quality = 0.82) {
+  return new Promise((resolve) => {
+    if (!fileOrBlob) return resolve(null);
+    const type = fileOrBlob.type || '';
+    // Preserve vectors and animated gifs without re-encoding
+    if (type.includes('svg') || type.includes('gif')) {
+      return resolve(fileOrBlob);
+    }
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = new Image();
+      img.onload = function () {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth || height > maxWidth) {
+          if (width > height) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxWidth) / height);
+            height = maxWidth;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const cleanName = (fileOrBlob.name || 'photo.jpg').replace(/\.[^/.]+$/, "") + '.jpg';
+            const compressedFile = new File([blob], cleanName, { type: 'image/jpeg' });
+            resolve(compressedFile);
+          } else {
+            resolve(fileOrBlob);
+          }
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => resolve(fileOrBlob);
+      img.src = e.target.result;
+    };
+    reader.onerror = () => resolve(fileOrBlob);
+    reader.readAsDataURL(fileOrBlob);
+  });
 };
 
 // Universal file upload function (works on both Node.js and PHP backends)
 window.uploadFileToBackend = async function (file, statusMsg) {
   if (!file) return '';
 
+  // 1. Pre-compress image client-side to ensure it never hits hosting upload limits
+  let uploadFile = file;
+  try {
+    uploadFile = await window.compressImageToBlob(file, 1600, 0.82);
+  } catch (e) {
+    uploadFile = file;
+  }
+
   const isLive = window.isLiveHosting();
 
-  // Method 1: Try multipart FormData upload (works on PHP)
+  // Method 1: Try multipart FormData upload
   try {
     const formData = new FormData();
-    formData.append('photo', file);
-    const uploadUrl = window.getApiUrl('/api/upload') + (isLive ? '' : '?filename=' + encodeURIComponent(file.name));
+    formData.append('photo', uploadFile);
+    const uploadUrl = window.getApiUrl('/api/upload') + (isLive ? '' : '?filename=' + encodeURIComponent(uploadFile.name));
     
     const res = await fetch(uploadUrl, {
       method: 'POST',
-      body: isLive ? formData : file
+      body: isLive ? formData : uploadFile
     });
     if (res.ok) {
       const data = await res.json();
@@ -708,18 +777,18 @@ window.uploadFileToBackend = async function (file, statusMsg) {
       }
     }
   } catch (err) {
-    console.warn('[Upload Engine] Direct upload failed:', err.message);
+    console.warn('[Upload Engine] Direct upload failed, attempting Base64 API:', err.message);
   }
 
   // Method 2: Try base64 compressed upload
   let compressedDataUrl = '';
   if (window.compressImageToDataUrl) {
-    compressedDataUrl = await window.compressImageToDataUrl(file, 1200, 0.75);
+    compressedDataUrl = await window.compressImageToDataUrl(uploadFile, 1200, 0.75);
   } else {
     compressedDataUrl = await new Promise((res) => {
       const reader = new FileReader();
       reader.onload = e => res(e.target.result);
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(uploadFile);
     });
   }
 
@@ -728,7 +797,7 @@ window.uploadFileToBackend = async function (file, statusMsg) {
     const b64Res = await fetch(b64Url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ filename: file.name, base64: compressedDataUrl })
+      body: JSON.stringify({ filename: uploadFile.name, base64: compressedDataUrl })
     });
     if (b64Res.ok) {
       const b64Data = await b64Res.json();
@@ -743,7 +812,7 @@ window.uploadFileToBackend = async function (file, statusMsg) {
 
   // Method 3: Offline fallback - return compressed data URL
   console.warn('[Upload Engine] All server uploads failed, using offline compressed data URL');
-  return compressedDataUrl;
+  return compressedDataUrl || '';
 };
 
 // Client-Side Smart Image Compressor (Max 1200px, 0.75 JPEG, ~50-80KB)
@@ -1127,102 +1196,94 @@ window.applySiteSettings = function () {
 
 // Global Server Data Hydration Engine
 window.syncDataFromServer = function (onComplete) {
-  const dataUrl = window.getApiUrl ? window.getApiUrl('/api/data') : '/api/data';
-  fetch(dataUrl)
+  const dataUrl = window.getApiUrl ? window.getApiUrl('/api/data') : 'api/data.php';
+  const fetchUrl = dataUrl + (dataUrl.includes('?') ? '&' : '?') + '_t=' + Date.now();
+
+  function applyHydratedData(data) {
+    if (!data) return;
+    let hasUpdates = false;
+
+    // Products: Authoritative server data takes priority
+    if (Array.isArray(data.products) && data.products.length > 0) {
+      localStorage.setItem('at_admin_products', JSON.stringify(data.products));
+      window.FIREWORKS_PRODUCTS = data.products;
+      hasUpdates = true;
+    }
+
+    // Brands
+    if (Array.isArray(data.brands) && data.brands.length > 0) {
+      localStorage.setItem('at_admin_brands', JSON.stringify(data.brands));
+      window.BRANDS_INFO = data.brands;
+      hasUpdates = true;
+    }
+
+    // Reviews
+    if (Array.isArray(data.reviews) && data.reviews.length > 0) {
+      localStorage.setItem('at_admin_reviews', JSON.stringify(data.reviews));
+      hasUpdates = true;
+    }
+
+    // Gallery
+    if (Array.isArray(data.gallery) && data.gallery.length > 0) {
+      const valid = data.gallery.filter(g => g && g.image && !g.id.startsWith('gal-test-'));
+      if (valid.length > 0) {
+        localStorage.setItem('at_admin_gallery', JSON.stringify(valid));
+        hasUpdates = true;
+      }
+    }
+
+    // Settings
+    if (data.settings && typeof data.settings === 'object') {
+      localStorage.setItem('at_site_settings', JSON.stringify(data.settings));
+      hasUpdates = true;
+    }
+
+    window.applySiteSettings();
+
+    if (hasUpdates) {
+      window.dispatchEvent(new CustomEvent('productsUpdated', { detail: { products: window.getStoredProducts() } }));
+      window.dispatchEvent(new CustomEvent('brandsUpdated', { detail: { brands: window.getStoredBrands() } }));
+      window.dispatchEvent(new CustomEvent('reviewsUpdated', { detail: { reviews: window.getStoredReviews() } }));
+      window.dispatchEvent(new CustomEvent('galleryUpdated', { detail: { gallery: window.getStoredGallery() } }));
+      window.dispatchEvent(new CustomEvent('settingsUpdated', { detail: { settings: window.getSiteSettings() } }));
+    }
+
+    if (typeof onComplete === 'function') onComplete();
+  }
+
+  fetch(fetchUrl, {
+    cache: 'no-store',
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache'
+    }
+  })
     .then(res => {
-      if (!res.ok) throw new Error('Network response was not ok');
+      if (!res.ok) throw new Error('API route returned status ' + res.status);
       return res.json();
     })
     .then(data => {
-      if (!data) return;
-
-      let hasUpdates = false;
-
-      // Products
-      if (Array.isArray(data.products) && data.products.length > 0) {
-        const local = window.getStoredProducts();
-        const serverIds = new Set(data.products.map(p => p.id));
-        const unsynced = (Array.isArray(local) ? local : []).filter(p => !serverIds.has(p.id));
-        const merged = unsynced.length > 0 ? [...unsynced, ...data.products] : data.products;
-        localStorage.setItem('at_admin_products', JSON.stringify(merged));
-        window.FIREWORKS_PRODUCTS = merged;
-        hasUpdates = true;
-      } else {
-        window.syncDataToServer('products', window.DEFAULT_FIREWORKS_PRODUCTS);
-      }
-
-      // Brands
-      if (Array.isArray(data.brands) && data.brands.length > 0) {
-        localStorage.setItem('at_admin_brands', JSON.stringify(data.brands));
-        window.BRANDS_INFO = data.brands;
-        hasUpdates = true;
-      } else {
-        window.syncDataToServer('brands', window.DEFAULT_BRANDS_INFO);
-      }
-
-      // Reviews
-      if (Array.isArray(data.reviews) && data.reviews.length > 0) {
-        const local = window.getStoredReviews();
-        const serverIds = new Set(data.reviews.map(r => r.id));
-        const unsynced = (Array.isArray(local) ? local : []).filter(r => !serverIds.has(r.id));
-        const merged = unsynced.length > 0 ? [...unsynced, ...data.reviews] : data.reviews;
-        localStorage.setItem('at_admin_reviews', JSON.stringify(merged));
-        hasUpdates = true;
-      } else {
-        window.syncDataToServer('reviews', window.DEFAULT_REVIEWS);
-      }
-
-      // Gallery: Merge local and server so user photos are NEVER overwritten!
-      if (Array.isArray(data.gallery) && data.gallery.length > 0) {
-        const validServerGallery = data.gallery.filter(g => g && g.image && !g.id.startsWith('gal-test-') && !g.image.includes('verify_direct'));
-        const local = window.getStoredGallery();
-        const serverIds = new Set(validServerGallery.map(g => g.id));
-        const unsynced = (Array.isArray(local) ? local : []).filter(g => !serverIds.has(g.id) && !g.id.startsWith('gal-test-') && !g.image.includes('verify_direct'));
-        const finalGallery = unsynced.length > 0 ? [...unsynced, ...validServerGallery] : validServerGallery;
-        localStorage.setItem('at_admin_gallery', JSON.stringify(finalGallery));
-        hasUpdates = true;
-      } else {
-        window.syncDataToServer('gallery', window.DEFAULT_GALLERY);
-      }
-
-      // Settings
-      if (data.settings && typeof data.settings === 'object') {
-        localStorage.setItem('at_site_settings', JSON.stringify(data.settings));
-        hasUpdates = true;
-      } else {
-        window.syncDataToServer('settings', window.getSiteSettings());
-      }
-
-      window.applySiteSettings();
-
-      if (hasUpdates) {
-        window.dispatchEvent(new CustomEvent('productsUpdated', { detail: { products: window.getStoredProducts() } }));
-        window.dispatchEvent(new CustomEvent('brandsUpdated', { detail: { brands: window.getStoredBrands() } }));
-        window.dispatchEvent(new CustomEvent('reviewsUpdated', { detail: { reviews: window.getStoredReviews() } }));
-        window.dispatchEvent(new CustomEvent('galleryUpdated', { detail: { gallery: window.getStoredGallery() } }));
-        window.dispatchEvent(new CustomEvent('settingsUpdated', { detail: { settings: window.getSiteSettings() } }));
-      }
-
-      if (typeof onComplete === 'function') onComplete();
+      applyHydratedData(data);
     })
     .catch(err => {
-      // In offline / static preview or if API route fails, fallback to direct data/gallery.json fetch
-      fetch('data/gallery.json')
-        .then(r => {
-          if (!r.ok) throw new Error('Static fetch failed');
-          return r.json();
-        })
-        .then(gal => {
-          if (Array.isArray(gal) && gal.length > 0) {
-            const valid = gal.filter(g => g && g.image && !g.id.startsWith('gal-test-') && !g.image.includes('verify_direct'));
-            localStorage.setItem('at_admin_gallery', JSON.stringify(valid));
-            window.dispatchEvent(new CustomEvent('galleryUpdated', { detail: { gallery: valid } }));
-          }
-        })
-        .catch(() => {});
+      // In offline / static preview or if API route fails, fallback to direct data/*.json fetch with cache busting
+      let currentPath = window.location.pathname || '/';
+      let basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+      if (!basePath.endsWith('/')) basePath += '/';
 
-      window.applySiteSettings();
-      if (typeof onComplete === 'function') onComplete();
+      const t = '?_t=' + Date.now();
+      Promise.all([
+        fetch(basePath + 'data/products.json' + t, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch(basePath + 'data/brands.json' + t, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch(basePath + 'data/reviews.json' + t, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch(basePath + 'data/gallery.json' + t, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch(basePath + 'data/settings.json' + t, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null)
+      ]).then(([products, brands, reviews, gallery, settings]) => {
+        applyHydratedData({ products, brands, reviews, gallery, settings });
+      }).catch(() => {
+        window.applySiteSettings();
+        if (typeof onComplete === 'function') onComplete();
+      });
     });
 };
 

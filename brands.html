@@ -392,6 +392,13 @@
       renderProducts();
       setupEventListeners();
 
+      if (window.syncDataFromServer) {
+        window.syncDataFromServer(() => {
+          renderBrandsSelector();
+          renderProducts();
+        });
+      }
+
       // Check URL parameters for pre-selected brand (e.g., brands.html?brand=Cock%20Brand)
       const urlParams = new URLSearchParams(window.location.search);
       const brandParam = urlParams.get('brand');
@@ -663,6 +670,13 @@
     });
     window.addEventListener('productsUpdated', () => {
       renderProducts();
+    });
+    window.addEventListener('brandsUpdated', () => {
+      renderBrandsSelector();
+    });
+    window.addEventListener('settingsUpdated', () => {
+      renderProducts();
+      renderBrandsSelector();
     });
 
     // Event Listeners

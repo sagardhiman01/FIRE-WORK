@@ -616,6 +616,14 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderHomeFeaturedProducts();
       renderHomeReviews();
+
+      if (window.syncDataFromServer) {
+        window.syncDataFromServer(() => {
+          renderHomeFeaturedProducts();
+          renderHomeReviews();
+        });
+      }
+
       const menuBtn = document.getElementById('mobileMenuBtn');
       const menu = document.getElementById('mobileMenu');
       if (menuBtn && menu) {

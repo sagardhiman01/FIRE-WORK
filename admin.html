@@ -894,6 +894,9 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadAllAdminData();
       setupEventListeners();
+      if (window.syncDataFromServer) {
+        window.syncDataFromServer(() => loadAllAdminData());
+      }
     });
 
     window.addEventListener('productsUpdated', (e) => {
