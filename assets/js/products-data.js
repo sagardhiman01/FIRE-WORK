@@ -1143,12 +1143,15 @@ window.applySiteSettings = function () {
   // Update company logo src and size across all pages
   const showroomCrest = document.getElementById('showroomCrestLogo');
   const rawLogo = settings.companyLogo || 'assets/uploads/1790235704_c62163_ashish_traders_official_logo.jpg';
-  const logoUrl = rawLogo + (rawLogo.includes('?') ? '' : '?v=5.0');
+  const logoUrl = rawLogo + (rawLogo.includes('?') ? '' : '?v=5.1');
   if (showroomCrest) {
     showroomCrest.src = logoUrl;
+    showroomCrest.style.width = '100%';
+    showroomCrest.style.height = '100%';
   }
 
   document.querySelectorAll('.site-company-logo').forEach(img => {
+    if (img.id === 'showroomCrestLogo') return;
     img.src = logoUrl;
     if (settings.companyLogoSize) {
       img.style.width = `${settings.companyLogoSize}px`;
