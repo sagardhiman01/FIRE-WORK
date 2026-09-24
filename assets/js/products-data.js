@@ -1095,7 +1095,7 @@ window.getSiteSettings = function () {
     ashishPhone: '919837081321',
     yuvrajPhone: '918630615934',
     address: '23, Mohabewala, Ind. Area, Near Ford Showroom, Saharanpur Road, Dehradun - 248007, Uttarakhand',
-    companyLogo: 'assets/images/ashish-traders-logo.jpg',
+    companyLogo: 'assets/uploads/1790235704_c62163_ashish_traders_official_logo.jpg',
     companyLogoSize: 48,
     brandLogoSize: 56,
     bgMediaType: 'video', // 'video' or 'image'
@@ -1142,12 +1142,14 @@ window.applySiteSettings = function () {
 
   // Update company logo src and size across all pages
   const showroomCrest = document.getElementById('showroomCrestLogo');
-  if (showroomCrest && settings.companyLogo) {
-    showroomCrest.src = settings.companyLogo;
+  const rawLogo = settings.companyLogo || 'assets/uploads/1790235704_c62163_ashish_traders_official_logo.jpg';
+  const logoUrl = rawLogo + (rawLogo.includes('?') ? '' : '?v=5.0');
+  if (showroomCrest) {
+    showroomCrest.src = logoUrl;
   }
 
   document.querySelectorAll('.site-company-logo').forEach(img => {
-    if (settings.companyLogo) img.src = settings.companyLogo;
+    img.src = logoUrl;
     if (settings.companyLogoSize) {
       img.style.width = `${settings.companyLogoSize}px`;
       img.style.height = `${settings.companyLogoSize}px`;
