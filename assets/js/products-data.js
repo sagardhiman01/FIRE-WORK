@@ -1141,6 +1141,11 @@ window.applySiteSettings = function () {
   }
 
   // Update company logo src and size across all pages
+  const showroomCrest = document.getElementById('showroomCrestLogo');
+  if (showroomCrest && settings.companyLogo) {
+    showroomCrest.src = settings.companyLogo;
+  }
+
   document.querySelectorAll('.site-company-logo').forEach(img => {
     if (settings.companyLogo) img.src = settings.companyLogo;
     if (settings.companyLogoSize) {
