@@ -295,6 +295,7 @@ const server = http.createServer((req, res) => {
   // ==========================================================================
   let reqPath = req.url.split('?')[0];
   if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
+  if (reqPath === '/firework' || reqPath === '/firework/' || reqPath === '/firework.html') reqPath = '/admin.html';
   
   const safePath = path.normalize(reqPath).replace(/^(\.\.[\/\\])+/, '');
   const filePath = path.join(ROOT, safePath);

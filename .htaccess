@@ -5,6 +5,9 @@
 
 RewriteEngine On
 
+# Secret Admin Panel Route: /firework -> admin.html
+RewriteRule ^firework/?$ admin.html [L,QSA]
+
 # API endpoint rewrites: /api/data -> /api/data.php
 RewriteRule ^api/data/?$ api/data.php [L,QSA]
 RewriteRule ^api/save/?$ api/save.php [L,QSA]

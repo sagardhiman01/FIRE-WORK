@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Command Center | Ashish Traders Fireworks (A&T)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#07080d">
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css?v=6.0">
+
+  <style>
+    .admin-card {
+      background: rgba(18, 21, 33, 0.9);
+      border: 1px solid rgba(255, 179, 0, 0.15);
+      border-radius: 1rem;
+      backdrop-filter: blur(14px);
+    }
+    .admin-tab-btn {
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .admin-tab-btn.active {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #07080d;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+    }
+    .upload-dropzone {
+      border: 2px dashed rgba(245, 158, 11, 0.35);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .upload-dropzone:hover, .upload-dropzone.dragover {
+      border-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-[#07080d] text-slate-100 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- ==========================================================================
+       TOP ADMIN HEADER
+       ========================================================================== -->
+  <header class="sticky top-0 z-40 bg-slate-950/95 border-b border-amber-500/20 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-amber-500 to-red-500 shadow-lg flex-shrink-0">
+            <img id="adminHeaderLogo" src="assets/images/ashish-traders-logo.jpg" alt="A&T Logo" class="w-full h-full rounded-full object-cover">
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-display font-black text-lg text-gold-gradient tracking-wide">ASHISH TRADERS</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-bold uppercase">ADMIN PANEL</span>
+            </div>
+            <div class="text-[11px] text-slate-400">Direct File Upload Engine • No Path Typing Required</div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="brands.html" target="_blank" class="text-xs px-3 py-2 rounded-xl bg-slate-900 text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-black font-semibold transition-all flex items-center gap-1.5 shadow">
+            <span>Live Store</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a href="reviews.html" target="_blank" class="text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:text-white font-semibold transition-all">
+            Reviews
+          </a>
+          <a href="gallery.html" target="_blank" class="text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:text-white font-semibold transition-all">
+            Gallery
+          </a>
+          <a href="index.html" target="_blank" class="text-xs px-3 py-2 rounded-xl bg-slate-900 text-slate-300 border border-slate-800 hover:text-white font-semibold transition-all">
+            Home Page
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       SUB-HEADER NAVIGATION TABS
+       ========================================================================== -->
+  <div class="bg-slate-950/80 border-b border-slate-800/80 sticky top-20 z-30 overflow-x-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-2">
+      <button onclick="switchTab('tabProducts')" id="tabBtnProducts" class="admin-tab-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        📦 Products Catalog
+      </button>
+      <button onclick="switchTab('tabBrandLogos')" id="tabBtnBrandLogos" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        🏷️ Upload Brand Logos
+      </button>
+      <button onclick="switchTab('tabCompanyLogo')" id="tabBtnCompanyLogo" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        🏢 Upload Company Logo
+      </button>
+      <button onclick="switchTab('tabBackgroundMedia')" id="tabBtnBackgroundMedia" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        🎬 Upload Video / Photo BG
+      </button>
+      <button onclick="switchTab('tabGallery')" id="tabBtnGallery" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        🖼️ Upload Gallery Photos
+      </button>
+      <button onclick="switchTab('tabReviews')" id="tabBtnReviews" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        ⭐ Customer Reviews
+      </button>
+      <button onclick="switchTab('tabSettings')" id="tabBtnSettings" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 hover:text-white border border-slate-800">
+        ⚙️ Settings & Price Visibility
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MAIN ADMIN CONTAINER
+       ========================================================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+    
+    <!-- STATS COUNTER BAR -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="admin-card p-4 sm:p-5 border-l-4 border-l-amber-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">Total Products</span>
+        <div id="statTotalProducts" class="text-2xl sm:text-3xl font-black text-amber-400 mt-1">0</div>
+        <span class="text-[11px] text-slate-500">In database</span>
+      </div>
+
+      <div class="admin-card p-4 sm:p-5 border-l-4 border-l-emerald-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">In Stock</span>
+        <div id="statInStock" class="text-2xl sm:text-3xl font-black text-emerald-400 mt-1">0</div>
+        <span class="text-[11px] text-emerald-500/80">Available to order</span>
+      </div>
+
+      <div class="admin-card p-4 sm:p-5 border-l-4 border-l-red-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">Out of Stock</span>
+        <div id="statOutOfStock" class="text-2xl sm:text-3xl font-black text-red-400 mt-1">0</div>
+        <span class="text-[11px] text-red-500/80">Marked unavailable</span>
+      </div>
+
+      <div class="admin-card p-4 sm:p-5 border-l-4 border-l-blue-500">
+        <span class="text-xs text-slate-400 uppercase font-semibold">Price Display</span>
+        <div id="statPriceMode" class="text-base sm:text-lg font-black text-amber-300 mt-2">Hidden (Quote Mode)</div>
+        <span class="text-[11px] text-slate-500">Controlled in Settings</span>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 1: PRODUCTS CATALOG
+         ========================================================================== -->
+    <div id="tabProducts" class="tab-content space-y-6">
+      
+      <!-- Current Status Alert Banner -->
+      <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">ℹ️</span>
+          <div>
+            <div class="text-xs font-bold text-amber-300">Public Product Prices Notice</div>
+            <div class="text-[11px] text-slate-300">Fixed prices are currently hidden on the website as requested. Customers send WhatsApp inquiries for live wholesale quotes. You can set individual prices anytime and toggle public visibility in the Settings tab.</div>
+          </div>
+        </div>
+        <button onclick="switchTab('tabSettings')" class="text-xs px-3 py-1.5 rounded-lg bg-amber-500 text-black font-bold flex-shrink-0">
+          Price Settings
+        </button>
+      </div>
+
+      <!-- Search, Filters, & Action Bar -->
+      <div class="admin-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-3 flex-1">
+          <div class="relative flex-1 min-w-[200px] max-w-sm">
+            <input id="adminSearchInput" type="text" placeholder="Search products by name, category, or brand..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-400">
+            <svg class="w-4 h-4 text-slate-400 absolute right-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+
+          <select id="adminBrandFilter" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none">
+            <option value="ALL">All Brands</option>
+            <option value="Cock Brand">Cock Brand</option>
+            <option value="Ravindra Fireworks">Ravindra Fireworks</option>
+            <option value="Sonny Fireworks">Sonny Fireworks</option>
+            <option value="Mercury Fireworks">Mercury Fireworks</option>
+            <option value="Supreme Fireworks">Supreme Fireworks</option>
+            <option value="Vel's Fireworks">Vel's Fireworks</option>
+            <option value="Sunshine Fireworks">Sunshine Fireworks</option>
+            <option value="Son India">Son India</option>
+          </select>
+
+          <select id="adminStockFilter" class="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:border-amber-400 focus:outline-none">
+            <option value="ALL">All Stock Status</option>
+            <option value="IN_STOCK">In Stock Only</option>
+            <option value="OUT_OF_STOCK">Not Available Only</option>
+          </select>
+        </div>
+
+        <!-- Add & Reset Actions -->
+        <div class="flex items-center gap-2.5">
+          <button onclick="openAddProductModal()" class="btn-gold py-2.5 px-4 text-xs font-bold flex items-center gap-1.5 shadow-lg">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <span>Add New Product</span>
+          </button>
+
+          <button onclick="confirmResetDefaults()" class="text-xs px-3 py-2.5 rounded-xl bg-red-950/40 border border-red-800/60 hover:bg-red-900/50 text-red-300 font-semibold transition-colors" title="Reset to Factory Products">
+            Reset Factory Products
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Management Table -->
+      <div class="admin-card overflow-hidden">
+        <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+          <div>
+            <h2 class="font-bold text-base text-white">Products Catalog Database</h2>
+            <p class="text-xs text-slate-400">Click on any product's stock badge to toggle Available vs Not Available with 1 click.</p>
+          </div>
+          <span id="filteredCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 font-bold border border-amber-500/20">0 items</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-950/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider text-[11px]">
+                <th class="py-3.5 px-4">Photo</th>
+                <th class="py-3.5 px-4">Product Name & Category</th>
+                <th class="py-3.5 px-4">Brand</th>
+                <th class="py-3.5 px-4">Wholesale Rate</th>
+                <th class="py-3.5 px-4">MRP</th>
+                <th class="py-3.5 px-4 text-center">Stock Status</th>
+                <th class="py-3.5 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminProductsTableBody" class="divide-y divide-slate-800/80">
+              <!-- Populated dynamically by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="adminEmptyState" class="py-16 text-center" style="display: none;">
+          <h3 class="font-bold text-slate-300 text-sm mb-1">No products match your filter</h3>
+          <p class="text-xs text-slate-500 mb-4">Try resetting filters or search query.</p>
+          <button onclick="resetAdminFilters()" class="btn-gold text-xs py-2 px-4">Reset Filters</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 2: BRAND LOGOS & DIRECT UPLOAD / SIZE ADJUSTMENT
+         ========================================================================== -->
+    <div id="tabBrandLogos" class="tab-content space-y-6" style="display: none;">
+      
+      <!-- Brand Logo Sizing Slider -->
+      <div class="admin-card p-6 border-amber-500/30">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+          <div>
+            <h3 class="font-bold text-base text-white">Global Brand Logo Sizing Control</h3>
+            <p class="text-xs text-slate-400">Adjust the display dimension for partner brand logos across store cards and selectors.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-slate-400">Current Size:</span>
+            <span id="brandLogoSizeDisplay" class="text-lg font-black text-amber-400 px-3 py-1 rounded bg-slate-900 border border-amber-500/30">56px</span>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row items-center gap-6">
+          <div class="flex-1 w-full">
+            <input type="range" id="brandLogoSizeSlider" min="32" max="100" value="56" step="2" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+            <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+              <span>Small (32px)</span>
+              <span>Default (56px)</span>
+              <span>Extra Large (100px)</span>
+            </div>
+          </div>
+
+          <!-- Live Preview Box -->
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-center gap-3 flex-shrink-0">
+            <div class="text-xs text-slate-400 font-semibold">Live Preview:</div>
+            <div class="w-24 h-24 rounded-xl bg-slate-900 border border-amber-500/30 flex items-center justify-center overflow-hidden">
+              <img id="brandLogoLivePreview" src="assets/images/brand-cock.jpg" alt="Preview" style="width: 56px; height: 56px; object-fit: contain;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partner Brands Cards (Upload Logo per Brand) -->
+      <div class="admin-card p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="font-bold text-base text-white">Direct Upload Logos for 8 Sivakasi Partner Brands</h3>
+            <p class="text-xs text-slate-400">Click <strong>"Upload Brand Logo"</strong> on any brand to pick an image file directly from your computer or phone.</p>
+          </div>
+          <button onclick="saveAllBrandLogos()" class="btn-gold text-xs py-2 px-4 font-bold shadow">
+            Save All Brand Changes
+          </button>
+        </div>
+
+        <div id="adminBrandsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 3: COMPANY LOGO DIRECT UPLOAD & SIZE ADJUSTMENT
+         ========================================================================== -->
+    <div id="tabCompanyLogo" class="tab-content space-y-6" style="display: none;">
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Upload Company Official Logo & Size</h3>
+        <p class="text-xs text-slate-400 mb-6">Select or drag & drop any image file directly from your computer or phone to change the Ashish Traders logo across the entire website.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+          
+          <!-- Left: Direct File Upload Zone -->
+          <div class="lg:col-span-2 space-y-5">
+            
+            <!-- File Dropzone -->
+            <div onclick="document.getElementById('companyLogoFileInput').click()" 
+                 id="companyLogoDropzone"
+                 class="upload-dropzone p-6 rounded-2xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-3">
+              <input type="file" id="companyLogoFileInput" accept="image/*" class="hidden" onchange="uploadCompanyLogoFile(this)">
+              <div class="w-14 h-14 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+              </div>
+              <div>
+                <span class="font-bold text-sm text-white block">Click to Select Company Logo File</span>
+                <span class="text-xs text-slate-400 block mt-0.5">Supports JPG, PNG, WEBP, SVG from your device</span>
+              </div>
+              <div id="companyLogoUploadStatus" class="text-xs font-semibold"></div>
+            </div>
+
+            <!-- Path Field (Auto-filled by Upload) -->
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Current Active Logo Path / URL</label>
+              <input id="formCompanyLogoPath" type="text" placeholder="assets/images/ashish-traders-logo.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-slate-300 focus:outline-none focus:border-amber-400">
+            </div>
+
+            <!-- Size slider -->
+            <div class="pt-4 border-t border-slate-800">
+              <div class="flex items-center justify-between mb-2">
+                <label class="text-xs font-bold uppercase text-slate-300">Logo Dimension in Navbar & Header</label>
+                <span id="companyLogoSizeDisplay" class="text-sm font-bold text-amber-400">48px</span>
+              </div>
+              <input type="range" id="companyLogoSizeSlider" min="32" max="100" value="48" step="2" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>Compact (32px)</span>
+                <span>Standard (48px)</span>
+                <span>Large (100px)</span>
+              </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+              <button onclick="saveCompanyLogoSettings()" class="btn-gold text-xs py-2.5 px-6 font-bold shadow-lg">
+                Save Company Logo Changes
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Live Preview Box -->
+          <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 flex flex-col items-center justify-center text-center">
+            <div class="text-xs text-slate-400 font-bold uppercase mb-4 tracking-wider">Live Preview</div>
+            <div class="w-32 h-32 rounded-full p-1 bg-gradient-to-tr from-amber-500 to-red-500 shadow-2xl flex items-center justify-center mb-3 overflow-hidden">
+              <img id="companyLogoPreviewImg" src="assets/images/ashish-traders-logo.jpg" alt="Company Logo" class="w-full h-full rounded-full object-cover">
+            </div>
+            <div class="font-display font-black text-amber-400 text-sm">ASHISH TRADERS</div>
+            <div class="text-[10px] text-slate-400 uppercase tracking-widest">FIREWORKS • DEHRADUN</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 4: BACKGROUND VIDEO / PHOTO DIRECT UPLOAD
+         ========================================================================== -->
+    <div id="tabBackgroundMedia" class="tab-content space-y-6" style="display: none;">
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Direct Upload Background Video or Photo Wallpaper</h3>
+        <p class="text-xs text-slate-400 mb-6">Directly upload your custom celebration fireworks video (.mp4) or high-resolution photo wallpaper from your device.</p>
+
+        <form id="bgMediaForm" class="space-y-6">
+          <!-- Choice: Video vs Photo -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="p-4 rounded-xl border border-slate-800 bg-slate-900/80 cursor-pointer hover:border-amber-400 flex items-start gap-3">
+              <input type="radio" name="bgMediaTypeChoice" value="video" class="mt-1 accent-amber-500" checked>
+              <div>
+                <div class="font-bold text-xs text-white">Looping Video Background</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">Continuous celebration fireworks video playing seamlessly behind the page.</div>
+              </div>
+            </label>
+
+            <label class="p-4 rounded-xl border border-slate-800 bg-slate-900/80 cursor-pointer hover:border-amber-400 flex items-start gap-3">
+              <input type="radio" name="bgMediaTypeChoice" value="image" class="mt-1 accent-amber-500">
+              <div>
+                <div class="font-bold text-xs text-white">Still Photo Wallpaper</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">High-definition stationary festive fireworks wallpaper behind the page.</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Video Direct Upload Box -->
+          <div id="bgVideoInputContainer" class="space-y-3">
+            <div onclick="document.getElementById('bgVideoFileInput').click()" 
+                 class="upload-dropzone p-5 rounded-xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-2">
+              <input type="file" id="bgVideoFileInput" accept="video/mp4,video/*" class="hidden" onchange="uploadBgVideoFile(this)">
+              <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="font-bold text-xs text-white">Click to Upload Video File (.mp4) from Computer</span>
+              <div id="bgVideoUploadStatus" class="text-xs"></div>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Active Background Video Path</label>
+              <input id="formBgVideoUrl" type="text" value="assets/videos/fireworks-intro.mp4" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <!-- Photo Direct Upload Box -->
+          <div id="bgImageInputContainer" class="space-y-3">
+            <div onclick="document.getElementById('bgImageFileInput').click()" 
+                 class="upload-dropzone p-5 rounded-xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-2">
+              <input type="file" id="bgImageFileInput" accept="image/*" class="hidden" onchange="uploadBgPhotoFile(this)">
+              <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="font-bold text-xs text-white">Click to Upload Wallpaper Photo from Computer</span>
+              <div id="bgPhotoUploadStatus" class="text-xs"></div>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Active Wallpaper Photo Path</label>
+              <input id="formBgImageUrl" type="text" value="assets/images/hero-banner.jpg" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <!-- Background Opacity Slider -->
+          <div class="pt-4 border-t border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-xs font-bold uppercase text-slate-300">Background Opacity / Brightness</label>
+              <span id="bgOpacityDisplay" class="text-sm font-bold text-amber-400">40%</span>
+            </div>
+            <input type="range" id="bgOpacitySlider" min="10" max="80" value="40" step="5" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+            <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+              <span>Subtle (10%)</span>
+              <span>Balanced (40%)</span>
+              <span>Vivid (80%)</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-end">
+            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow-lg">
+              Save Background Settings
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 5: GALLERY PHOTOS DIRECT UPLOADER
+         ========================================================================== -->
+    <div id="tabGallery" class="tab-content space-y-6" style="display: none;">
+      
+      <!-- Direct Upload Photo Form Card -->
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Direct Upload Photo to Company Gallery</h3>
+        <p class="text-xs text-slate-400 mb-6">Choose any photo from your computer or phone — it will upload directly and appear instantly on <a href="gallery.html" target="_blank" class="text-amber-400 hover:underline">gallery.html</a>.</p>
+
+        <form id="galleryForm" class="space-y-4" onsubmit="submitGalleryPhoto(event); return false;" novalidate>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Direct File Dropzone -->
+            <div class="sm:col-span-2">
+              <div onclick="document.getElementById('galleryFileInput').click()" 
+                   id="galleryDropzone"
+                   class="upload-dropzone p-6 rounded-2xl bg-slate-950/80 text-center flex flex-col items-center justify-center gap-2 cursor-pointer border border-dashed border-slate-700 hover:border-amber-400 transition-colors">
+                <input type="file" id="galleryFileInput" accept="image/*" class="hidden" onchange="uploadGalleryPhotoFile(this)">
+                <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center pointer-events-none">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </div>
+                <div class="pointer-events-none">
+                  <span class="font-bold text-xs sm:text-sm text-white block">Click or Drag to Upload Photo from Device</span>
+                  <span class="text-[11px] text-slate-400 block mt-0.5">JPG, PNG, WEBP, GIF (Saved directly to website storage)</span>
+                </div>
+                <div id="galleryUploadStatus" class="text-xs font-semibold"></div>
+              </div>
+
+              <!-- Live Photo Preview Box -->
+              <div id="galleryPhotoPreviewBox" class="hidden mt-3 p-3 bg-slate-950 border border-amber-500/40 rounded-xl flex items-center gap-4">
+                <div class="w-16 h-16 rounded-lg bg-slate-900 border border-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                  <img id="galleryPhotoPreviewImg" src="" alt="Selected Photo" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-bold text-white truncate" id="galleryPhotoPreviewTitle">Photo Selected</p>
+                  <p class="text-[11px] text-emerald-400 font-medium">✓ Ready to add to gallery</p>
+                  <button type="button" onclick="clearGalleryPhotoPreview()" class="mt-1 text-[11px] text-red-400 hover:text-red-300 font-semibold underline">Remove / Choose another</button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Photo Title</label>
+              <input id="formGalTitle" type="text" placeholder="e.g., Mohabewala Warehouse Fresh Stock Arrival" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Category</label>
+              <select id="formGalCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+                <option value="Warehouse & Stock">Warehouse & Stock</option>
+                <option value="Showroom Displays">Showroom Displays</option>
+                <option value="Celebrations & Lights">Celebrations & Lights</option>
+                <option value="Customer Moments">Customer Moments</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Photo File / Image Path / URL</label>
+              <div class="flex gap-2">
+                <input id="formGalImage" type="text" placeholder="Upload file above or paste image path / URL (e.g. assets/images/hero-banner.jpg)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+                <button type="button" onclick="previewManualGalleryUrl()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs text-slate-200 rounded-xl font-medium flex-shrink-0">Preview</button>
+              </div>
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Caption / Description</label>
+              <textarea id="formGalCaption" rows="2" placeholder="Write a short note describing this picture..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800/80">
+            <div id="galleryFormFeedback" class="text-xs font-semibold"></div>
+            <button type="button" 
+                    id="addGalleryPhotoBtn"
+                    onclick="submitGalleryPhoto(event)" 
+                    class="btn-gold text-xs py-2.5 px-6 font-bold shadow flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95 transition-all">
+              <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+              <span>Add Photo to Gallery</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Current Gallery Photos List -->
+      <div class="admin-card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-base text-white">Current Gallery Photos</h3>
+          <span id="galleryCountBadge" class="text-xs text-amber-400 font-semibold">0 Photos</span>
+        </div>
+        <div id="adminGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 6: CUSTOMER REVIEWS MANAGER
+         ========================================================================== -->
+    <div id="tabReviews" class="tab-content space-y-6" style="display: none;">
+      
+      <!-- Add Review Form -->
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Add Customer Testimonial & Review</h3>
+        <p class="text-xs text-slate-400 mb-6">Reviews added here will immediately appear in the Testimonials section of <a href="index.html" target="_blank" class="text-amber-400 hover:underline">index.html</a>.</p>
+
+        <form id="reviewForm" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Customer Full Name *</label>
+              <input id="formRevName" type="text" required placeholder="e.g., Rajesh Rawat" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">City / Area *</label>
+              <input id="formRevCity" type="text" required placeholder="e.g., Rajpur Road, Dehradun" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Rating *</label>
+              <select id="formRevRating" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+                <option value="5">★★★★★ (5 / 5 Stars)</option>
+                <option value="4">★★★★☆ (4 / 5 Stars)</option>
+                <option value="3">★★★☆☆ (3 / 5 Stars)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Occasion / Date</label>
+              <input id="formRevDate" type="text" placeholder="e.g., Diwali Season 2025" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Review Feedback *</label>
+              <textarea id="formRevText" required rows="2" placeholder="Customer words about Sivakasi quality, prices, WhatsApp delivery, etc." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-3">
+            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow">
+              Publish Review to Website
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Current Reviews List -->
+      <div class="admin-card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-base text-white">Current Published Reviews</h3>
+          <span id="reviewsCountBadge" class="text-xs text-amber-400 font-semibold">0 Reviews</span>
+        </div>
+        <div id="adminReviewsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         TAB 7: SETTINGS & PRICE VISIBILITY TOGGLE
+         ========================================================================== -->
+    <div id="tabSettings" class="tab-content space-y-6" style="display: none;">
+      <div class="admin-card p-6 border-amber-500/30">
+        <h3 class="font-bold text-base text-white mb-1">Store Configuration & Price Display Settings</h3>
+        <p class="text-xs text-slate-400 mb-6">Manage global store parameters, WhatsApp routing numbers, and public price visibility.</p>
+
+        <form id="globalSettingsForm" class="space-y-6">
+          
+          <!-- Master Price Toggle (The Key Requirement) -->
+          <div class="p-5 rounded-2xl bg-amber-500/10 border-2 border-amber-500/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-lg">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-lg">💰</span>
+                <span class="font-bold text-sm text-white">Public Product Prices Display</span>
+                <span id="priceModeStatusBadge" class="text-[10px] px-2 py-0.5 rounded bg-red-600 text-white font-bold uppercase">HIDDEN (QUOTE MODE)</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1 max-w-xl">
+                When turned <strong>OFF</strong>, all product cards and cart drawers hide fixed rupee numbers and instead display "Wholesale Rate on WhatsApp". Customers build orders and inquire directly. When turned <strong>ON</strong>, product prices are visible.
+              </p>
+            </div>
+
+            <label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+              <input type="checkbox" id="settShowPricesToggle" class="sr-only peer">
+              <div class="w-14 h-7 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[4px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-amber-500"></div>
+            </label>
+          </div>
+
+          <!-- Announcement Banner -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Top Announcement Bar Text</label>
+            <input id="settAnnouncement" type="text" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+
+          <!-- Phone Numbers -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Ashish Chopra WhatsApp (Country code + 10 digits)</label>
+              <input id="settAshishPhone" type="text" placeholder="919837081321" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Yuvraj Chopra WhatsApp (Country code + 10 digits)</label>
+              <input id="settYuvrajPhone" type="text" placeholder="918630615934" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <!-- Social Links (IG, FB, WA) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Instagram Profile URL</label>
+              <input id="settInstagram" type="text" placeholder="https://instagram.com/ashishtraders" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Facebook Page URL</label>
+              <input id="settFacebook" type="text" placeholder="https://facebook.com/ashishtraders" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Direct WhatsApp Link</label>
+              <input id="settWhatsAppLink" type="text" placeholder="https://wa.me/919837081321" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <!-- Address -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Showroom / Warehouse Physical Address</label>
+            <textarea id="settAddress" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400"></textarea>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-end">
+            <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow-lg">
+              Save Global Store Settings
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODAL 1: ADD / EDIT PRODUCT MODAL (With Direct Photo Upload)
+       ========================================================================== -->
+  <div id="productModalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto" style="display: none;">
+    <div class="bg-slate-950 border border-amber-500/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in">
+      
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+        <div>
+          <h3 id="modalFormTitle" class="font-bold text-base text-white">Add New Firecracker Product</h3>
+          <p class="text-xs text-slate-400">Directly upload photo from computer or phone</p>
+        </div>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-white p-2 text-2xl leading-none">&times;</button>
+      </div>
+
+      <form id="productForm" class="p-6 overflow-y-auto space-y-4 flex-1">
+        <input type="hidden" id="editProductId">
+
+        <!-- Product Photo Direct Upload Dropzone -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+          <label class="block text-xs font-bold uppercase text-slate-300 mb-2">Product Photo *</label>
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            
+            <div onclick="document.getElementById('prodModalFileInput').click()" 
+                 class="upload-dropzone flex-1 p-4 rounded-xl bg-slate-950 text-center flex flex-col items-center justify-center gap-1.5 w-full">
+              <input type="file" id="prodModalFileInput" accept="image/*" class="hidden" onchange="uploadProductModalPhoto(this)">
+              <div class="w-10 h-10 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+              </div>
+              <span class="font-bold text-xs text-white">Click to Select Product Photo from Device</span>
+              <span class="text-[10px] text-slate-400">No path typing needed</span>
+              <div id="prodModalUploadStatus" class="text-[11px] font-semibold"></div>
+            </div>
+
+            <!-- Thumbnail Preview -->
+            <div class="w-20 h-20 rounded-xl bg-slate-950 border border-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
+              <img id="prodModalPhotoPreview" src="assets/images/cock-skyshots-240.jpg" alt="Preview" class="w-full h-full object-cover">
+            </div>
+          </div>
+          <input type="hidden" id="formProdImage" value="assets/images/cock-skyshots-240.jpg">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Product Name *</label>
+            <input id="formProdName" type="text" required placeholder="e.g., Cock Brand 240 Sky Shots Celestial Fiesta" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Brand *</label>
+            <select id="formProdBrand" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="Cock Brand">Cock Brand (Sri Kaliswari)</option>
+              <option value="Ravindra Fireworks">Ravindra Fireworks</option>
+              <option value="Sonny Fireworks">Sonny Fireworks</option>
+              <option value="Mercury Fireworks">Mercury Fireworks</option>
+              <option value="Supreme Fireworks">Supreme Fireworks</option>
+              <option value="Vel's Fireworks">Vel's Fireworks</option>
+              <option value="Sunshine Fireworks">Sunshine Fireworks</option>
+              <option value="Son India">Son India</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Category *</label>
+            <select id="formProdCategory" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="Sky Shots">Sky Shots / Aerial Cakes</option>
+              <option value="Sparklers">Sparklers / Phuljhadi</option>
+              <option value="Flower Pots">Flower Pots / Anaar</option>
+              <option value="Chakkars">Ground Chakkars / Wheels</option>
+              <option value="Rockets">Whistling Rockets</option>
+              <option value="Garlands (Ladi)">Garlands (Ladi Rolls)</option>
+              <option value="Sound Crackers">Sound Crackers (Bijili/Hydro)</option>
+              <option value="Gift Boxes">Gift Boxes & Hampers</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Wholesale Offer Price (₹) *</label>
+            <input id="formProdPrice" type="number" required min="1" placeholder="3499" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Original MRP (₹)</label>
+            <input id="formProdOriginalPrice" type="number" min="1" placeholder="4200" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Packaging Specifications *</label>
+            <input id="formProdPackInfo" type="text" required placeholder="e.g., 1 Box (10 Pcs) / 240 Shots" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Stock Availability *</label>
+            <select id="formProdStock" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="true">In Stock (Available to Order)</option>
+              <option value="false">Not Available (Out of Stock)</option>
+            </select>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Description</label>
+            <textarea id="formProdDesc" rows="2" placeholder="Visual effects, altitude, duration, colors..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"></textarea>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeProductModal()" class="text-xs px-4 py-2.5 rounded-xl bg-slate-900 text-slate-400 hover:text-white border border-slate-800">
+            Cancel
+          </button>
+          <button type="submit" class="btn-gold text-xs py-2.5 px-6 font-bold shadow">
+            Save Product
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CORE SCRIPTS & ADMIN ENGINE WITH DIRECT FILE UPLOADS
+       ========================================================================== -->
+  <script src="assets/js/products-data.js?v=6.0"></script>
+
+  <script>
+    let currentAdminProducts = [];
+    let currentAdminBrands = [];
+    let currentAdminGallery = [];
+    let currentAdminReviews = [];
+    let searchFilter = '';
+    let brandFilter = 'ALL';
+    let stockFilter = 'ALL';
+
+    // UNIVERSAL DIRECT FILE UPLOAD HANDLER (works on both Node.js and Hostinger PHP)
+    async function uploadFileToServer(file, statusEl, onDone) {
+      if (!file) return '';
+
+      if (statusEl) {
+        statusEl.innerHTML = `<span class="text-amber-400 animate-pulse">⏳ Optimizing & uploading ${file.name}...</span>`;
+      }
+
+      // Use the universal upload function from products-data.js
+      const savedPath = await (window.uploadFileToBackend ? window.uploadFileToBackend(file) : '');
+
+      if (savedPath && !savedPath.startsWith('data:')) {
+        // Server upload succeeded
+        if (statusEl) {
+          const name = savedPath.split('/').pop();
+          statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Uploaded: ${name}</span>`;
+        }
+        if (typeof onDone === 'function') onDone(savedPath);
+        return savedPath;
+      }
+
+      // Offline fallback (compressed data URL)
+      if (savedPath) {
+        if (statusEl) {
+          statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Loaded: ${file.name}</span>`;
+        }
+        if (typeof onDone === 'function') onDone(savedPath);
+        return savedPath;
+      }
+
+      // Last resort: raw FileReader
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (statusEl) statusEl.innerHTML = `<span class="text-emerald-400 font-bold">✅ Loaded: ${file.name}</span>`;
+          if (typeof onDone === 'function') onDone(e.target.result);
+          resolve(e.target.result);
+        };
+        reader.onerror = () => resolve('');
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // TAB NAVIGATION
+    window.switchTab = function(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      const activeTab = document.getElementById(tabId);
+      if (activeTab) activeTab.style.display = 'block';
+
+      const map = {
+        'tabProducts': 'tabBtnProducts',
+        'tabBrandLogos': 'tabBtnBrandLogos',
+        'tabCompanyLogo': 'tabBtnCompanyLogo',
+        'tabBackgroundMedia': 'tabBtnBackgroundMedia',
+        'tabGallery': 'tabBtnGallery',
+        'tabReviews': 'tabBtnReviews',
+        'tabSettings': 'tabBtnSettings'
+      };
+      const activeBtn = document.getElementById(map[tabId]);
+      if (activeBtn) activeBtn.classList.add('active');
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAllAdminData();
+      setupEventListeners();
+
+      // Direct cache-busting fetch for all collections
+      Promise.all([
+        fetch('data/products.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/brands.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/gallery.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/reviews.json?_t=' + Date.now()).then(r => r.json()).catch(() => null),
+        fetch('data/settings.json?_t=' + Date.now()).then(r => r.json()).catch(() => null)
+      ]).then(([prods, brs, gal, revs, setts]) => {
+        if (Array.isArray(prods) && prods.length > 0) {
+          currentAdminProducts = prods;
+          try { localStorage.setItem('at_admin_products', JSON.stringify(prods)); } catch(e){}
+        }
+        if (Array.isArray(brs) && brs.length > 0) {
+          currentAdminBrands = brs;
+          try { localStorage.setItem('at_admin_brands', JSON.stringify(brs)); } catch(e){}
+        }
+        if (Array.isArray(gal) && gal.length > 0) {
+          const cleaned = gal.filter(g => g && g.image && !g.id.startsWith('gal-test-'));
+          currentAdminGallery = cleaned;
+          try { localStorage.setItem('at_admin_gallery', JSON.stringify(cleaned)); } catch(e){}
+        }
+        if (Array.isArray(revs) && revs.length > 0) {
+          currentAdminReviews = revs;
+          try { localStorage.setItem('at_admin_reviews', JSON.stringify(revs)); } catch(e){}
+        }
+        if (setts && typeof setts === 'object') {
+          try { localStorage.setItem('at_site_settings', JSON.stringify(setts)); } catch(e){}
+        }
+        loadAllAdminData();
+      });
+
+      if (window.syncDataFromServer) {
+        window.syncDataFromServer(() => loadAllAdminData());
+      }
+    });
+
+    window.addEventListener('productsUpdated', (e) => {
+      if (e.detail?.products) {
+        currentAdminProducts = e.detail.products;
+        renderStats();
+        renderTable();
+      }
+    });
+    window.addEventListener('brandsUpdated', (e) => {
+      if (e.detail?.brands) {
+        currentAdminBrands = e.detail.brands;
+        renderBrandsManager();
+      }
+    });
+    window.addEventListener('reviewsUpdated', (e) => {
+      if (e.detail?.reviews) {
+        currentAdminReviews = e.detail.reviews;
+        renderReviewsManager();
+      }
+    });
+    window.addEventListener('galleryUpdated', (e) => {
+      if (e.detail?.gallery) {
+        currentAdminGallery = e.detail.gallery;
+        renderGalleryManager();
+      }
+    });
+    window.addEventListener('settingsUpdated', () => {
+      loadCompanyLogoAndSettings();
+      loadBgMediaSettings();
+      renderStats();
+    });
+
+    function loadAllAdminData() {
+      // 1. Products
+      currentAdminProducts = window.getStoredProducts();
+      renderStats();
+      renderTable();
+
+      // 2. Brands
+      currentAdminBrands = window.getStoredBrands();
+      renderBrandsManager();
+
+      // 3. Company Logo & Settings
+      loadCompanyLogoAndSettings();
+
+      // 4. Background Media
+      loadBgMediaSettings();
+
+      // 5. Gallery
+      currentAdminGallery = window.getStoredGallery();
+      renderGalleryManager();
+
+      // 6. Reviews
+      currentAdminReviews = window.getStoredReviews();
+      renderReviewsManager();
+    }
+
+    // ----------------------------------------------------
+    // STATS & TABLE RENDERING
+    // ----------------------------------------------------
+    function renderStats() {
+      const total = currentAdminProducts.length;
+      const inStock = currentAdminProducts.filter(p => p.inStock !== false).length;
+      const outOfStock = total - inStock;
+      const settings = window.getSiteSettings();
+
+      document.getElementById('statTotalProducts').textContent = total;
+      document.getElementById('statInStock').textContent = inStock;
+      document.getElementById('statOutOfStock').textContent = outOfStock;
+
+      const priceModeEl = document.getElementById('statPriceMode');
+      if (priceModeEl) {
+        priceModeEl.textContent = settings.showPrices ? 'Visible (₹ Active)' : 'Hidden (Quote Mode)';
+        priceModeEl.className = settings.showPrices ? 'text-base sm:text-lg font-black text-emerald-400 mt-2' : 'text-base sm:text-lg font-black text-amber-300 mt-2';
+      }
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('adminProductsTableBody');
+      const emptyState = document.getElementById('adminEmptyState');
+      const countBadge = document.getElementById('filteredCountBadge');
+
+      let filtered = currentAdminProducts;
+
+      if (brandFilter !== 'ALL') {
+        filtered = filtered.filter(p => p.brand === brandFilter);
+      }
+
+      if (stockFilter === 'IN_STOCK') {
+        filtered = filtered.filter(p => p.inStock !== false);
+      } else if (stockFilter === 'OUT_OF_STOCK') {
+        filtered = filtered.filter(p => p.inStock === false);
+      }
+
+      if (searchFilter) {
+        const q = searchFilter.toLowerCase();
+        filtered = filtered.filter(p => 
+          p.name.toLowerCase().includes(q) || 
+          p.brand.toLowerCase().includes(q) || 
+          p.category.toLowerCase().includes(q)
+        );
+      }
+
+      countBadge.textContent = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      tbody.innerHTML = filtered.map(p => {
+        const isAvailable = p.inStock !== false;
+        return `
+          <tr class="hover:bg-slate-900/60 transition-colors">
+            <td class="py-3 px-4">
+              <div class="w-12 h-12 rounded-lg bg-slate-950 border border-slate-800 overflow-hidden flex-shrink-0">
+                <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+              </div>
+            </td>
+            <td class="py-3 px-4 min-w-[220px]">
+              <div class="font-bold text-slate-100">${p.name}</div>
+              <div class="text-[10px] text-slate-400 mt-0.5 flex items-center gap-2">
+                <span class="px-1.5 py-0.2 rounded bg-slate-900 border border-slate-800">${p.category}</span>
+                <span>${p.packInfo}</span>
+              </div>
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap">
+              <span class="px-2 py-1 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">
+                ${p.brand}
+              </span>
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap font-black text-amber-400 text-sm">
+              ₹${p.price.toLocaleString('en-IN')}
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap text-slate-500 line-through">
+              ${p.originalPrice ? `₹${p.originalPrice.toLocaleString('en-IN')}` : '—'}
+            </td>
+            <td class="py-3 px-4 text-center whitespace-nowrap">
+              <button onclick="toggleStockStatus('${p.id}')" 
+                      class="px-3 py-1 rounded-full text-[11px] font-bold border transition-all cursor-pointer shadow ${
+                        isAvailable 
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 hover:bg-emerald-500 hover:text-black' 
+                        : 'bg-red-500/20 text-red-300 border-red-500/50 hover:bg-red-500 hover:text-white'
+                      }" 
+                      title="Click to toggle availability">
+                ${isAvailable ? '🟢 In Stock' : '🔴 Out of Stock'}
+              </button>
+            </td>
+            <td class="py-3 px-4 text-right whitespace-nowrap">
+              <div class="flex items-center justify-end gap-2">
+                <button onclick="openEditProductModal('${p.id}')" class="p-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-300 hover:text-white transition-colors" title="Edit Product">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </button>
+                <button onclick="deleteProduct('${p.id}')" class="p-1.5 rounded-lg bg-red-950/40 border border-red-800/60 hover:border-red-500 text-red-400 hover:text-red-200 transition-colors" title="Delete Product">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Toggle In Stock / Not Available
+    window.toggleStockStatus = function(productId) {
+      const product = currentAdminProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      product.inStock = product.inStock === false ? true : false;
+      window.saveStoredProducts(currentAdminProducts);
+      renderStats();
+      renderTable();
+    };
+
+    // Product Modal Handlers with Direct File Upload
+    window.openAddProductModal = function() {
+      document.getElementById('modalFormTitle').textContent = 'Add New Firecracker Product';
+      document.getElementById('editProductId').value = '';
+      document.getElementById('productForm').reset();
+      document.getElementById('formProdStock').value = 'true';
+      document.getElementById('formProdImage').value = 'assets/images/cock-skyshots-240.jpg';
+      document.getElementById('prodModalPhotoPreview').src = 'assets/images/cock-skyshots-240.jpg';
+      document.getElementById('prodModalUploadStatus').innerHTML = '';
+      document.getElementById('productModalOverlay').style.display = 'flex';
+    };
+
+    window.openEditProductModal = function(productId) {
+      const product = currentAdminProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      document.getElementById('modalFormTitle').textContent = 'Edit Product Details';
+      document.getElementById('editProductId').value = product.id;
+      document.getElementById('formProdName').value = product.name;
+      document.getElementById('formProdBrand').value = product.brand;
+      document.getElementById('formProdCategory').value = product.category;
+      document.getElementById('formProdPrice').value = product.price;
+      document.getElementById('formProdOriginalPrice').value = product.originalPrice || '';
+      document.getElementById('formProdPackInfo').value = product.packInfo;
+      document.getElementById('formProdImage').value = product.image;
+      document.getElementById('prodModalPhotoPreview').src = product.image;
+      document.getElementById('prodModalUploadStatus').innerHTML = '';
+      document.getElementById('formProdDesc').value = product.description || '';
+      document.getElementById('formProdStock').value = product.inStock !== false ? 'true' : 'false';
+
+      document.getElementById('productModalOverlay').style.display = 'flex';
+    };
+
+    window.closeProductModal = function() {
+      document.getElementById('productModalOverlay').style.display = 'none';
+    };
+
+    window.uploadProductModalPhoto = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const preview = document.getElementById('prodModalPhotoPreview');
+      preview.src = URL.createObjectURL(file);
+      const statusEl = document.getElementById('prodModalUploadStatus');
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formProdImage').value = savedPath;
+        preview.src = savedPath;
+      });
+    };
+
+    document.getElementById('productForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editProductId').value;
+      const name = document.getElementById('formProdName').value.trim();
+      const brand = document.getElementById('formProdBrand').value;
+      const category = document.getElementById('formProdCategory').value;
+      const price = parseInt(document.getElementById('formProdPrice').value, 10);
+      const originalPrice = document.getElementById('formProdOriginalPrice').value ? parseInt(document.getElementById('formProdOriginalPrice').value, 10) : price + Math.round(price * 0.25);
+      const packInfo = document.getElementById('formProdPackInfo').value.trim();
+      const image = document.getElementById('formProdImage').value.trim() || 'assets/images/cock-skyshots-240.jpg';
+      const description = document.getElementById('formProdDesc').value.trim();
+      const inStock = document.getElementById('formProdStock').value === 'true';
+
+      if (id) {
+        const index = currentAdminProducts.findIndex(p => p.id === id);
+        if (index !== -1) {
+          currentAdminProducts[index] = Object.assign(currentAdminProducts[index], {
+            name, brand, category, price, originalPrice, packInfo, image, description, inStock
+          });
+        }
+      } else {
+        const newId = 'AT-CUSTOM-' + Date.now().toString().slice(-6);
+        currentAdminProducts.unshift({
+          id: newId,
+          name, brand, category, price, originalPrice, packInfo, image, description, inStock,
+          ecoFriendly: true, badge: 'New Arrival', noiseLevel: 'Standard', safetyDistance: '10 Meters'
+        });
+      }
+
+      window.saveStoredProducts(currentAdminProducts);
+      closeProductModal();
+      renderStats();
+      renderTable();
+    });
+
+    window.deleteProduct = function(productId) {
+      const product = currentAdminProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      if (confirm(`Are you sure you want to delete "${product.name}" from the store?`)) {
+        currentAdminProducts = currentAdminProducts.filter(p => p.id !== productId);
+        window.saveStoredProducts(currentAdminProducts);
+        renderStats();
+        renderTable();
+      }
+    };
+
+    window.confirmResetDefaults = function() {
+      if (confirm('Are you sure you want to reset all products back to the original factory catalog? Any custom products will be replaced.')) {
+        currentAdminProducts = window.resetToDefaultProducts();
+        renderStats();
+        renderTable();
+      }
+    };
+
+    // ----------------------------------------------------
+    // TAB 2: BRAND LOGOS DIRECT UPLOADER & SIZE
+    // ----------------------------------------------------
+    function renderBrandsManager() {
+      const grid = document.getElementById('adminBrandsGrid');
+      const settings = window.getSiteSettings();
+      const brandLogoSize = settings.brandLogoSize || 56;
+
+      const sizeSlider = document.getElementById('brandLogoSizeSlider');
+      const sizeDisplay = document.getElementById('brandLogoSizeDisplay');
+      const livePreview = document.getElementById('brandLogoLivePreview');
+
+      if (sizeSlider) sizeSlider.value = brandLogoSize;
+      if (sizeDisplay) sizeDisplay.textContent = `${brandLogoSize}px`;
+      if (livePreview) {
+        livePreview.style.width = `${brandLogoSize}px`;
+        livePreview.style.height = `${brandLogoSize}px`;
+      }
+
+      if (!grid) return;
+
+      grid.innerHTML = currentAdminBrands.map((b) => `
+        <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-16 h-16 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center p-1.5 overflow-hidden flex-shrink-0">
+                <img id="brand-thumb-${b.id}" src="${b.logo}" alt="${b.name}" class="object-contain w-full h-full">
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4 class="font-bold text-sm text-white truncate">${b.name}</h4>
+                <p class="text-[11px] text-amber-400 truncate">${b.tagline}</p>
+                <span class="text-[10px] text-slate-500">${b.origin}</span>
+              </div>
+            </div>
+
+            <!-- Direct File Upload Button for Brand -->
+            <div class="space-y-3">
+              <div>
+                <input type="file" id="brand-file-${b.id}" accept="image/*" class="hidden" onchange="uploadBrandLogoFile('${b.id}', this)">
+                <button type="button" onclick="document.getElementById('brand-file-${b.id}').click()" 
+                        class="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-xs font-bold text-amber-300 flex items-center justify-center gap-2 transition-all shadow">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                  <span>Upload Brand Logo File</span>
+                </button>
+                <div id="brand-status-${b.id}" class="text-[10px] mt-1 text-center font-semibold"></div>
+              </div>
+
+              <div>
+                <label class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Tagline</label>
+                <input id="brand-tagline-input-${b.id}" type="text" value="${b.tagline || ''}" 
+                       class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400">
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-end">
+            <button onclick="saveSingleBrand('${b.id}')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-900 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black font-semibold transition-all">
+              Save ${b.name}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.uploadBrandLogoFile = function(brandId, input) {
+      const file = input.files[0];
+      if (!file) return;
+      const brand = currentAdminBrands.find(b => b.id === brandId);
+      if (!brand) return;
+
+      const thumb = document.getElementById(`brand-thumb-${brandId}`);
+      if (thumb) thumb.src = URL.createObjectURL(file);
+      const statusEl = document.getElementById(`brand-status-${brandId}`);
+
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        brand.logo = savedPath;
+        if (thumb) thumb.src = savedPath;
+        window.saveStoredBrands(currentAdminBrands);
+      });
+    };
+
+    window.saveSingleBrand = function(brandId) {
+      const brand = currentAdminBrands.find(b => b.id === brandId);
+      if (!brand) return;
+
+      const taglineInput = document.getElementById(`brand-tagline-input-${brandId}`);
+      if (taglineInput) brand.tagline = taglineInput.value.trim() || brand.tagline;
+
+      window.saveStoredBrands(currentAdminBrands);
+      alert(`${brand.name} updated successfully!`);
+    };
+
+    window.saveAllBrandLogos = function() {
+      currentAdminBrands.forEach(b => {
+        const taglineInput = document.getElementById(`brand-tagline-input-${b.id}`);
+        if (taglineInput && taglineInput.value.trim()) b.tagline = taglineInput.value.trim();
+      });
+
+      window.saveStoredBrands(currentAdminBrands);
+      alert('All brand logos and taglines saved! Live store updated.');
+    };
+
+    // Brand logo size slider event
+    document.getElementById('brandLogoSizeSlider').addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      document.getElementById('brandLogoSizeDisplay').textContent = `${val}px`;
+      const livePreview = document.getElementById('brandLogoLivePreview');
+      if (livePreview) {
+        livePreview.style.width = `${val}px`;
+        livePreview.style.height = `${val}px`;
+      }
+
+      const settings = window.getSiteSettings();
+      settings.brandLogoSize = val;
+      window.saveSiteSettings(settings);
+    });
+
+    // ----------------------------------------------------
+    // TAB 3: COMPANY LOGO DIRECT UPLOADER & SIZE
+    // ----------------------------------------------------
+    function loadCompanyLogoAndSettings() {
+      const settings = window.getSiteSettings();
+      const logoPath = settings.companyLogo || 'assets/images/ashish-traders-logo.jpg';
+      const logoSize = settings.companyLogoSize || 48;
+
+      document.getElementById('formCompanyLogoPath').value = logoPath;
+      document.getElementById('companyLogoSizeSlider').value = logoSize;
+      document.getElementById('companyLogoSizeDisplay').textContent = `${logoSize}px`;
+
+      const previewImg = document.getElementById('companyLogoPreviewImg');
+      if (previewImg) previewImg.src = logoPath;
+
+      const headerLogo = document.getElementById('adminHeaderLogo');
+      if (headerLogo) headerLogo.src = logoPath;
+    }
+
+    window.uploadCompanyLogoFile = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const preview = document.getElementById('companyLogoPreviewImg');
+      preview.src = URL.createObjectURL(file);
+      const statusEl = document.getElementById('companyLogoUploadStatus');
+
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formCompanyLogoPath').value = savedPath;
+        preview.src = savedPath;
+        document.getElementById('adminHeaderLogo').src = savedPath;
+        
+        // Auto-save company logo immediately
+        const settings = window.getSiteSettings();
+        settings.companyLogo = savedPath;
+        window.saveSiteSettings(settings);
+      });
+    };
+
+    document.getElementById('companyLogoSizeSlider').addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      document.getElementById('companyLogoSizeDisplay').textContent = `${val}px`;
+    });
+
+    window.saveCompanyLogoSettings = function() {
+      const settings = window.getSiteSettings();
+      settings.companyLogo = document.getElementById('formCompanyLogoPath').value.trim() || 'assets/images/ashish-traders-logo.jpg';
+      settings.companyLogoSize = parseInt(document.getElementById('companyLogoSizeSlider').value, 10);
+
+      window.saveSiteSettings(settings);
+      document.getElementById('adminHeaderLogo').src = settings.companyLogo;
+      alert('Company Logo & Size updated successfully across all website pages!');
+    };
+
+    // ----------------------------------------------------
+    // TAB 4: BACKGROUND VIDEO / PHOTO DIRECT UPLOADER
+    // ----------------------------------------------------
+    function loadBgMediaSettings() {
+      const settings = window.getSiteSettings();
+      const bgType = settings.bgMediaType || 'video';
+      const radio = document.querySelector(`input[name="bgMediaTypeChoice"][value="${bgType}"]`);
+      if (radio) radio.checked = true;
+
+      document.getElementById('formBgVideoUrl').value = settings.bgVideoUrl || 'assets/videos/fireworks-intro.mp4';
+      document.getElementById('formBgImageUrl').value = settings.bgImageUrl || 'assets/images/hero-banner.jpg';
+      
+      const opacity = Math.round((settings.bgOpacity || 0.4) * 100);
+      document.getElementById('bgOpacitySlider').value = opacity;
+      document.getElementById('bgOpacityDisplay').textContent = `${opacity}%`;
+    }
+
+    window.uploadBgVideoFile = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const statusEl = document.getElementById('bgVideoUploadStatus');
+
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formBgVideoUrl').value = savedPath;
+      });
+    };
+
+    window.uploadBgPhotoFile = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const statusEl = document.getElementById('bgPhotoUploadStatus');
+
+      uploadFileToServer(file, statusEl, (savedPath) => {
+        document.getElementById('formBgImageUrl').value = savedPath;
+      });
+    };
+
+    document.getElementById('bgOpacitySlider').addEventListener('input', (e) => {
+      document.getElementById('bgOpacityDisplay').textContent = `${e.target.value}%`;
+    });
+
+    document.getElementById('bgMediaForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const settings = window.getSiteSettings();
+      const selectedType = document.querySelector('input[name="bgMediaTypeChoice"]:checked').value;
+      settings.bgMediaType = selectedType;
+      settings.bgVideoUrl = document.getElementById('formBgVideoUrl').value.trim() || 'assets/videos/fireworks-intro.mp4';
+      settings.bgImageUrl = document.getElementById('formBgImageUrl').value.trim() || 'assets/images/hero-banner.jpg';
+      settings.bgOpacity = parseInt(document.getElementById('bgOpacitySlider').value, 10) / 100;
+
+      window.saveSiteSettings(settings);
+      alert(`Background media updated! Website is now set to continuous ${selectedType === 'video' ? 'Fireworks Video' : 'Photo Wallpaper'}.`);
+    });
+
+    // ----------------------------------------------------
+    // TAB 5: GALLERY PHOTOS DIRECT UPLOADER
+    // ----------------------------------------------------
+    function renderGalleryManager() {
+      const grid = document.getElementById('adminGalleryGrid');
+      const badge = document.getElementById('galleryCountBadge');
+      if (!grid) return;
+
+      badge.textContent = `${currentAdminGallery.length} Photos`;
+
+      if (currentAdminGallery.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-xs">No gallery photos added yet. Use direct upload form above to add photos.</div>`;
+        return;
+      }
+
+      grid.innerHTML = currentAdminGallery.map(item => `
+        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="h-36 rounded-lg overflow-hidden bg-slate-900 relative mb-3">
+              <img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src='assets/images/cock-skyshots-240.jpg';" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-bold text-amber-400 border border-amber-500/30">
+                ${item.category}
+              </span>
+            </div>
+            <h4 class="font-bold text-xs sm:text-sm text-white truncate">${item.title}</h4>
+            <p class="text-[11px] text-slate-400 line-clamp-2 mt-1">${item.caption || ''}</p>
+          </div>
+          <div class="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-between">
+            <span class="text-[10px] text-slate-500 truncate max-w-[140px]">${item.image}</span>
+            <button onclick="deleteGalleryItem('${item.id}')" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors">
+              Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    let selectedGalleryFile = null;
+    let isUploadingGallery = false;
+
+    window.clearGalleryPhotoPreview = function() {
+      selectedGalleryFile = null;
+      isUploadingGallery = false;
+      const imgInput = document.getElementById('formGalImage');
+      const fileInput = document.getElementById('galleryFileInput');
+      const box = document.getElementById('galleryPhotoPreviewBox');
+      const statusEl = document.getElementById('galleryUploadStatus');
+      const feedbackEl = document.getElementById('galleryFormFeedback');
+      if (imgInput) imgInput.value = '';
+      if (fileInput) fileInput.value = '';
+      if (box) box.classList.add('hidden');
+      if (statusEl) statusEl.innerHTML = '';
+      if (feedbackEl) feedbackEl.innerHTML = '';
+    };
+
+    window.previewManualGalleryUrl = function() {
+      const url = document.getElementById('formGalImage').value.trim();
+      if (!url) {
+        alert('Please enter an image path or URL first.');
+        return;
+      }
+      showGalleryPhotoPreview(url, 'Manual URL / Path');
+    };
+
+    window.showGalleryPhotoPreview = function(url, label) {
+      const box = document.getElementById('galleryPhotoPreviewBox');
+      const img = document.getElementById('galleryPhotoPreviewImg');
+      const title = document.getElementById('galleryPhotoPreviewTitle');
+      if (box && img) {
+        img.src = url;
+        if (title) title.textContent = label || url;
+        box.classList.remove('hidden');
+      }
+    };
+
+    window.uploadGalleryPhotoFile = async function(input) {
+      const file = (input && input.files) ? input.files[0] : input;
+      if (!file) return;
+
+      selectedGalleryFile = file;
+
+      // 1. Instant instant preview via Object URL for thumbnail only
+      try {
+        const instantUrl = URL.createObjectURL(file);
+        showGalleryPhotoPreview(instantUrl, file.name);
+      } catch (e) {}
+
+      // 2. Auto-fill title if empty
+      const titleInput = document.getElementById('formGalTitle');
+      if (titleInput && !titleInput.value.trim()) {
+        const rawName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        titleInput.value = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+      }
+
+      // 3. Upload to server asynchronously and set permanent file path
+      const statusEl = document.getElementById('galleryUploadStatus');
+      isUploadingGallery = true;
+      const savedPath = await uploadFileToServer(file, statusEl);
+      isUploadingGallery = false;
+      if (savedPath) {
+        const galImg = document.getElementById('formGalImage');
+        if (galImg) galImg.value = savedPath;
+        showGalleryPhotoPreview(savedPath, file.name);
+      }
+    };
+
+    // Setup Drag and Drop for Gallery Dropzone
+    document.addEventListener('DOMContentLoaded', () => {
+      const galDrop = document.getElementById('galleryDropzone');
+      if (galDrop) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          galDrop.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            galDrop.classList.add('border-amber-400', 'bg-amber-500/10');
+          }, false);
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+          galDrop.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            galDrop.classList.remove('border-amber-400', 'bg-amber-500/10');
+          }, false);
+        });
+        galDrop.addEventListener('drop', (e) => {
+          const dt = e.dataTransfer;
+          const files = dt ? dt.files : null;
+          if (files && files.length > 0) {
+            uploadGalleryPhotoFile(files[0]);
+          }
+        }, false);
+      }
+    });
+
+    // Core function to add photo to gallery
+    window.submitGalleryPhoto = async function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+
+      const btn = document.getElementById('addGalleryPhotoBtn');
+      const feedbackEl = document.getElementById('galleryFormFeedback');
+      const titleInput = document.getElementById('formGalTitle');
+      const categorySelect = document.getElementById('formGalCategory');
+      const imageInput = document.getElementById('formGalImage');
+      const captionTextarea = document.getElementById('formGalCaption');
+      const dropzone = document.getElementById('galleryDropzone');
+
+      let image = (imageInput ? imageInput.value : '').trim();
+      let title = (titleInput ? titleInput.value : '').trim();
+      const category = (categorySelect ? categorySelect.value : '') || 'Warehouse & Stock';
+      const caption = (captionTextarea ? captionTextarea.value : '').trim();
+
+      // If user selected file in file input and upload hasn't set permanent path yet
+      if (selectedGalleryFile && (!image || image.startsWith('blob:'))) {
+        if (btn) btn.innerHTML = '<span>⏳ Uploading photo...</span>';
+        const statusEl = document.getElementById('galleryUploadStatus');
+        image = await uploadFileToServer(selectedGalleryFile, statusEl);
+        if (imageInput) imageInput.value = image;
+        if (btn) btn.innerHTML = '<svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg><span>Add Photo to Gallery</span>';
+      }
+
+      // If user selected file in file input but onchange didn't fire
+      const fileInput = document.getElementById('galleryFileInput');
+      if (!image && fileInput && fileInput.files && fileInput.files[0]) {
+        if (btn) btn.innerHTML = '<span>⏳ Uploading photo...</span>';
+        const statusEl = document.getElementById('galleryUploadStatus');
+        image = await uploadFileToServer(fileInput.files[0], statusEl);
+        if (imageInput) imageInput.value = image;
+        if (btn) btn.innerHTML = '<svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg><span>Add Photo to Gallery</span>';
+      }
+
+      if (!image) {
+        if (feedbackEl) {
+          feedbackEl.innerHTML = '<span class="text-red-400 font-bold">⚠️ Please click the box above to choose a photo, or enter an image URL / path.</span>';
+        }
+        if (dropzone) {
+          dropzone.classList.add('border-red-500', 'bg-red-500/10');
+          setTimeout(() => dropzone.classList.remove('border-red-500', 'bg-red-500/10'), 2500);
+        }
+        alert('Please choose or upload a photo from your device first, or enter an image path / URL.');
+        return;
+      }
+
+      // If title was left blank, auto-generate friendly title
+      if (!title) {
+        if (selectedGalleryFile && selectedGalleryFile.name) {
+          const rawName = selectedGalleryFile.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+          title = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+        } else {
+          title = `${category} Showcase`;
+        }
+      }
+
+      const newItem = {
+        id: 'gal-' + Date.now().toString().slice(-6),
+        title,
+        category,
+        image,
+        caption
+      };
+
+      if (!Array.isArray(currentAdminGallery)) {
+        currentAdminGallery = window.getStoredGallery ? window.getStoredGallery() : [];
+      }
+
+      currentAdminGallery.unshift(newItem);
+      window.saveStoredGallery(currentAdminGallery);
+
+      // Reset form
+      if (titleInput) titleInput.value = '';
+      if (imageInput) imageInput.value = '';
+      if (captionTextarea) captionTextarea.value = '';
+      if (fileInput) fileInput.value = '';
+      clearGalleryPhotoPreview();
+      renderGalleryManager();
+
+      if (feedbackEl) {
+        feedbackEl.innerHTML = '<span class="text-emerald-400 font-bold">✅ Photo added successfully! Live on gallery.html</span>';
+        setTimeout(() => { if (feedbackEl) feedbackEl.innerHTML = ''; }, 4000);
+      }
+
+      alert('✅ Photo added to Company Gallery successfully! It is now live on gallery.html.');
+    };
+
+    const galForm = document.getElementById('galleryForm');
+    if (galForm) {
+      galForm.addEventListener('submit', (e) => {
+        submitGalleryPhoto(e);
+      });
+    }
+
+    window.deleteGalleryItem = function(id) {
+      if (confirm('Delete this photo from the gallery?')) {
+        currentAdminGallery = currentAdminGallery.filter(g => g.id !== id);
+        window.saveStoredGallery(currentAdminGallery);
+        renderGalleryManager();
+      }
+    };
+
+    // ----------------------------------------------------
+    // TAB 6: CUSTOMER REVIEWS MANAGER
+    // ----------------------------------------------------
+    function renderReviewsManager() {
+      const list = document.getElementById('adminReviewsList');
+      const badge = document.getElementById('reviewsCountBadge');
+      if (!list) return;
+
+      badge.textContent = `${currentAdminReviews.length} Reviews`;
+
+      if (currentAdminReviews.length === 0) {
+        list.innerHTML = `<div class="col-span-full py-8 text-center text-slate-500 text-xs">No reviews published yet. Use form above to add customer testimonials.</div>`;
+        return;
+      }
+
+      list.innerHTML = currentAdminReviews.map(rev => `
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="font-bold text-xs sm:text-sm text-white">${rev.name}</div>
+              <div class="text-amber-400 text-xs tracking-wider">${'★'.repeat(rev.rating || 5)}</div>
+            </div>
+            <div class="text-[10px] text-slate-400 mb-2">${rev.city || 'Dehradun'} • <span class="text-slate-500">${rev.date || 'Recent Customer'}</span></div>
+            <p class="text-xs text-slate-300 leading-relaxed italic">"${rev.review}"</p>
+          </div>
+          <div class="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-end">
+            <button onclick="deleteReviewItem('${rev.id}')" class="text-xs text-red-400 hover:text-red-300 font-semibold transition-colors">
+              Delete Review
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('reviewForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('formRevName').value.trim();
+      const city = document.getElementById('formRevCity').value.trim();
+      const rating = parseInt(document.getElementById('formRevRating').value, 10);
+      const date = document.getElementById('formRevDate').value.trim() || 'Festive Customer';
+      const review = document.getElementById('formRevText').value.trim();
+
+      const newRev = {
+        id: 'rev-' + Date.now().toString().slice(-6),
+        name, city, rating, date, review, verified: true
+      };
+
+      currentAdminReviews.unshift(newRev);
+      window.saveStoredReviews(currentAdminReviews);
+      document.getElementById('reviewForm').reset();
+      renderReviewsManager();
+      alert('Review published! Now visible on Home page reviews section.');
+    });
+
+    window.deleteReviewItem = function(id) {
+      if (confirm('Delete this customer review?')) {
+        currentAdminReviews = currentAdminReviews.filter(r => r.id !== id);
+        window.saveStoredReviews(currentAdminReviews);
+        renderReviewsManager();
+      }
+    };
+
+    // ----------------------------------------------------
+    // TAB 7: GLOBAL STORE SETTINGS & PRICE DISPLAY
+    // ----------------------------------------------------
+    const priceToggle = document.getElementById('settShowPricesToggle');
+    const priceModeStatusBadge = document.getElementById('priceModeStatusBadge');
+
+    function updatePriceToggleUI(isChecked) {
+      if (priceModeStatusBadge) {
+        if (isChecked) {
+          priceModeStatusBadge.textContent = 'VISIBLE (RUPEES ACTIVE)';
+          priceModeStatusBadge.className = 'text-[10px] px-2 py-0.5 rounded bg-emerald-600 text-white font-bold uppercase';
+        } else {
+          priceModeStatusBadge.textContent = 'HIDDEN (QUOTE MODE)';
+          priceModeStatusBadge.className = 'text-[10px] px-2 py-0.5 rounded bg-red-600 text-white font-bold uppercase';
+        }
+      }
+    }
+
+    // Load initial settings
+    const currentSettings = window.getSiteSettings();
+    document.getElementById('settAnnouncement').value = currentSettings.announcement || '';
+    document.getElementById('settAshishPhone').value = currentSettings.ashishPhone || '919837081321';
+    document.getElementById('settYuvrajPhone').value = currentSettings.yuvrajPhone || '918630615934';
+    document.getElementById('settAddress').value = currentSettings.address || '';
+    document.getElementById('settInstagram').value = currentSettings.socialLinks?.instagram || 'https://instagram.com';
+    document.getElementById('settFacebook').value = currentSettings.socialLinks?.facebook || 'https://facebook.com';
+    document.getElementById('settWhatsAppLink').value = currentSettings.socialLinks?.whatsapp || 'https://wa.me/919837081321';
+    
+    priceToggle.checked = currentSettings.showPrices === true;
+    updatePriceToggleUI(priceToggle.checked);
+
+    priceToggle.addEventListener('change', (e) => {
+      updatePriceToggleUI(e.target.checked);
+    });
+
+    document.getElementById('globalSettingsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const settings = window.getSiteSettings();
+      settings.announcement = document.getElementById('settAnnouncement').value.trim();
+      settings.ashishPhone = document.getElementById('settAshishPhone').value.trim();
+      settings.yuvrajPhone = document.getElementById('settYuvrajPhone').value.trim();
+      settings.address = document.getElementById('settAddress').value.trim();
+      settings.showPrices = document.getElementById('settShowPricesToggle').checked;
+      settings.socialLinks = {
+        instagram: document.getElementById('settInstagram').value.trim(),
+        facebook: document.getElementById('settFacebook').value.trim(),
+        whatsapp: document.getElementById('settWhatsAppLink').value.trim()
+      };
+
+      window.saveSiteSettings(settings);
+      renderStats();
+      alert('Global store settings saved successfully! Live store and website have been updated.');
+    });
+
+    // ----------------------------------------------------
+    // FILTER EVENT LISTENERS FOR PRODUCTS
+    // ----------------------------------------------------
+    function setupEventListeners() {
+      document.getElementById('adminSearchInput').addEventListener('input', (e) => {
+        searchFilter = e.target.value.trim();
+        renderTable();
+      });
+
+      document.getElementById('adminBrandFilter').addEventListener('change', (e) => {
+        brandFilter = e.target.value;
+        renderTable();
+      });
+
+      document.getElementById('adminStockFilter').addEventListener('change', (e) => {
+        stockFilter = e.target.value;
+        renderTable();
+      });
+    }
+
+    window.resetAdminFilters = function() {
+      searchFilter = '';
+      brandFilter = 'ALL';
+      stockFilter = 'ALL';
+      document.getElementById('adminSearchInput').value = '';
+      document.getElementById('adminBrandFilter').value = 'ALL';
+      document.getElementById('adminStockFilter').value = 'ALL';
+      renderTable();
+    };
+  </script>
+</body>
+</html>
